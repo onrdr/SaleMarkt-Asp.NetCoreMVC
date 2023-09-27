@@ -36,6 +36,7 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         services.AddScoped<IProductService, ProductService>(); 
+        services.AddScoped<IProductRepository, ProductRepository>(); 
 
         return services;
     }

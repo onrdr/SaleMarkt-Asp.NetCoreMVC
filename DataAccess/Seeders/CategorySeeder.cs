@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.Entities;
+using Models.Entities.Concrete;
 
 namespace DataAccess.Seeders;
 
@@ -8,13 +8,10 @@ public static class CategorySeeder
     public static ModelBuilder SeedCategories(this ModelBuilder modelBuilder)
     {
         var categories = GetCategories();
-
         foreach (var category in categories)
         {
-            modelBuilder.Entity<Category>()
-                .HasData(category);
+            modelBuilder.Entity<Category>().HasData(category);
         }
-
         return modelBuilder;
     }
 

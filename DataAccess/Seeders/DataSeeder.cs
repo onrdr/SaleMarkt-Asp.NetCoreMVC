@@ -7,7 +7,8 @@ public static class DataSeeder
     public static ModelBuilder SeedData(this ModelBuilder modelBuilder)
     {
         modelBuilder
-            .SeedCategories();
+            .SeedCategories()
+            .SeedProducts();
 
         return modelBuilder;
     }

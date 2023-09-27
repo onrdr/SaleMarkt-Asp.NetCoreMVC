@@ -2,10 +2,10 @@
 using DataAccess.Repositories.Abstract;
 using System.Linq.Expressions;
 using Core.Utilities.Results;
-using Models.Entities;
 using Core.Constants;
 using AutoMapper;
 using Models.ViewModels;
+using Models.Entities.Concrete;
 
 namespace Business.Services.Concrete;
 

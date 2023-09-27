@@ -5,49 +5,57 @@
 }
 
 <div class="container">
-    <div class="row pt-4 pb-4">
-        <div class="col-6">
-            <h2 class="text-info">Category List</h2>
+    <div class="card shadow border-0 rounded mt-4">
+        <div class="card-header">
+            <div class="row">
+                <div class="text-center">
+                    <h2 class="text-info py-2">Category List</h2>
+                </div>
+            </div>
         </div>
-        <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-outline-info">
-                <i class="bi bi-plus-circle"></i> Create New Category
-            </a>
+        <div class="card-body">
+            <div class="row pb-3">
+                <div class="text-end">
+                    <a asp-controller="Category" asp-action="Create" class="btn btn-outline-info shadow">
+                        <i class="bi bi-plus-circle"></i> Create New Category
+                    </a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Category Id</th>
+                            <th>Category Name</th>
+                            <th>Display Order</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model.OrderBy(c => c.DisplayOrder))
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>@category.DisplayOrder</td>
+                                <td>
+                                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id"
+                                       class="btn btn-outline-warning shadow">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id"
+                                       class="btn btn-outline-danger shadow">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Category Id</th>
-                <th>Category Name</th>
-                <th>Display Order</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model.OrderBy(c => c.DisplayOrder))
-            {
-                <tr>
-                    <td>@category.Id</td>
-                    <td>@category.Name</td>
-                    <td>@category.DisplayOrder</td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-outline-warning mx-2">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-outline-danger mx-2">
-                                <i class="bi bi-trash-fill"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+</div> 

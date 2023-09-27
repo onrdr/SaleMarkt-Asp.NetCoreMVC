@@ -3,8 +3,7 @@ using System.Linq.Expressions;
 
 namespace DataAccess.Repositories.Abstract;
 
-public interface IBaseRepository<T>
-    where T : class, IBaseEntity
+public interface IBaseRepository<T> where T : class, IBaseEntity
 {
     Task<T?> GetByIdAsync(Guid id);
 
@@ -17,6 +16,4 @@ public interface IBaseRepository<T>
     Task<int> UpdateAsync(T entity);
 
     Task<int> DeleteAsync(Guid id);
-
-    Task<int> SaveChangesAsync();
 }

@@ -1,5 +1,5 @@
 ﻿using Core.Utilities.Results;
-using Models.Entities;
+using Models.Entities.Concrete;
 using Models.ViewModels;
 using System.Linq.Expressions;
 

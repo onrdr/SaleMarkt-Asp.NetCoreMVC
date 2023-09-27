@@ -1,0 +1,72 @@
+﻿@model ProductViewModel
+@inject ICategoryRepository _categoryRepo
+
+@{
+    ViewData["Title"] = "Delete Product";
+    var category = await _categoryRepo.GetByIdAsync(Model.CategoryId);
+}
+
+<div class="card shadow border-0 rounded offset-2 col-8 mt-4 p-0">
+    <div class="card-header">
+        <div class="row mt-2 text-center">
+            <h2 class="text-danger">Delete Product</h2>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <form method="post" asp-controller="Product" asp-action="Delete">
+            <div class="border p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Title" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Title" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="ISBN" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="ISBN" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Price" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price50" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Price50" class="ms-0"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Author" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Author" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="ListPrice" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="ListPrice" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price100" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Price100" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="@category.Name" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="@category.Name" class="ms-0"></label>
+                        </div>
+                    </div>
+                    <div class="form-floating py-2 col-12 mb-3">
+                        <textarea asp-for="Description" class="form-control border-0 shadow rounded" disabled></textarea>
+                        <label asp-for="Description" class="ms-0"></label>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <button type="submit" class="form-control btn btn-outline-danger shadow">Confirm Delete</button>
+                    </div>
+                    <div class="col-6">
+                        <a asp-controller="Product" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

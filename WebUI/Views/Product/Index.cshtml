@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Product>
+@inject DataAccess.Repositories.Abstract.ICategoryRepository _categoryRepo
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<div class="container">
+    <div class="card shadow border-0 rounded mt-4">
+        <div class="card-header">
+            <div class="row">
+                <div class="text-center">
+                    <h2 class="text-info py-2">Product List</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row pb-3">
+                <div class="text-end">
+                    <a asp-controller="Product" asp-action="Create" class="btn btn-outline-info shadow">
+                        <i class="bi bi-plus-circle"></i> Create New Product
+                    </a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>ISBN</th>
+                            <th>Author</th>
+                            <th>List Price</th>
+                            <th>Price</th>
+                            <th>Price 50+</th>
+                            <th>Price 100+</th>
+                            <th>Category Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.OrderBy(c => c.Title))
+                        {
+                            var category = await _categoryRepo.GetByIdAsync(product.CategoryId);
+                            var categoryName = category?.Name;
+
+                            <tr>
+                                <td>@product.Title</td>
+                                <td>@product.Description.Substring(0, 15) ...</td>
+                                <td>@product.ISBN.Substring(0, 3)</td>
+                                <td>@product.Author</td>
+                                <td>@product.ListPrice</td>
+                                <td>@product.Price</td>
+                                <td>@product.Price50</td>
+                                <td>@product.Price100</td>
+                                <td>@categoryName</td>
+                                <td>
+                                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
+                                       class="btn btn-outline-warning shadow">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
+                                       class="btn btn-outline-danger shadow">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

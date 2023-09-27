@@ -1,0 +1,93 @@
+﻿@model ProductViewModel
+@inject ICategoryRepository _categoryRepo
+
+@{
+    ViewData["Title"] = "Edit Product";
+    var allCategories = await _categoryRepo.GetAllAsync(c => true);
+}
+
+<div class="card shadow border-0 rounded mt-4 p-0">
+    <div class="card-header">
+        <div class="row mt-2 text-center">
+            <h2 class="text-info">Edit Product</h2>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <form method="post" asp-controller="Product" asp-action="Edit">
+            <div class="border p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Title" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="Title" class="text-danger mt-2"></span>
+                            <label asp-for="Title" class="ms-0"></label>
+                        </div>
+
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="ISBN" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="ISBN" class="text-danger"></span>
+                            <label asp-for="ISBN" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                            <label asp-for="Price" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price50" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="Price50" class="text-danger"></span>
+                            <label asp-for="Price50" class="ms-0"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Author" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="Author" class="text-danger"></span>
+                            <label asp-for="Author" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="ListPrice" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="ListPrice" class="text-danger"></span>
+                            <label asp-for="ListPrice" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Price100" class="form-control border-0 shadow rounded" />
+                            <span asp-validation-for="Price100" class="text-danger"></span>
+                            <label asp-for="Price100" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <select asp-for="CategoryId" class="form-select border-0 shadow rounded">
+                                <option value="">Select a Category</option>
+                                @foreach (var category in allCategories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-floating py-2 col-12 mb-3">
+                        <textarea asp-for="Description" class="form-control border-0 shadow rounded"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <label asp-for="Description" class="ms-0"></label>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <button type="submit" class="form-control btn btn-outline-info shadow">Update</button>
+                    </div>
+                    <div class="col-6">
+                        <a asp-controller="Product" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

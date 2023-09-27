@@ -1,7 +1,7 @@
 ﻿using Models.Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Entities;
+namespace Models.Entities.Concrete;
 
 public class Category : IBaseEntity
 {

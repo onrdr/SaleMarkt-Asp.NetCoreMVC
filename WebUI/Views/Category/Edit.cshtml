@@ -1,36 +1,44 @@
 ﻿@model CategoryViewModel
 
 @{
-    ViewData["Title"] = "Edit Category"; 
+    ViewData["Title"] = "Edit Category";
 }
 
-<form class="offset-2 col-8 p-4" method="post" asp-controller="Category" asp-action="Edit">
-    <div class="border p-3">
-        <div class="row pb-2">
-            <h2 class="text-info p-1">Edit Category</h2>
-            <hr />
-        </div>
-        <div class="row mb-3 p-1">
-            <label asp-for="Name" class="p-0"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger mt-2"></span>
-        </div>
-        <div class="row mb-3 p-1">
-            <label class="p-0" asp-for="DisplayOrder"></label>
-            <input asp-for="DisplayOrder" class="form-control" />
-            <span asp-validation-for="DisplayOrder" class="text-danger mt-2"></span>
-        </div>
-        <div class="row mt-4">
-            <div class="col-6">
-                <button type="submit" class="form-control btn btn-outline-info">Update</button>
-            </div>
-            <div class="col-6">
-                <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-primary">Back To List</a>
-            </div>
+<div class="card shadow border-0 rounded offset-2 col-8 mt-4 p-0">
+    <div class="card-header">
+        <div class="row mt-2 text-center">
+            <h2 class="text-warning">Edit Category</h2>
         </div>
     </div>
-</form>
+    <div class="card-body p-0">
+        <form method="post" asp-controller="Category" asp-action="Edit">
+            <div class="border p-3">
+                <div class="form-floating py-2 col-12 mb-3">
+                    <input asp-for="Name" class="form-control border-0 shadow rounded" />
+                    <label asp-for="Name" class="ms-0"></label>
+                    <span asp-validation-for="Name" class="text-danger mt-2"></span>
+                </div>
+                <div class="form-floating py-2 col-12 mb-3">
+                    <input asp-for="DisplayOrder" class="form-control border-0 shadow rounded" />
+                    <label asp-for="DisplayOrder" class="ms-0"></label>
+                    <span asp-validation-for="DisplayOrder" class="text-danger mt-2"></span>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <button type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
+                    </div>
+                    <div class="col-6">
+                        <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 @section Scripts {
-    @{<partial name="_ValidationScriptsPartial" />}
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
 }
