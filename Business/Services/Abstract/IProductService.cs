@@ -9,7 +9,11 @@ public interface IProductService
 {
     Task<IDataResult<Product>> GetByIdAsync(Guid productId);
 
+    Task<IDataResult<Product>> GetProductWithCategory(Guid id);
+
     Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate);
+
+    Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate);
 
     Task<IResult> CreateProduct(ProductViewModel model);
 

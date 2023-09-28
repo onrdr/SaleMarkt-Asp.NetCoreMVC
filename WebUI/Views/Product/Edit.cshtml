@@ -10,12 +10,13 @@
 <div class="card shadow border-0 rounded mt-4 p-0">
     <div class="card-header">
         <div class="row mt-2 text-center">
-            <h2 class="text-info">Edit Product</h2>
+            <h2 class="text-warning">Edit Product</h2>
         </div>
     </div>
     <div class="card-body p-0">
         <form method="post" asp-controller="Product" asp-action="Edit" enctype="multipart/form-data">
             <input asp-for="ImageUrl" hidden/>
+            <input asp-for="Id" hidden/>
             <div class="row">
                 <div class="col-9">
                     <div class="border p-3">
@@ -24,7 +25,7 @@
 
                         <div class="row mt-4">
                             <div class="col-6">
-                                <button type="submit" class="form-control btn btn-outline-info shadow">Update</button>
+                                <button type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
                             </div>
                             <div class="col-6">
                                 <a asp-controller="Product" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>

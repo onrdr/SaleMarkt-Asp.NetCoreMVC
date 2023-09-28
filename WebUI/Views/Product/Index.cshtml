@@ -23,57 +23,37 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table id="tblData" class="table table-bordered table-striped" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Image</th>
                             <th>Title</th>
-                            <th>Desc.</th>
+                            <th>Description</th>
                             <th>ISBN</th>
-                            <th>Author</th> 
-                            <th>Price</th>
-                            <th>Price 50+</th>
-                            <th>Price 100+</th>
+                            <th>Author</th>
+                            <th>List Price</th>
                             <th>Category</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th></th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var product in Model.OrderBy(c => c.Title))
-                        {
-                            var category = await _categoryRepo.GetByIdAsync(product.CategoryId);
-                            var categoryName = category?.Name;
 
-                            <tr>
-                                <td class="align-middle">
-                                    <img class="img-scale" src="~/@product.ImageUrl" />
-                                </td>
-                                <td>@product.Title</td>
-                                <td>@product.Description.Substring(0, 5) ...</td>
-                                <td>@product.ISBN.Substring(0, 3)</td>
-                                <td>@product.Author</td> 
-                                <td>@product.Price</td>
-                                <td>@product.Price50</td>
-                                <td>@product.Price100</td>
-                                <td>@categoryName</td>
-                                <td>
-                                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
-                                       class="btn btn-sm btn-outline-warning shadow">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
-                                       class="btn btn-sm btn-outline-danger shadow">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
+                    @*<td>
+                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
+                           class="btn btn-sm btn-outline-warning shadow">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
+                           class="btn btn-sm btn-outline-danger shadow">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </td>*@
+                    </thead>
                 </table>
             </div>
         </div>
     </div>
 </div> 
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+ }

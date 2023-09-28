@@ -56,34 +56,6 @@ public class ProductController : Controller
         TempData["SuccessMessage"] = result.Message;
         return RedirectToAction(nameof(Index));
     }
-
-    private void HandleImageUpload(ProductViewModel model, IFormFile? file)
-    {
-        var wwwRootPath = _webHostEnvironment.WebRootPath;
-
-        if (file is not null && !string.IsNullOrEmpty(model.ImageUrl))
-        {
-            var oldImagePath = Path.Combine(wwwRootPath, model.ImageUrl.TrimStart('/'));
-
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-        }
-
-        if (file is not null)
-        {            
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-            var imagePath = Path.Combine(wwwRootPath, "images", "product", fileName);
-
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                file.CopyTo(fileStream);
-            }
-
-            model.ImageUrl = @"images\product\" + fileName; 
-        }
-    }
     #endregion
 
     #region Update
@@ -96,7 +68,6 @@ public class ProductController : Controller
             return View();
         }
 
-        TempData["SuccessMessage"] = result.Message;
         return View(_mapper.Map<ProductViewModel>(result.Data));
     }
 
@@ -115,35 +86,69 @@ public class ProductController : Controller
         TempData["SuccessMessage"] = result.Message;
         return RedirectToAction(nameof(Index));
     }
+    #endregion 
+
+    #region Private Functions
+    private void HandleImageUpload(ProductViewModel model, IFormFile? file)
+    {
+        var wwwRootPath = _webHostEnvironment.WebRootPath;
+
+        if (file is not null && !string.IsNullOrEmpty(model.ImageUrl))
+            DeleteOldImage(model.ImageUrl, wwwRootPath);
+
+        if (file is not null)
+            CreateNewImage(model, file, wwwRootPath);
+    }
+
+    private static void CreateNewImage(ProductViewModel model, IFormFile file, string wwwRootPath)
+    {
+        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        var imagePath = Path.Combine(wwwRootPath, "images", "product", fileName);
+
+        using var fileStream = new FileStream(imagePath, FileMode.Create);
+        file.CopyTo(fileStream);
+
+        model.ImageUrl = @"images\product\" + fileName;
+    }
+
+    private static void DeleteOldImage(string? imageUrl, string wwwRootPath)
+    {
+        if (string.IsNullOrEmpty(imageUrl)) { return; }
+
+        var oldImagePath = Path.Combine(wwwRootPath, imageUrl.TrimStart('/'));
+        if (System.IO.File.Exists(oldImagePath)) 
+            System.IO.File.Delete(oldImagePath); 
+    }
     #endregion
 
-    #region Delete
+    #region API Calls
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var products = await _productService.GetAllProductsWithCategory(c => true);
+        return Json(new { data = products.Data });
+    }
+
+    [HttpDelete]
     public async Task<IActionResult> Delete(Guid id)
-    {
-        var result = await _productService.GetByIdAsync(id);
-        if (!result.Success)
+    {  
+        var productResult = await _productService.GetByIdAsync(id);
+        if (!productResult.Success)
         {
-            TempData["ErrorMessage"] = result.Message;
-            return View();
+            return Json(productResult);
         }
 
-        TempData["SuccessMessage"] = result.Message;
-        return View(_mapper.Map<ProductViewModel>(result.Data));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Delete(ProductViewModel model)
-    {
-        var result = await _productService.DeleteProduct(model.Id);
-        if (!result.Success)
+        var deleteResult = await _productService.DeleteProduct(id);
+        if (!deleteResult.Success)
         {
-            TempData["ErrorMessage"] = result.Message;
-            return View();
+            TempData["ErrorMessage"] = deleteResult.Message;
+            return Json(deleteResult);
         }
 
-        TempData["SuccessMessage"] = result.Message;
-        return RedirectToAction(nameof(Index));
+        DeleteOldImage(productResult.Data.ImageUrl, _webHostEnvironment.WebRootPath);
+        TempData["SuccessMessage"] = deleteResult.Message;
+        return Json(deleteResult);
     }
     #endregion
-
 }

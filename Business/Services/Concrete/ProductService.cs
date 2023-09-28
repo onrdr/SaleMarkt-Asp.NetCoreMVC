@@ -5,6 +5,7 @@ using Core.Utilities.Results;
 using DataAccess.Repositories.Abstract;
 using Models.Entities.Concrete;
 using Models.ViewModels;
+using System;
 using System.Linq.Expressions;
 
 namespace Business.Services.Concrete;
@@ -28,9 +29,25 @@ public class ProductService : IProductService
             : new SuccessDataResult<Product>(product);
     }
 
+    public async Task<IDataResult<Product>> GetProductWithCategory(Guid id)
+    {
+        var product = await _productRepository.GetProductWithCategory(id);
+        return product == null
+           ? new ErrorDataResult<Product>(Messages.ProductNotFound)
+           : new SuccessDataResult<Product>(product);
+    }
+
     public async Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate)
     {
         var productList = await _productRepository.GetAllAsync(predicate);
+        return productList.Any()
+            ? new SuccessDataResult<IEnumerable<Product>>(productList)
+            : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
+    }
+
+    public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
+    {
+        var productList = await _productRepository.GetAllProductsWithCategory(predicate);
         return productList.Any()
             ? new SuccessDataResult<IEnumerable<Product>>(productList)
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
@@ -66,8 +83,9 @@ public class ProductService : IProductService
         return deleteResult > 0
             ? new SuccessResult(Messages.ProductDeleteSuccessfull)
             : new ErrorResult(Messages.ProductAddError);
-    }
+    }   
 
+    #region Private Functions
     private static void CompleteUpdate(ProductViewModel model, IDataResult<Product> productResult)
     {
         productResult.Data.Title = model.Title;
@@ -78,6 +96,9 @@ public class ProductService : IProductService
         productResult.Data.Price = model.Price;
         productResult.Data.Price50 = model.Price50;
         productResult.Data.Price100 = model.Price100;
-        productResult.Data.ImageUrl = model.ImageUrl;
+        productResult.Data.CategoryId = model.CategoryId;
+        productResult.Data.ImageUrl = model.ImageUrl ?? productResult.Data.ImageUrl;
+
     }
+    #endregion
 }
