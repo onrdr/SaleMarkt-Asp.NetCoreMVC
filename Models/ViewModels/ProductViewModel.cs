@@ -1,5 +1,4 @@
-﻿using Models.Entities.Concrete;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.ViewModels;
@@ -7,15 +6,17 @@ namespace Models.ViewModels;
 public class ProductViewModel
 {
     [Required]
-    public Guid Id { get; set; } 
+    public Guid Id { get; set; }
 
-    [Required] 
+    [Required]
     public string Title { get; set; }
 
     [Required]
+    [MinLength(6)]
     public string Description { get; set; }
 
     [Required]
+    [MinLength(5)]
     public string ISBN { get; set; }
 
     [Required]
@@ -43,6 +44,10 @@ public class ProductViewModel
     [Range(1, 10000)]
     public double Price100 { get; set; }
 
-    [Required(ErrorMessage ="Category required")]
+    [Required(ErrorMessage = "Category required")]
+    [DisplayName("Category")]
     public Guid CategoryId { get; set; }
+
+    [DisplayName("Image")]
+    public string? ImageUrl { get; set; }
 }

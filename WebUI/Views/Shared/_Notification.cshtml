@@ -1,7 +1,7 @@
 ﻿
 @{
-    var errorMessage = (string)TempData["ErrorMessage"];
-    var successMessage = (string)TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
 
     if (errorMessage is not null)
     {

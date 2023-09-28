@@ -26,17 +26,17 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Title</th>
-                            <th>Description</th>
+                            <th>Desc.</th>
                             <th>ISBN</th>
-                            <th>Author</th>
-                            <th>List Price</th>
+                            <th>Author</th> 
                             <th>Price</th>
                             <th>Price 50+</th>
                             <th>Price 100+</th>
-                            <th>Category Name</th>
-                            <th></th>
-                            <th></th>
+                            <th>Category</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,24 +46,26 @@
                             var categoryName = category?.Name;
 
                             <tr>
+                                <td class="align-middle">
+                                    <img class="img-scale" src="~/@product.ImageUrl" />
+                                </td>
                                 <td>@product.Title</td>
-                                <td>@product.Description.Substring(0, 15) ...</td>
+                                <td>@product.Description.Substring(0, 5) ...</td>
                                 <td>@product.ISBN.Substring(0, 3)</td>
-                                <td>@product.Author</td>
-                                <td>@product.ListPrice</td>
+                                <td>@product.Author</td> 
                                 <td>@product.Price</td>
                                 <td>@product.Price50</td>
                                 <td>@product.Price100</td>
                                 <td>@categoryName</td>
                                 <td>
                                     <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
-                                       class="btn btn-outline-warning shadow">
+                                       class="btn btn-sm btn-outline-warning shadow">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
-                                       class="btn btn-outline-danger shadow">
+                                       class="btn btn-sm btn-outline-danger shadow">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </td>

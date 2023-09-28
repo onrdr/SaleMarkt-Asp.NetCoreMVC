@@ -81,6 +81,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -106,11 +109,12 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0e42aa2d-f2e2-4ba0-9516-5048a6f5c1e2"),
+                            Id = new Guid("552e5af1-2c2f-494c-ae4e-d3def3307d1a"),
                             Author = "Billy Spark",
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SWD9999001",
+                            ImageUrl = "",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
@@ -119,11 +123,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1395706b-150d-49ca-a40c-0ed60cedcf65"),
+                            Id = new Guid("90cb6958-d27e-47da-aad9-67ab6cad65c6"),
                             Author = "Nancy Hoover",
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "CAW777777701",
+                            ImageUrl = "",
                             ListPrice = 40.0,
                             Price = 30.0,
                             Price100 = 20.0,
@@ -132,11 +137,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6746bcc2-ae18-437c-908f-9e371eb0b64d"),
+                            Id = new Guid("a86e8dce-41f7-4440-ba4f-4b6424b8da00"),
                             Author = "Julian Button",
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "RITO5555501",
+                            ImageUrl = "",
                             ListPrice = 55.0,
                             Price = 50.0,
                             Price100 = 35.0,
@@ -145,11 +151,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ef9c8fe0-7070-4b59-84c3-72b887d16704"),
+                            Id = new Guid("32aed196-a986-40c5-8bad-5e773f97e357"),
                             Author = "Abby Muscles",
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "WS3333333301",
+                            ImageUrl = "",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
@@ -158,11 +165,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ee582f70-647c-49e1-ad41-044ff137438d"),
+                            Id = new Guid("7cc4275f-0ce0-45cf-8359-e8b4cabab400"),
                             Author = "Ron Parker",
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SOTJ1111111101",
+                            ImageUrl = "",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 20.0,
@@ -171,11 +179,12 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f03fecb3-c7d1-4bc6-bd54-d9408dc86b8d"),
+                            Id = new Guid("66bd5f42-3718-47d6-90fd-16d69aee93b1"),
                             Author = "Laura Phantom",
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "FOT000000001",
+                            ImageUrl = "",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 20.0,
@@ -187,17 +196,12 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Models.Entities.Concrete.Product", b =>
                 {
                     b.HasOne("Models.Entities.Concrete.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Models.Entities.Concrete.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

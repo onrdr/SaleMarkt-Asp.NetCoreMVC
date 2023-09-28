@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Delete Product";
-    var category = await _categoryRepo.GetByIdAsync(Model.CategoryId);
+    var category = await _categoryRepo.GetByIdAsync(Model.CategoryId); 
 }
 
 <div class="card shadow border-0 rounded offset-2 col-8 mt-4 p-0">
@@ -19,19 +19,23 @@
                     <div class="col-md-6">
                         <div class="form-floating py-2 col-12 mb-3">
                             <input asp-for="Title" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="Title" class="ms-0"></label>
+                            <label asp-for="Title" class="ms-0"></label> 
                         </div>
                         <div class="form-floating py-2 col-12 mb-3">
                             <input asp-for="ISBN" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="ISBN" class="ms-0"></label>
+                            <label asp-for="ISBN" class="ms-0"></label> 
                         </div>
                         <div class="form-floating py-2 col-12 mb-3">
                             <input asp-for="Price" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="Price" class="ms-0"></label>
+                            <label asp-for="Price" class="ms-0"></label> 
                         </div>
                         <div class="form-floating py-2 col-12 mb-3">
-                            <input asp-for="Price50" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="Price50" class="ms-0"></label>
+                            <input asp-for="Price100" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Price100" class="ms-0"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <textarea asp-for="Description" class="form-control border-0 shadow rounded" disabled></textarea>
+                            <label asp-for="Description" class="ms-0"></label> 
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -44,17 +48,13 @@
                             <label asp-for="ListPrice" class="ms-0"></label>
                         </div>
                         <div class="form-floating py-2 col-12 mb-3">
-                            <input asp-for="Price100" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="Price100" class="ms-0"></label>
-                        </div>
+                            <input asp-for="Price50" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="Price50" class="ms-0"></label>
+                        </div>                        
                         <div class="form-floating py-2 col-12 mb-3">
-                            <input asp-for="@category.Name" class="form-control border-0 shadow rounded" disabled />
-                            <label asp-for="@category.Name" class="ms-0"></label>
+                            <input value="@category.Name" class="form-control border-0 shadow rounded" disabled />
+                            <label asp-for="CategoryId" class="ms-0"></label>
                         </div>
-                    </div>
-                    <div class="form-floating py-2 col-12 mb-3">
-                        <textarea asp-for="Description" class="form-control border-0 shadow rounded" disabled></textarea>
-                        <label asp-for="Description" class="ms-0"></label>
                     </div>
                 </div>
                 <div class="row mt-4">

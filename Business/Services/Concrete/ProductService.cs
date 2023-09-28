@@ -78,5 +78,6 @@ public class ProductService : IProductService
         productResult.Data.Price = model.Price;
         productResult.Data.Price50 = model.Price50;
         productResult.Data.Price100 = model.Price100;
+        productResult.Data.ImageUrl = model.ImageUrl;
     }
 }

@@ -17,10 +17,15 @@ html {
     min-height: 100%;
 }
 
-body { 
+body {  
     margin-bottom: 60px;
 }
 
 .btn-custom-width {
     width: 180px;
+}
+
+.img-scale {
+    max-width: 100px;
+    max-height: 100px;
 }

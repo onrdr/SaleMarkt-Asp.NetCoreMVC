@@ -29,7 +29,8 @@ public static class ProductSeeder
                 Price = 90,
                 Price50 = 85,
                 Price100 = 80,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11")
+                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                ImageUrl = ""
             },
             new()
             {
@@ -41,7 +42,8 @@ public static class ProductSeeder
                 Price = 30,
                 Price50 = 25,
                 Price100 = 20,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11")
+                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                ImageUrl = ""
             },
             new()
             {
@@ -53,7 +55,8 @@ public static class ProductSeeder
                 Price = 50,
                 Price50 = 40,
                 Price100 = 35,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11")
+                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                ImageUrl = ""
             },
             new()
             {
@@ -65,7 +68,8 @@ public static class ProductSeeder
                 Price = 65,
                 Price50 = 60,
                 Price100 = 55,
-                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc")
+                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                ImageUrl = ""
             },
             new()
             {
@@ -77,7 +81,8 @@ public static class ProductSeeder
                 Price = 27,
                 Price50 = 25,
                 Price100 = 20,
-                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc")
+                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                ImageUrl = ""
             },
             new()
             {
@@ -89,7 +94,8 @@ public static class ProductSeeder
                 Price = 23,
                 Price50 = 22,
                 Price100 = 20,
-                CategoryId = Guid.Parse("db9b235f-a5d6-49dc-8e95-022f443f8582")
+                CategoryId = Guid.Parse("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                ImageUrl = ""
             }
         };
 
