@@ -1,0 +1,69 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="card shadow border-0 rounded mt-4 p-0 offset-2 col-8">
+    <div class="card-header">
+        <div class="row mt-2 text-center">
+            <h2 class="text-info">Register</h2>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <form method="post" asp-controller="Account" asp-action="Register">
+            <div class="border p-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Name" class="form-control border-0 shadow rounded" />
+                            <label asp-for="Name" class="ms-0"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Email" class="form-control border-0 shadow rounded" />
+                            <label asp-for="Email" class="ms-0"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="Password" class="form-control border-0 shadow rounded" />
+                            <label asp-for="Password" class="ms-0"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div> 
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="LastName" class="form-control border-0 shadow rounded" />
+                            <label asp-for="LastName" class="ms-0"></label>
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="PhoneNumber" class="form-control border-0 shadow rounded" />
+                            <label asp-for="PhoneNumber" class="ms-0"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating py-2 col-12 mb-3">
+                            <input asp-for="ConfirmPassword" class="form-control border-0 shadow rounded" />
+                            <label asp-for="ConfirmPassword" class="ms-0"></label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                    <div class="col-6">
+                        <button type="submit" class="form-control btn btn-outline-info shadow">Register</button> 
+                    </div>
+                    <div class="col-6 d-flex align-items-center"> 
+                        <p class="text-info">Already have an Account? <a asp-controller="Account" asp-action="Login">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

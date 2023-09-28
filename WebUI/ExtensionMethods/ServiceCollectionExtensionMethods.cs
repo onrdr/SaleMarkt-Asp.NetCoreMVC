@@ -1,6 +1,7 @@
 ﻿using Business.Services.Abstract;
 using Business.Services.Concrete;
 using DataAccess;
+using Models.Identity;
 using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,8 @@ public static class ServiceCollectionExtensionMethods
         services
             .AddApplicationServices()
             .ConfigureDatabase(configurationManager)
-            .AddAutoMapper(Assembly.GetExecutingAssembly());            
+            .AddIdentity()
+            .AddAutoMapper(Assembly.GetExecutingAssembly());
 
         return services;
     }
@@ -35,8 +37,26 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-        services.AddScoped<IProductService, ProductService>(); 
-        services.AddScoped<IProductRepository, ProductRepository>(); 
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+
+        return services;
+    }
+
+    static IServiceCollection AddIdentity(this IServiceCollection services)
+    {
+        services.AddIdentity<AppUser, AppRole>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+            options.User.AllowedUserNameCharacters = "abcçdefgğhıijklmnoöpqrsştuüvwxyzABCÇDEFGĞHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._";
+
+            options.Password.RequiredLength = 4;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireDigit = false;
+        })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         return services;
     }
