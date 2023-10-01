@@ -1,11 +1,11 @@
 ﻿$(document).ready(function () {
     loadDataTable();
-});
+}); 
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/product/getall' },
-        "columns": [
+        "ajax": { url: '/category/getall' },
+        "columns": [   
             {
                 data: 'imageUrl',
                 "width": "15%",
@@ -15,30 +15,17 @@ function loadDataTable() {
                     </div>`;
                 }
             },
-            { data: 'title', "width": "15%" },
-            {
-                data: 'description',
-                "width": "20%",
-                "render": function (data) {
-                    if (data.length > 40) {
-                        return data.substr(0, 40) + '...';
-                    } else {
-                        return data;
-                    }
-                }
-            }, 
-            { data: 'author', "width": "15%" },
-            { data: 'listPrice', "width": "5%" },
-            { data: 'price50', "width": "5%" },
-            { data: 'price100', "width": "5%" },
-            { data: 'category.name', "width": "10%" },
+            { data: 'id', "width": "20%"},
+            { data: 'name', "width": "20%" },
+            { data: 'description', "width": "20%" },
+            { data: 'displayOrder', "width": "25%" },
             {
                 data: 'id',
-                "width": "10%",
+                "width": "20%",
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
-                     <a href="/product/edit?id=${data}" class="btn btn-sm btn-warning mx-2 rounded"> <i class="bi bi-pencil-square"></i></a>               
-                     <a onClick=Delete('/product/delete/${data}') class="btn btn-sm btn-danger mx-2 rounded"> <i class="bi bi-trash-fill"></i></a>
+                     <a href="/category/edit?id=${data}" class="btn btn-sm btn-warning mx-2 rounded"> <i class="bi bi-pencil-square"></i></a>               
+                     <a onClick=Delete('/category/delete/${data}') class="btn btn-sm btn-danger mx-2 rounded"> <i class="bi bi-trash-fill"></i></a>
                     </div>`
                 }
             },

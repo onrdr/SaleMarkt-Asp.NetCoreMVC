@@ -9,44 +9,31 @@
     <div class="card shadow border-0 rounded mt-4">
         <div class="card-header">
             <div class="row">
-                <div class="text-center">
+                <div class="col-6 text-end">
                     <h2 class="text-info py-2">Product List</h2>
                 </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row pb-3">
-                <div class="text-end">
-                    <a asp-controller="Product" asp-action="Create" class="btn btn-outline-info shadow">
+                <div class="col-6 text-end">
+                    <a asp-controller="Product" asp-action="Create" class="btn btn-outline-info shadow rounded" >
                         <i class="bi bi-plus-circle"></i> Create New Product
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="card-body"> 
             <div class="table-responsive">
                 <table id="tblData" class="table table-bordered table-striped" style="width:100%">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>ISBN</th>
                             <th>Author</th>
                             <th>List Price</th>
+                            <th>Price 50+</th>
+                            <th>Price 100+</th>
                             <th>Category</th>
                             <th></th>
                         </tr>
-
-                    @*<td>
-                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
-                           class="btn btn-sm btn-outline-warning shadow">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
-                           class="btn btn-sm btn-outline-danger shadow">
-                            <i class="bi bi-trash-fill"></i>
-                        </a>
-                    </td>*@
                     </thead>
                 </table>
             </div>
@@ -56,4 +43,4 @@
 
 @section Scripts{
     <script src="~/js/product.js"></script>
- }
+}

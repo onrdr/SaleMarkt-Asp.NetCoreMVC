@@ -3,32 +3,13 @@
 
 @{ var allCategories = await _categoryRepo.GetAllAsync(c => true); }
 
+
 <div class="row">
     <div class="col-md-6">
         <div class="form-floating py-2 col-12 mb-3">
             <input asp-for="Title" class="form-control border-0 shadow rounded" />
             <label asp-for="Title" class="ms-0"></label>
-            <span asp-validation-for="Title" class="text-danger mt-2"></span>
-        </div>
-        <div class="form-floating py-2 col-12 mb-3">
-            <input asp-for="ISBN" class="form-control border-0 shadow rounded" />
-            <label asp-for="ISBN" class="ms-0"></label>
-            <span asp-validation-for="ISBN" class="text-danger"></span>
-        </div>
-        <div class="form-floating py-2 col-12 mb-3">
-            <input asp-for="Price" class="form-control border-0 shadow rounded" />
-            <label asp-for="Price" class="ms-0"></label>
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class="form-floating py-2 col-12 mb-3">
-            <input asp-for="Price100" class="form-control border-0 shadow rounded" />
-            <label asp-for="Price100" class="ms-0"></label>
-            <span asp-validation-for="Price100" class="text-danger"></span>
-        </div>
-        <div class="form-floating py-2 col-12 mb-3">
-            <textarea asp-for="Description" class="form-control border-0 shadow rounded"></textarea>
-            <label asp-for="Description" class="ms-0"></label>
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
     </div>
     <div class="col-md-6">
@@ -37,18 +18,51 @@
             <label asp-for="Author" class="ms-0"></label>
             <span asp-validation-for="Author" class="text-danger"></span>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <input asp-for="ISBN" class="form-control border-0 shadow rounded" />
+            <label asp-for="ISBN" class="ms-0"></label>
+            <span asp-validation-for="ISBN" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-floating py-2 col-12 mb-3">
             <input asp-for="ListPrice" class="form-control border-0 shadow rounded" />
             <label asp-for="ListPrice" class="ms-0"></label>
             <span asp-validation-for="ListPrice" class="text-danger"></span>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <input asp-for="Price" class="form-control border-0 shadow rounded" />
+            <label asp-for="Price" class="ms-0"></label>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-floating py-2 col-12 mb-3">
             <input asp-for="Price50" class="form-control border-0 shadow rounded" />
             <label asp-for="Price50" class="ms-0"></label>
             <span asp-validation-for="Price50" class="text-danger"></span>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
         <div class="form-floating py-2 col-12 mb-3">
-            <select asp-for="CategoryId" class="form-select border-0 shadow rounded" >
+            <input asp-for="Price100" class="form-control border-0 shadow rounded" />
+            <label asp-for="Price100" class="ms-0"></label>
+            <span asp-validation-for="Price100" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <select asp-for="CategoryId" class="form-select border-0 shadow rounded">
                 <option value="">Select a Category</option>
                 @foreach (var category in allCategories)
                 {
@@ -57,9 +71,20 @@
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <textarea asp-for="Description" class="form-control border-0 shadow rounded"></textarea>
+            <label asp-for="Description" class="ms-0"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="form-floating py-2 col-12 mb-3">
             <input asp-for="ImageUrl" type="file" name="file" class="form-control border-0 shadow rounded" />
             <label asp-for="ImageUrl" class="ms-0"></label>
         </div>
     </div>
-</div> 
+</div>

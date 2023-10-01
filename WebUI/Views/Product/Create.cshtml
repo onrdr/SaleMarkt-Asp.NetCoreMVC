@@ -1,9 +1,7 @@
-﻿@model ProductViewModel
-@inject ICategoryRepository _categoryRepo
+﻿@model ProductViewModel 
 
 @{
     ViewData["Title"] = "Product Category";
-    var allCategories = await _categoryRepo.GetAllAsync(c => true);
 }
 
 <div class="card shadow border-0 rounded mt-4 p-0">

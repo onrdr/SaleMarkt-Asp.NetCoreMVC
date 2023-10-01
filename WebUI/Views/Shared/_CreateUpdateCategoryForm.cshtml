@@ -1,0 +1,33 @@
+﻿@model CategoryViewModel 
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <input asp-for="Name" class="form-control border-0 shadow rounded" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Name" class="ms-0"></label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <input asp-for="DisplayOrder" class="form-control border-0 shadow rounded" />
+            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+            <label asp-for="DisplayOrder" class="ms-0"></label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <textarea asp-for="Description" class="form-control border-0 shadow rounded"></textarea>
+            <label asp-for="Description" class="ms-0"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-floating py-2 col-12 mb-3">
+            <input asp-for="ImageUrl" type="file" name="file" class="form-control border-0 shadow rounded" />
+            <label asp-for="ImageUrl" class="ms-0"></label>
+        </div>
+    </div>
+</div>

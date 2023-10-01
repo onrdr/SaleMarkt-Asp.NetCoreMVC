@@ -5,7 +5,6 @@ using Core.Utilities.Results;
 using DataAccess.Repositories.Abstract;
 using Models.Entities.Concrete;
 using Models.ViewModels;
-using System;
 using System.Linq.Expressions;
 
 namespace Business.Services.Concrete;
@@ -21,6 +20,7 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
+    #region Read
     public async Task<IDataResult<Product>> GetByIdAsync(Guid productId)
     {
         var product = await _productRepository.GetByIdAsync(productId);
@@ -53,6 +53,9 @@ public class ProductService : IProductService
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
     }
 
+    #endregion
+
+    #region Create
     public async Task<IResult> CreateProduct(ProductViewModel model)
     {
         var addResult = await _productRepository.AddAsync(_mapper.Map<Product>(model));
@@ -61,6 +64,9 @@ public class ProductService : IProductService
             : new ErrorResult(Messages.ProductAddError);
     }
 
+    #endregion
+
+    #region Update
     public async Task<IResult> UpdateProduct(ProductViewModel model)
     {
         var productResult = await GetByIdAsync(model.Id);
@@ -70,22 +76,17 @@ public class ProductService : IProductService
         }
 
         CompleteUpdate(model, productResult);
+        return await GetUpdateResult(productResult);
+    }
 
+    private async Task<IResult> GetUpdateResult(IDataResult<Product> productResult)
+    {
         var updateResult = await _productRepository.UpdateAsync(productResult.Data);
         return updateResult > 0
             ? new SuccessResult(Messages.ProductUpdateSuccessfull)
             : new ErrorResult(Messages.ProductAddError);
     }
 
-    public async Task<IResult> DeleteProduct(Guid productId)
-    {
-        var deleteResult = await _productRepository.DeleteAsync(productId);
-        return deleteResult > 0
-            ? new SuccessResult(Messages.ProductDeleteSuccessfull)
-            : new ErrorResult(Messages.ProductAddError);
-    }   
-
-    #region Private Functions
     private static void CompleteUpdate(ProductViewModel model, IDataResult<Product> productResult)
     {
         productResult.Data.Title = model.Title;
@@ -101,4 +102,14 @@ public class ProductService : IProductService
 
     }
     #endregion
+
+    #region Delete
+    public async Task<IResult> DeleteProduct(Guid productId)
+    {
+        var deleteResult = await _productRepository.DeleteAsync(productId);
+        return deleteResult > 0
+            ? new SuccessResult(Messages.ProductDeleteSuccessfull)
+            : new ErrorResult(Messages.ProductAddError);
+    }
+    #endregion 
 }

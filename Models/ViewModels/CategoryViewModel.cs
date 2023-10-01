@@ -17,4 +17,12 @@ public class CategoryViewModel
     [DisplayName("Display Order")]
     [Range(1, 100)]
     public int DisplayOrder { get; set; }
+
+    [Required]
+    [MinLength(6)]
+    public string Description { get; set; } 
+
+
+    [DisplayName("Image")]
+    public string? ImageUrl { get; set; }
 }

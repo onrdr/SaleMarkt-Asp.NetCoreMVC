@@ -2,24 +2,39 @@
 @{
     var errorMessage = TempData["ErrorMessage"] as string;
     var successMessage = TempData["SuccessMessage"] as string;
+    var modelError = TempData["ModelError"] as List<string>;
+}
 
-    if (errorMessage is not null)
-    {
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-        <script type="text/javascript">
-            toastr.error('@errorMessage');
-        </script>
-    }
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-    if (successMessage is not null)
+@if (errorMessage is not null)
+{
+    <script type="text/javascript">
+        toastr.options.timeOut = 10000;
+        toastr.options.progressBar = true;
+        toastr.error('@errorMessage');
+    </script>
+}
+
+@if (successMessage is not null)
+{
+    <script type="text/javascript">
+        toastr.options.timeOut = 5000;
+        toastr.options.progressBar = true;
+        toastr.success('@successMessage')
+    </script>
+}
+
+@if (modelError is not null)
+{
+    @foreach (var error in modelError)
     {
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script type="text/javascript">
-            toastr.success('@successMessage')
+            toastr.options.timeOut = 10000;
+            toastr.options.progressBar = true;
+            toastr.error('@error');
         </script>
     }
 }
-
 

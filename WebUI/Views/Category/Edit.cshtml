@@ -4,34 +4,37 @@
     ViewData["Title"] = "Edit Category";
 }
 
-<div class="card shadow border-0 rounded offset-2 col-8 mt-4 p-0">
+<div class="card shadow border-0 rounded mt-4 p-0">
     <div class="card-header">
         <div class="row mt-2 text-center">
             <h2 class="text-warning">Edit Category</h2>
         </div>
     </div>
     <div class="card-body p-0">
-        <form method="post" asp-controller="Category" asp-action="Edit">
-            <div class="border p-3">
-                <div class="form-floating py-2 col-12 mb-3">
-                    <input asp-for="Name" class="form-control border-0 shadow rounded" />
-                    <label asp-for="Name" class="ms-0"></label>
-                    <span asp-validation-for="Name" class="text-danger mt-2"></span>
-                </div>
-                <div class="form-floating py-2 col-12 mb-3">
-                    <input asp-for="DisplayOrder" class="form-control border-0 shadow rounded" />
-                    <label asp-for="DisplayOrder" class="ms-0"></label>
-                    <span asp-validation-for="DisplayOrder" class="text-danger mt-2"></span>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-6">
-                        <button type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
+        <form method="post" asp-controller="Category" asp-action="Edit" enctype="multipart/form-data">
+            <input asp-for="ImageUrl" hidden />
+            <input asp-for="Id" hidden />
+            <div class="row">
+                <div class="col-9">
+                    <div class="border p-3">
+
+                        <partial name="_CreateUpdateCategoryForm" data="@Model" />
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <button type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
+                            </div>
+                            <div class="col-6">
+                                <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
-                    </div>
                 </div>
-            </div>
+                <div class="col-3">
+                    <img class="p-3" src="~/@Model.ImageUrl"
+                         style="width:100%; border-radius:5px; border:1px solid #ffffff" />
+                </div>
+            </div> 
         </form>
     </div>
 </div>

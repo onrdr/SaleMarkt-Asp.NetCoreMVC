@@ -1,10 +1,7 @@
 ﻿@model ProductViewModel
-@inject ICategoryRepository _categoryRepo
-@inject IWebHostEnvironment _env
 
 @{
     ViewData["Title"] = "Edit Product";
-    var allCategories = await _categoryRepo.GetAllAsync(c => true);
 }
 
 <div class="card shadow border-0 rounded mt-4 p-0">
@@ -34,8 +31,8 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <img class="p-3" src="~/@Model.ImageUrl" width="100%"
-                         style="border-radius:5px; border:1px solid #ffffff" />
+                    <img class="p-3" src="~/@Model.ImageUrl"
+                         style="width:100%; border-radius:5px; border:1px solid #ffffff" />
                 </div>
             </div>
         </form>

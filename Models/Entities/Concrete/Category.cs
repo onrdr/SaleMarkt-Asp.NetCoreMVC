@@ -18,4 +18,9 @@ public class Category : IBaseEntity
 
     [Required]
     public int DisplayOrder { get; set; }
+
+    [Required]
+    public string Description { get; set; }
+
+    public string? ImageUrl { get; set; }
 }

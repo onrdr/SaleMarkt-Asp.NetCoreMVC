@@ -1,24 +1,25 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Models.Identity;
 using Models.ViewModels;
 
 namespace WebUI.Controllers;
 
-public class ProductController : Controller
+public class ProductController : BaseController
 {
-    private readonly IProductService _productService;
-    private readonly IMapper _mapper;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IProductService _productService; 
 
     public ProductController(
         IProductService productService,
         IMapper mapper,
-        IWebHostEnvironment webHostEnvironment)
+        UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager,
+        IWebHostEnvironment webHostEnvironment) 
+            : base(userManager, signInManager, webHostEnvironment, mapper)
     {
-        _productService = productService;
-        _mapper = mapper;
-        _webHostEnvironment = webHostEnvironment;
+        _productService = productService;  
     }
 
     #region Read
@@ -68,7 +69,7 @@ public class ProductController : Controller
             return View();
         }
 
-        return View(_mapper.Map<ProductViewModel>(result.Data));
+        return View(Mapper.Map<ProductViewModel>(result.Data));
     }
 
     [HttpPost]
@@ -91,7 +92,7 @@ public class ProductController : Controller
     #region Private Functions
     private void HandleImageUpload(ProductViewModel model, IFormFile? file)
     {
-        var wwwRootPath = _webHostEnvironment.WebRootPath;
+        var wwwRootPath = WebHostEnvironment.WebRootPath;
 
         if (file is not null && !string.IsNullOrEmpty(model.ImageUrl))
             DeleteOldImage(model.ImageUrl, wwwRootPath);
@@ -146,7 +147,7 @@ public class ProductController : Controller
             return Json(deleteResult);
         }
 
-        DeleteOldImage(productResult.Data.ImageUrl, _webHostEnvironment.WebRootPath);
+        DeleteOldImage(productResult.Data.ImageUrl, WebHostEnvironment.WebRootPath);
         TempData["SuccessMessage"] = deleteResult.Message;
         return Json(deleteResult);
     }

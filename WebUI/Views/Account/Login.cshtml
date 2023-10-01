@@ -2,8 +2,7 @@
 
 @{
     ViewData["Title"] = "Login";
-}
-
+} 
 
 <div class="card shadow border-0 rounded mt-4 p-0 offset-3 col-6">
     <div class="card-header">
@@ -16,7 +15,7 @@
             <div class="border p-3">
                 <div class="row">
                     <div class="form-floating py-2 col-12 mb-3">
-                        <input asp-for="Email" class="form-control border-0 shadow rounded" />
+                        <input id="emailInput" asp-for="Email" class="form-control border-0 shadow rounded" />
                         <label asp-for="Email" class="ms-0"></label>
                         <span asp-validation-for="Email" class="text-danger mt-2"></span>
                     </div>
@@ -31,7 +30,7 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-6">
-                        <button type="submit" class="form-control btn btn-outline-info shadow">Login</button>
+                        <button id="registerButton" type="submit" class="form-control btn btn-outline-info shadow">Login</button>
                     </div>
                     <div class="mt-3">
                         <p>Don't have an Account? <a asp-controller="Account" asp-action="Register">Register here</a></p>
@@ -45,6 +44,8 @@
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />
+
+        <script src="~/js/account.js"></script>
     }
 }
 

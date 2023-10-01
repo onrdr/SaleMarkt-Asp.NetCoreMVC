@@ -50,11 +50,11 @@ public static class ServiceCollectionExtensionMethods
             options.User.RequireUniqueEmail = true;
             options.User.AllowedUserNameCharacters = "abcçdefgğhıijklmnoöpqrsştuüvwxyzABCÇDEFGĞHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._";
 
-            options.Password.RequiredLength = 4;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 6;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireDigit = true;
         })
             .AddEntityFrameworkStores<ApplicationDbContext>();
 

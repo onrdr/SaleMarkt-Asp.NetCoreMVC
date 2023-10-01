@@ -11,18 +11,11 @@
         </div>
     </div>
     <div class="card-body p-0">
-        <form method="post" asp-controller="Category" asp-action="Create">
+        <form method="post" asp-controller="Category" asp-action="Create" enctype="multipart/form-data">
             <div class="border p-3">
-                <div class="form-floating py-2 col-12 mb-3">
-                    <input asp-for="Name" class="form-control border-0 shadow rounded" />
-                    <span asp-validation-for="Name" class="text-danger mt-2"></span>
-                    <label asp-for="Name" class="ms-0"></label>
-                </div>
-                <div class="form-floating py-2 col-12 mb-3">
-                    <input asp-for="DisplayOrder" class="form-control border-0 shadow rounded" />
-                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-                    <label asp-for="DisplayOrder" class="ms-0"></label>
-                </div>
+
+                <partial name="_CreateUpdateCategoryForm" data="@Model" />
+
                 <div class="row mt-4">
                     <div class="col-6">
                         <button type="submit" class="form-control btn btn-outline-info shadow">Create</button>
@@ -34,7 +27,7 @@
             </div>
         </form>
     </div>
-</div>   
+</div> 
 
 @section Scripts {
     @{
