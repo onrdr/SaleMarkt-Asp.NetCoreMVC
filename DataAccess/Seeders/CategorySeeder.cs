@@ -21,7 +21,7 @@ public static class CategorySeeder
         {
             new Category()
             {
-                Id = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                Id = Guid.Parse("34245A4D-0BAA-4C22-8245-02ABB9063B11"),
                 Name = "Action",
                 DisplayOrder = 1,
                 Description = "Category Action Description",
@@ -29,7 +29,7 @@ public static class CategorySeeder
             },
             new Category()
             {
-                Id = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                Id = Guid.Parse("76D6BE2F-8D6C-4E93-94CC-4EB0341950BC"),
                 Name = "SciFi",
                 DisplayOrder = 2,
                 Description = "Category SciFi Description",
@@ -37,10 +37,18 @@ public static class CategorySeeder
             },
             new Category()
             {
-                Id = Guid.Parse("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                Id = Guid.Parse("DB9B235F-A5D6-49DC-8E95-022F443F8582"),
                 Name = "History",
                 DisplayOrder = 3,
                 Description = "Category History Description",
+                ImageUrl = ""
+            },
+             new Category()
+            {
+                Id = Guid.Parse("8179ED4D-7E5B-49C4-33F3-08DBC21909AC"),
+                Name = "Crime",
+                DisplayOrder = 4,
+                Description = "Category Crime Description",
                 ImageUrl = ""
             },
         };

@@ -14,12 +14,9 @@ public class MappingProfile : Profile
         CreateMap<ProductViewModel, Product>();
 
         CreateMap<RegisterViewModel, AppUser>()
-             .ForMember(dest => dest.UserName, opt =>
-                 opt.MapFrom(src => $"{src.Name.Trim()}{src.LastName.Trim()}".ToLower()));
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FullName.Replace(" ", "").Trim().ToLower()));
 
-        CreateMap<RegisterViewModel, AppUser>()
-            .ForMember(dest => dest.UserName, opt =>
-                opt.MapFrom(src => $"{src.Name.Replace(" ", "-")}-{src.LastName.Replace(" ", "-")}".Trim().ToLower()));
-
+        CreateMap<AppUser, UserViewModel>().ReverseMap();
     }
 }

@@ -115,7 +115,7 @@ public class CategoryService : ICategoryService
     }
     #endregion
 
-
+    #region Delete
     public async Task<IResult> DeleteCategory(Guid categoryId)
     {
         var deleteResult = await _categoryRepository.DeleteAsync(categoryId);
@@ -123,4 +123,5 @@ public class CategoryService : ICategoryService
             ? new SuccessResult(Messages.CategoryDeleteSuccessfull)
             : new ErrorResult(Messages.CategoryAddError);
     }
+    #endregion
 }

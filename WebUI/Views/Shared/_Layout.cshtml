@@ -41,12 +41,12 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item ms-auto">
-                                <a class="nav-link text-dark" style="width:120px" asp-controller="Account" asp-action="Login">
+                                <a class="nav-link text-dark" style="width:120px" asp-controller="Home" asp-action="Login">
                                     <i class="bi bi-box-arrow-in-right"></i> Login
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" style="width:120px" asp-controller="Account" asp-action="Register">
+                                <a class="nav-link text-dark" style="width:120px" asp-controller="Home" asp-action="Register">
                                     <i class="bi bi-pencil-square"></i> Register
                                 </a>
                             </li>
@@ -58,9 +58,10 @@
                                     <i class="bi bi-person-workspace"></i> Welcome @User.Identity.Name.Replace("-", " ")
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Details">User Details</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Company" asp-action="Details">Company Details</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a></li>
                                 </ul>
                             </li>
                         }

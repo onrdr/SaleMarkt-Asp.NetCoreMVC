@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models.Identity;
 using Models.ViewModels;
 
 namespace WebUI.Controllers;
@@ -13,11 +11,9 @@ public class CategoryController : BaseController
 
     public CategoryController(
            ICategoryService categoryService,
-           IMapper mapper,
-           UserManager<AppUser> userManager,
-           SignInManager<AppUser> signInManager,
-           IWebHostEnvironment webHostEnvironment)
-            : base(userManager, signInManager, webHostEnvironment, mapper)
+           IWebHostEnvironment webHostEnvironment,
+           IMapper mapper)
+            : base(webHostEnvironment: webHostEnvironment, mapper: mapper)
     {
         _categoryService = categoryService;
     }

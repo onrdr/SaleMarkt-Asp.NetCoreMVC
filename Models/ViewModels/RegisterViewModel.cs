@@ -6,10 +6,8 @@ namespace Models.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
+        [DisplayName("Full Name")]
+        public string FullName { get; set; } 
 
         [Required]
         [DisplayName("Email Address")]
@@ -30,6 +28,11 @@ namespace Models.ViewModels
 
         [Required]
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; } 
+        public string PhoneNumber { get; set; }
+
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? Country { get; set; }
+        public string? PostalCode { get; set; }
     }
 }

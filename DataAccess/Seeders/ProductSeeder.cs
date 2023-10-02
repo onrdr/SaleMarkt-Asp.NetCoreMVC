@@ -21,6 +21,7 @@ public static class ProductSeeder
         {
             new()
             {
+                Id = Guid.Parse("552E5AF1-2C2F-494C-AE4E-D3DEF3307D1A"),
                 Title = "Fortune of Time",
                 Author = "Billy Spark",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -29,11 +30,12 @@ public static class ProductSeeder
                 Price = 90,
                 Price50 = 85,
                 Price100 = 80,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                CategoryId = Guid.Parse("34245A4D-0BAA-4C22-8245-02ABB9063B11"),
                 ImageUrl = ""
             },
             new()
             {
+                Id = Guid.Parse("90CB6958-D27E-47DA-AAD9-67AB6CAD65C6"),
                 Title = "Dark Skies",
                 Author = "Nancy Hoover",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -42,11 +44,11 @@ public static class ProductSeeder
                 Price = 30,
                 Price50 = 25,
                 Price100 = 20,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                CategoryId = Guid.Parse("34245A4D-0BAA-4C22-8245-02ABB9063B11"),
                 ImageUrl = ""
             },
             new()
-            {
+            {   Id = Guid.Parse("A86E8DCE-41F7-4440-BA4F-4B6424B8DA00"),
                 Title = "Vanish in the Sunset",
                 Author = "Julian Button",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -55,11 +57,12 @@ public static class ProductSeeder
                 Price = 50,
                 Price50 = 40,
                 Price100 = 35,
-                CategoryId = Guid.Parse("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                CategoryId = Guid.Parse("76D6BE2F-8D6C-4E93-94CC-4EB0341950BC"),
                 ImageUrl = ""
             },
             new()
             {
+                Id = Guid.Parse("32AED196-A986-40C5-8BAD-5E773F97E357"),
                 Title = "Cotton Candy",
                 Author = "Abby Muscles",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -68,11 +71,12 @@ public static class ProductSeeder
                 Price = 65,
                 Price50 = 60,
                 Price100 = 55,
-                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                CategoryId = Guid.Parse("76D6BE2F-8D6C-4E93-94CC-4EB0341950BC"),
                 ImageUrl = ""
             },
             new()
-            {
+            {   
+                Id = Guid.Parse("7CC4275F-0CE0-45CF-8359-E8B4CABAB400"),
                 Title = "Rock in the Ocean",
                 Author = "Ron Parker",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -81,11 +85,12 @@ public static class ProductSeeder
                 Price = 27,
                 Price50 = 25,
                 Price100 = 20,
-                CategoryId = Guid.Parse("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                CategoryId = Guid.Parse("DB9B235F-A5D6-49DC-8E95-022F443F8582"),
                 ImageUrl = ""
             },
             new()
             {
+                Id = Guid.Parse("66BD5F42-3718-47D6-90FD-16D69AEE93B1"),
                 Title = "Leaves and Wonders",
                 Author = "Laura Phantom",
                 Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -94,7 +99,7 @@ public static class ProductSeeder
                 Price = 23,
                 Price50 = 22,
                 Price100 = 20,
-                CategoryId = Guid.Parse("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                CategoryId = Guid.Parse("8179ED4D-7E5B-49C4-33F3-08DBC21909AC"),
                 ImageUrl = ""
             }
         };

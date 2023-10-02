@@ -19,5 +19,14 @@ public class Messages
     public const string ProductUpdateSuccessfull = "Product successfully updated";
     public const string ProductUpdateError = "Error occured while updating the product in Database";
     public const string ProductDeleteSuccessfull = "Product successfully deleted";
-    public const string ProductDeleteError = "Error occured while deleting the product from Database"; 
+    public const string ProductDeleteError = "Error occured while deleting the product from Database";
+
+    public const string CompanyNotFound = "Company not found";
+    public const string EmptyCompanyList = "Company list is empty with the current filter";
+    public const string CompanyUpdateSuccessfull = "Company successfully updated";
+    public const string CompanyUpdateError = "Error occured while updating the company in Database";
+
+    public const string UserNotFound = "User not found"; 
+    public const string UserUpdateSuccessfull = "User successfully updated";
+    public const string UserUpdateError = "Error occured while updating the user in Database";
 }

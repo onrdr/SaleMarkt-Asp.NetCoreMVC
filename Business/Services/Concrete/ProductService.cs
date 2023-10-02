@@ -84,7 +84,7 @@ public class ProductService : IProductService
         var updateResult = await _productRepository.UpdateAsync(productResult.Data);
         return updateResult > 0
             ? new SuccessResult(Messages.ProductUpdateSuccessfull)
-            : new ErrorResult(Messages.ProductAddError);
+            : new ErrorResult(Messages.ProductUpdateError);
     }
 
     private static void CompleteUpdate(ProductViewModel model, IDataResult<Product> productResult)

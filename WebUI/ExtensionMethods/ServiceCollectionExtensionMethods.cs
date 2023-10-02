@@ -40,6 +40,9 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IProductRepository, ProductRepository>();
 
+        services.AddScoped<ICompanyService, CompanyService>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
+
         return services;
     }
 

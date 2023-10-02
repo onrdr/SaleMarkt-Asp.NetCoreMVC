@@ -173,6 +173,61 @@ namespace DataAccess.Migrations
                             DisplayOrder = 3,
                             ImageUrl = "",
                             Name = "History"
+                        },
+                        new
+                        {
+                            Id = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
+                            Description = "Category Crime Description",
+                            DisplayOrder = 4,
+                            ImageUrl = "",
+                            Name = "Crime"
+                        });
+                });
+
+            modelBuilder.Entity("Models.Entities.Concrete.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e1c518a9-b772-453e-8180-6ef923037535"),
+                            Email = "salemarkt@salemarkt.com",
+                            Name = "SaleMarkt",
+                            PhoneNumber = "1234567890"
                         });
                 });
 
@@ -225,7 +280,7 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f8c146b5-f671-4c0c-aeed-1836c802c182"),
+                            Id = new Guid("552e5af1-2c2f-494c-ae4e-d3def3307d1a"),
                             Author = "Billy Spark",
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -239,7 +294,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b9ac00aa-bb0c-4c2a-9740-f83b6eec419e"),
+                            Id = new Guid("90cb6958-d27e-47da-aad9-67ab6cad65c6"),
                             Author = "Nancy Hoover",
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -253,9 +308,9 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("acbd2c63-2be3-4273-bf3a-44d94a9e1c12"),
+                            Id = new Guid("a86e8dce-41f7-4440-ba4f-4b6424b8da00"),
                             Author = "Julian Button",
-                            CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "RITO5555501",
                             ImageUrl = "",
@@ -267,7 +322,7 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("105b30b2-bcb9-4296-88ee-3784f6391554"),
+                            Id = new Guid("32aed196-a986-40c5-8bad-5e773f97e357"),
                             Author = "Abby Muscles",
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
@@ -281,9 +336,9 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2743167b-b288-4c8b-a92c-634c94117d31"),
+                            Id = new Guid("7cc4275f-0ce0-45cf-8359-e8b4cabab400"),
                             Author = "Ron Parker",
-                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                            CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SOTJ1111111101",
                             ImageUrl = "",
@@ -295,9 +350,9 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("403f7dea-0e79-446b-a41c-3959a5b5baae"),
+                            Id = new Guid("66bd5f42-3718-47d6-90fd-16d69aee93b1"),
                             Author = "Laura Phantom",
-                            CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                            CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "FOT000000001",
                             ImageUrl = "",
@@ -335,6 +390,26 @@ namespace DataAccess.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("af98d294-6f37-489e-b019-45595d7890af"),
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("2b81313d-407a-46c3-88dd-b7c2e80196d0"),
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("6b4a5882-a6c4-4bb0-98b7-2760f522e84c"),
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        });
                 });
 
             modelBuilder.Entity("Models.Identity.AppUser", b =>
@@ -346,8 +421,17 @@ namespace DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -362,6 +446,10 @@ namespace DataAccess.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -379,6 +467,9 @@ namespace DataAccess.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

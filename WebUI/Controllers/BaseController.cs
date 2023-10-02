@@ -12,10 +12,10 @@ public class BaseController : Controller
     protected IMapper Mapper { get; } 
 
     public BaseController(
-        UserManager<AppUser> userManager, 
-        SignInManager<AppUser> signInManager,
-        IWebHostEnvironment webHostEnvironment,
-        IMapper mapper)
+        UserManager<AppUser> userManager = null, 
+        SignInManager<AppUser> signInManager = null,
+        IWebHostEnvironment webHostEnvironment = null,
+        IMapper mapper = null)
     {
         UserManager = userManager;
         SignInManager = signInManager;

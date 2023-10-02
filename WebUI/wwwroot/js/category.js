@@ -3,28 +3,28 @@
 }); 
 
 function loadDataTable() {
-    dataTable = $('#tblData').DataTable({
+    dataTable = $('#tblCategory').DataTable({
         "ajax": { url: '/category/getall' },
         "columns": [   
             {
                 data: 'imageUrl',
-                "width": "15%",
+                "width": "10%",
                 "render": function (data) {
                     return `<div>
-                     <img class="p-3" src="${data}" style="width:100%; border-radius:5px; border:1px solid #ffffff" />
+                     <img src="${data}" style="width:100%; border-radius:5px; border:1px solid #ffffff" />
                     </div>`;
                 }
             },
-            { data: 'id', "width": "20%"},
-            { data: 'name', "width": "20%" },
+            { data: 'id', "width": "30%"},
+            { data: 'name', "width": "15%" },
             { data: 'description', "width": "20%" },
-            { data: 'displayOrder', "width": "25%" },
+            { data: 'displayOrder', "width": "5%" },
             {
                 data: 'id',
-                "width": "20%",
+                "width": "15%",
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
-                     <a href="/category/edit?id=${data}" class="btn btn-sm btn-warning mx-2 rounded"> <i class="bi bi-pencil-square"></i></a>               
+                     <a href="/category/edit?id=${data}" class="btn btn-sm btn-warning mx-2 rounded mx-4"> <i class="bi bi-pencil-square"></i></a>               
                      <a onClick=Delete('/category/delete/${data}') class="btn btn-sm btn-danger mx-2 rounded"> <i class="bi bi-trash-fill"></i></a>
                     </div>`
                 }
