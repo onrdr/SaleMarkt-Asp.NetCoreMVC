@@ -6,6 +6,7 @@ using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Identity; 
 
 namespace WebUI.ExtensionMethods;
 
@@ -43,6 +44,8 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
 
+        services.AddScoped<IEmailService, EmailService>();
+
         return services;
     }
 
@@ -59,7 +62,8 @@ public static class ServiceCollectionExtensionMethods
             options.Password.RequireUppercase = true;
             options.Password.RequireDigit = true;
         })
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         return services;
     }

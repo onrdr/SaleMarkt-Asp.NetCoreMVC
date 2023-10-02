@@ -11,7 +11,7 @@ namespace Models.ViewModels
 
         [Required]
         [DisplayName("Email Address")]
-        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

@@ -1,25 +1,28 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
+using Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models.Identity;
-using Models.ViewModels;
+using Models.Identity; 
 
 namespace WebUI.Controllers;
 
 public class HomeController : BaseController
 {
     private readonly IProductService _productService;
+    private readonly IEmailService _emailService;
     private readonly List<string> ErrorList = new();
 
     public HomeController(
         IProductService productService,
+        IEmailService emailService,
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         IMapper mapper)
             : base(userManager: userManager, signInManager: signInManager, mapper: mapper)
     {
         _productService = productService;
+        _emailService = emailService;
     }
 
 
@@ -53,6 +56,7 @@ public class HomeController : BaseController
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
+        ErrorList.Clear();
         TempData["ModelError"] = ErrorList;
 
         if (!ModelState.IsValid)
@@ -77,6 +81,7 @@ public class HomeController : BaseController
 
         return await ResetAccessFailCountAndLogin(user);
     }
+
     private IActionResult AddModelErrorsAndSendToClient(LoginViewModel? loginModel = null, RegisterViewModel? registerModel = null)
     {
         var errorMessagesFinal = ModelState.Values
@@ -172,6 +177,71 @@ public class HomeController : BaseController
         {
             ErrorList.Add(error.Description);
         }
+        return View(model);
+    }
+    #endregion
+
+    #region ResetPassword
+    public IActionResult ResetPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+    {
+        AppUser user = await UserManager.FindByEmailAsync(model.Email);
+        if (user == null)
+        {
+            ErrorList.Add("This email address is not registered");
+            return View(model);
+        }
+
+        string passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
+        string? passwordResetLink = Url.Action("ResetPasswordConfirm", "Home", new 
+        { 
+            userId = user.Id,
+            token = passwordResetToken
+        }, Request.Scheme);
+
+        var emailMessage = $"Click the link below to reset your password:<br><a href='{passwordResetLink}'>Reset Password</a>";
+        // await _emailService.SendResetEmailAsync(user.Email, emailMessage);
+        ViewBag.status = "success";
+        return View(model);
+    }
+     
+    public IActionResult ResetPasswordConfirm(string userId, string token)
+    {
+        var model = new ResetPasswordConfirmViewModel
+        {
+            UserId = userId, 
+            Token = token
+        };
+        return View(model);
+    }
+
+    [HttpPost] 
+    public async Task<IActionResult> ResetPasswordConfirm(ResetPasswordConfirmViewModel model)
+    {
+        AppUser? user = await UserManager.FindByIdAsync(model.UserId.ToString());
+        if (user == null)
+        {
+            ErrorList.Add("An error occured, please try again later");
+            return View(model);
+        }
+
+        IdentityResult result = await UserManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                ErrorList.Add(error.Description);
+            }           
+            return View(model);
+        }
+
+        await UserManager.UpdateSecurityStampAsync(user);
+        ViewBag.status = "success";
         return View(model);
     }
     #endregion

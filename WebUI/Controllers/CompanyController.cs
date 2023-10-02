@@ -16,6 +16,7 @@ public class CompanyController : BaseController
         _companyService = companyService;
     }
 
+    #region Company Details Info & Edit
     public async Task<IActionResult> Details()
     {
         var result = await _companyService.GetAllAsync(c => true);
@@ -43,6 +44,7 @@ public class CompanyController : BaseController
         TempData["SuccessMessage"] = result.Message;
         return RedirectToAction(nameof(Details));
     }
+    #endregion
 
     #region Private Functions
     private void HandleImageUpload(CompanyViewModel model, IFormFile? file)

@@ -10,12 +10,12 @@ function validateEmail() {
 
         if (!email.endsWith('.com')) {
             // Display a validation message
-            $('#registerButton').prop('disabled', true);
+            $('#submitButton').prop('disabled', true);
             $(this).addClass('is-invalid');
-            $(this).siblings('.text-danger').text('Email must end with ".com"');
+            $(this).siblings('.text-danger').text('Js- Email must end with ".com"');
         } else {
             // Remove any previous validation messages
-            $('#registerButton').prop('disabled', false);
+            $('#submitButton').prop('disabled', false);
             $(this).removeClass('is-invalid');
             $(this).siblings('.text-danger').text('');
         }

@@ -15,7 +15,7 @@ public class MappingProfile : Profile
 
         CreateMap<RegisterViewModel, AppUser>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))
-            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FullName.Replace(" ", "").Trim().ToLower()));
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.FullName.Trim().Replace(" ", "-")));
 
         CreateMap<AppUser, UserViewModel>().ReverseMap();
     }

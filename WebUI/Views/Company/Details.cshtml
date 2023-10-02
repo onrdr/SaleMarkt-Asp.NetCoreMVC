@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="Email" class="form-control border-0 shadow rounded" />
+                                    <input id="emailInput" asp-for="Email" class="form-control border-0 shadow rounded" />
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                     <label asp-for="Email" class="ms-0"></label>
                                 </div>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col-6">
-                                <button type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
+                                <button id="submitButton" type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
                             </div>
                         </div>
                     </div>
@@ -100,5 +100,7 @@
 @section Scripts {
     @{
         <partial name="_ValidationScriptsPartial" />
+
+        <script src="~/js/account.js"></script>
     }
 }

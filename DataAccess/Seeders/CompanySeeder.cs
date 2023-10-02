@@ -25,6 +25,10 @@ public static class CompanySeeder
                 Name = "SaleMarkt", 
                 Email = "salemarkt@salemarkt.com",
                 PhoneNumber = "1234567890",
+                Address = "Beşiktaş",
+                City = "Istanbul",
+                Country = "Turkiye",
+                PostalCode = "34000",
             }, 
         };
 

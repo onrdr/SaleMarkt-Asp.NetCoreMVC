@@ -13,7 +13,7 @@ public class CompanyViewModel
 
     [Required]
     [DisplayName("Email Address")]
-    [DataType(DataType.EmailAddress)]
+    [EmailAddress]
     public string Email { get; set; }
 
     [Required]

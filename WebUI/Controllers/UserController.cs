@@ -8,17 +8,21 @@ using Models.ViewModels;
 namespace WebUI.Controllers;
 
 public class UserController : BaseController
-{ 
+{
+    private static readonly List<string> ErrorList = new();
+
     public UserController(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        IMapper mapper) 
-            : base(userManager, signInManager, mapper: mapper) 
+        IMapper mapper)
+            : base(userManager, signInManager, mapper: mapper)
     {
 
     }
+
+    #region Company Details Info & Edit
     public IActionResult Details()
-    { 
+    {
         if (CurrentUser is null)
         {
             TempData["ErrorMessage"] = Messages.UserNotFound;
@@ -37,7 +41,7 @@ public class UserController : BaseController
             return View();
         }
 
-        var result = await CompleteUpdate(user);        
+        var result = await CompleteUpdate(user);
         if (!result.Succeeded)
         {
             var errors = result.Errors.ToList();
@@ -51,63 +55,95 @@ public class UserController : BaseController
 
     private async Task<IdentityResult> CompleteUpdate(UserViewModel model)
     {
-       CurrentUser.Name = model.Name;
-       CurrentUser.UserName = model.Name.Replace(" ", "").Trim().ToLower();
-       CurrentUser.Email = model.Email;
-       CurrentUser.PhoneNumber = model.PhoneNumber;
-       CurrentUser.Address = model.Address;
-       CurrentUser.City = model.City;
-       CurrentUser.Country = model.Country;
-       CurrentUser.PostalCode = model.PostalCode;
+        CurrentUser.Name = model.Name;
+        CurrentUser.UserName = model.Name.Trim().Replace(" ", "-");
+        CurrentUser.Email = model.Email;
+        CurrentUser.PhoneNumber = model.PhoneNumber;
+        CurrentUser.Address = model.Address;
+        CurrentUser.City = model.City;
+        CurrentUser.Country = model.Country;
+        CurrentUser.PostalCode = model.PostalCode;
 
         return await UserManager.UpdateAsync(CurrentUser);
     }
+    #endregion
 
     #region Logout
     public async Task<IActionResult> Logout()
     {
         await SignInManager.SignOutAsync();
 
+        TempData["SuccessMessage"] = "Logout Successfull";
         return RedirectToAction(nameof(Index), "Home");
     }
     #endregion
 
     #region Change Password      
-    public IActionResult PasswordChange()
+    public IActionResult ChangePassword()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> PasswordChange(ChangePasswordViewModel model)
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
+        ErrorList.Clear();
+        TempData["ModelError"] = ErrorList;
+
         if (!ModelState.IsValid)
-            return View(model);
-
-        AppUser user = CurrentUser;
-
-        if (user == null)
-            return View(model);
-
-        bool exist = await UserManager.CheckPasswordAsync(user, model.OldPassword);
-
-        if (!exist)
         {
-            ModelState.AddModelError("", "Old Password is wrong");
+            return AddModelErrorsAndSendToClient(model);
+        }
+
+        if (CurrentUser is null)
+        {
+            TempData["ErrorMessage"] = Messages.UserNotFound;
+            return View();
+        }
+
+        bool oldPasswordCorrect = await UserManager.CheckPasswordAsync(CurrentUser, model.OldPassword);
+        if (!oldPasswordCorrect)
+        {
+            ErrorList.Add("Old Password is wrong");
             return View(model);
         }
 
-        IdentityResult result = await UserManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        var changeResult = await CheckIfChangePasswordSuccessfull(model);
+        return !changeResult
+            ? View(model)
+            : await CompleteChangePasswordProcess(model);
+    }
 
-        if (!result.Succeeded)
+    private async Task<bool> CheckIfChangePasswordSuccessfull(ChangePasswordViewModel model)
+    {
+        IdentityResult result = await UserManager.ChangePasswordAsync(CurrentUser, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
         {
-            ModelState.AddModelError("", "Password could not changed");
-            return View(model);
+            return true;
         }
 
-        await UserManager.UpdateSecurityStampAsync(user);
+        foreach (var error in result.Errors)
+        {
+            ErrorList.Add(error.Description);
+        };
+        return false;
+    }
+
+    private async Task<IActionResult> CompleteChangePasswordProcess(ChangePasswordViewModel model)
+    {
+        await UserManager.UpdateSecurityStampAsync(CurrentUser);
         await SignInManager.SignOutAsync();
-        await SignInManager.PasswordSignInAsync(user, model.NewPassword, true, false);
+        await SignInManager.PasswordSignInAsync(CurrentUser, model.NewPassword, true, false);
+        TempData["SuccessMessage"] = "Password successfully changed";
+
+        return View(model);
+    }
+
+    private IActionResult AddModelErrorsAndSendToClient(ChangePasswordViewModel model)
+    {
+        var errorMessagesFinal = ModelState.Values
+        .SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+        TempData["ModelError"] = errorMessagesFinal;
 
         return View(model);
     }

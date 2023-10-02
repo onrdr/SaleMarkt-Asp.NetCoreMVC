@@ -10,7 +10,8 @@ public class UserViewModel
 
     [Required]
     [DisplayName("Email Address")]
-    [DataType(DataType.EmailAddress)]
+    [EmailAddress] 
+    [RegularExpression(@".*\.com$", ErrorMessage = "Email must end with .com")]
     public string Email { get; set; } 
 
     [Required]
