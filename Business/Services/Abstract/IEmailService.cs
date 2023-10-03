@@ -1,7 +1,9 @@
-﻿namespace Business.Services.Abstract;
+﻿using SendGrid;
+
+namespace Business.Services.Abstract;
 
 public interface IEmailService
 {
-    Task SendResetEmailAsync(string toEmail, string message);
-    Task SendEmailForConfirmation(string toEmail, string message);
+    Task<Response> SendResetEmailAsync(string toEmail, string message);
+    Task<Response> SendEmailForConfirmation(string toEmail, string message);
 }

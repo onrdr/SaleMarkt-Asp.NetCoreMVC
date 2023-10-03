@@ -12,7 +12,7 @@ function validateEmail() {
             // Display a validation message
             $('#submitButton').prop('disabled', true);
             $(this).addClass('is-invalid');
-            $(this).siblings('.text-danger').text('Js- Email must end with ".com"');
+            $(this).siblings('.text-danger').text('Email must end with ".com"');
         } else {
             // Remove any previous validation messages
             $('#submitButton').prop('disabled', false);

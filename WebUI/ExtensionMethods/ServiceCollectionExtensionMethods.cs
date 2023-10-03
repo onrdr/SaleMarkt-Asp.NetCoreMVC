@@ -45,6 +45,8 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ICompanyRepository, CompanyRepository>();
 
         services.AddScoped<IEmailService, EmailService>();
+        services.AddTransient<IViewRenderService, ViewRenderService>();
+
 
         return services;
     }

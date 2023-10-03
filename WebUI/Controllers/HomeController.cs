@@ -3,14 +3,14 @@ using Business.Services.Abstract;
 using Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Models.Identity; 
-
+using Models.Identity;
 namespace WebUI.Controllers;
 
 public class HomeController : BaseController
 {
     private readonly IProductService _productService;
     private readonly IEmailService _emailService;
+    private readonly IViewRenderService _viewRenderService;
     private readonly List<string> ErrorList = new();
 
     public HomeController(
@@ -18,11 +18,13 @@ public class HomeController : BaseController
         IEmailService emailService,
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        IMapper mapper)
+        IMapper mapper,
+        IViewRenderService viewRenderService)
             : base(userManager: userManager, signInManager: signInManager, mapper: mapper)
     {
         _productService = productService;
         _emailService = emailService;
+        _viewRenderService = viewRenderService;
     }
 
 
@@ -190,12 +192,15 @@ public class HomeController : BaseController
     [HttpPost]
     public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
     {
+        ErrorList.Clear();
+        TempData["ModelError"] = ErrorList;
+
         AppUser user = await UserManager.FindByEmailAsync(model.Email);
         if (user == null)
         {
             ErrorList.Add("This email address is not registered");
             return View(model);
-        }
+        } 
 
         string passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
         string? passwordResetLink = Url.Action("ResetPasswordConfirm", "Home", new 
@@ -203,11 +208,11 @@ public class HomeController : BaseController
             userId = user.Id,
             token = passwordResetToken
         }, Request.Scheme);
-
-        var emailMessage = $"Click the link below to reset your password:<br><a href='{passwordResetLink}'>Reset Password</a>";
-        // await _emailService.SendResetEmailAsync(user.Email, emailMessage);
+        
+        var emailMessage = await _viewRenderService.RenderViewToStringAsync("_ResetPasswordEmailTemplate", passwordResetLink);
+        await _emailService.SendResetEmailAsync(user.Email, emailMessage);
         ViewBag.status = "success";
-        return View(model);
+        return View();
     }
      
     public IActionResult ResetPasswordConfirm(string userId, string token)
