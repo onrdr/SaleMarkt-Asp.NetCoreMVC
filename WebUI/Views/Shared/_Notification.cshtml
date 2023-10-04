@@ -11,7 +11,7 @@
 @if (errorMessage is not null)
 {
     <script type="text/javascript">
-        toastr.options.timeOut = 10000;
+        toastr.options.timeOut = 7000;
         toastr.options.progressBar = true;
         toastr.error('@errorMessage');
     </script>
@@ -19,8 +19,7 @@
 
 @if (successMessage is not null)
 {
-    <script type="text/javascript">
-        toastr.options.timeOut = 5000;
+    <script type="text/javascript"> 
         toastr.options.progressBar = true;
         toastr.success('@successMessage')
     </script>
@@ -31,8 +30,8 @@
     @foreach (var error in modelError)
     {
         <script type="text/javascript">
-            toastr.options.timeOut = 10000;
-            toastr.options.progressBar = true;
+            toastr.options.timeOut = 7000;
+            toastr.options.progressBar = true; 
             toastr.error('@error');
         </script>
     }

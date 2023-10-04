@@ -9,6 +9,7 @@ public class Product : IBaseEntity
     public Product()
     {
         Id = Guid.NewGuid();
+        ProductImages = new List<ProductImage>();   
     }
 
     [Required]
@@ -44,5 +45,7 @@ public class Product : IBaseEntity
     public Guid CategoryId { get; set; }
 
     [ForeignKey("CategoryId")]
-    public Category Category { get; set; } 
+    public Category Category { get; set; }
+
+    public List<ProductImage> ProductImages { get; set; }
 }

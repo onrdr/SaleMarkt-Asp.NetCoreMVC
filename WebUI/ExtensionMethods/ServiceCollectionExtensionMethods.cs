@@ -6,19 +6,23 @@ using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Microsoft.AspNetCore.Identity; 
+using Microsoft.AspNetCore.Identity;
+using Models.Smtp;
 
 namespace WebUI.ExtensionMethods;
 
 public static class ServiceCollectionExtensionMethods
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configurationManager)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services
             .AddApplicationServices()
-            .ConfigureDatabase(configurationManager)
+            .ConfigureDatabase(builder.Configuration)
+            .AddAuthorization()
             .AddIdentity()
-            .AddAutoMapper(Assembly.GetExecutingAssembly());
+            .ConfigureAppCookie()
+            .AddAutoMapper(Assembly.GetExecutingAssembly())
+            .ConfigureSmtpService(builder);
 
         return services;
     }
@@ -44,9 +48,12 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
 
-        services.AddScoped<IEmailService, EmailService>();
-        services.AddTransient<IViewRenderService, ViewRenderService>();
+        services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+        services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
+        services.AddScoped<IEmailService, EmailService>();
+
+        services.AddScoped<IViewRenderService, ViewRenderService>();
 
         return services;
     }
@@ -67,6 +74,35 @@ public static class ServiceCollectionExtensionMethods
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+        return services;
+    }
+
+    static IServiceCollection ConfigureAppCookie(this IServiceCollection services)
+    {
+        CookieBuilder cookieBuilder = new()
+        {
+            Name = "SaleMarkt",
+            HttpOnly = false,
+            SameSite = SameSiteMode.Lax,
+            SecurePolicy = CookieSecurePolicy.SameAsRequest,
+        };
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.LoginPath = new PathString("/Home/Login");
+            options.LogoutPath = new PathString("/User/Logout");
+            options.AccessDeniedPath = new PathString("/User/AccessDenied");
+            options.Cookie = cookieBuilder;
+            options.SlidingExpiration = true;
+            options.ExpireTimeSpan = TimeSpan.FromDays(60);
+        });
+
+        return services;
+    }
+
+    static IServiceCollection ConfigureSmtpService(this IServiceCollection services, WebApplicationBuilder builder)
+    {
+        services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
         return services;
     }
 }

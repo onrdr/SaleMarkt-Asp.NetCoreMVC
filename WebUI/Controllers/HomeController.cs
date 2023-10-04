@@ -4,11 +4,17 @@ using Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Identity;
+using Models.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis;
+using System.Security.Claims;
+
 namespace WebUI.Controllers;
 
 public class HomeController : BaseController
 {
     private readonly IProductService _productService;
+    private readonly IShoppingCartService _shoppingCartService;
     private readonly IEmailService _emailService;
     private readonly IViewRenderService _viewRenderService;
     private readonly List<string> ErrorList = new();
@@ -16,15 +22,17 @@ public class HomeController : BaseController
     public HomeController(
         IProductService productService,
         IEmailService emailService,
-        UserManager<AppUser> userManager,
-        SignInManager<AppUser> signInManager,
         IMapper mapper,
-        IViewRenderService viewRenderService)
+        IViewRenderService viewRenderService,
+        IShoppingCartService shoppingCartService,
+        UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager)
             : base(userManager: userManager, signInManager: signInManager, mapper: mapper)
     {
         _productService = productService;
         _emailService = emailService;
         _viewRenderService = viewRenderService;
+        _shoppingCartService = shoppingCartService;
     }
 
 
@@ -39,8 +47,53 @@ public class HomeController : BaseController
     public async Task<IActionResult> Details(Guid productId)
     {
         var productResult = await _productService.GetProductWithCategory(productId);
+        var shoppingCart = new ShoppingCart
+        {
+            Product = productResult.Data,
+            Count = 1,
+            ProductId = productId
+        };
 
-        return View(productResult.Data);
+        return View(shoppingCart);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Details(ShoppingCart model)
+    {
+        SetAppUserId(model);
+        var shoppingCartResult = await _shoppingCartService
+            .GetAllWithProductAsync(s => s.AppUserId == model.AppUserId && s.ProductId == model.ProductId);
+
+        if (shoppingCartResult.Data is null)
+        {
+            var addResult = await _shoppingCartService.CreateShoppingCart(model);
+            if (!addResult.Success)
+            {
+                TempData["ErrorMessage"] = addResult.Message;
+                return View(model);
+            }
+        }
+        else
+        {
+            shoppingCartResult.Data.First().Count += model.Count;
+            var updateResult = await _shoppingCartService.UpdateShoppingCart(shoppingCartResult.Data.First());
+            if (!updateResult.Success)
+            {
+                TempData["ErrorMessage"] = updateResult.Message;
+                return View(model);
+            }
+        }
+
+        TempData["SuccessMessage"] = "Cart successfully updated";
+        return RedirectToAction(nameof(Index));
+    }
+
+    private void SetAppUserId(ShoppingCart model)
+    {
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+        model.AppUserId = Guid.Parse(userId);
     }
     #endregion
 
@@ -200,32 +253,32 @@ public class HomeController : BaseController
         {
             ErrorList.Add("This email address is not registered");
             return View(model);
-        } 
+        }
 
         string passwordResetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
-        string? passwordResetLink = Url.Action("ResetPasswordConfirm", "Home", new 
-        { 
+        string? passwordResetLink = Url.Action("ResetPasswordConfirm", "Home", new
+        {
             userId = user.Id,
             token = passwordResetToken
         }, Request.Scheme);
-        
+
         var emailMessage = await _viewRenderService.RenderViewToStringAsync("_ResetPasswordEmailTemplate", passwordResetLink);
         await _emailService.SendResetEmailAsync(user.Email, emailMessage);
         ViewBag.status = "success";
         return View();
     }
-     
+
     public IActionResult ResetPasswordConfirm(string userId, string token)
     {
         var model = new ResetPasswordConfirmViewModel
         {
-            UserId = userId, 
+            UserId = userId,
             Token = token
         };
         return View(model);
     }
 
-    [HttpPost] 
+    [HttpPost]
     public async Task<IActionResult> ResetPasswordConfirm(ResetPasswordConfirmViewModel model)
     {
         AppUser? user = await UserManager.FindByIdAsync(model.UserId.ToString());
@@ -241,7 +294,7 @@ public class HomeController : BaseController
             foreach (var error in result.Errors)
             {
                 ErrorList.Add(error.Description);
-            }           
+            }
             return View(model);
         }
 

@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Models.Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.Identity;
 
-public class AppUser : IdentityUser<Guid>
+public class AppUser : IdentityUser<Guid>, IBaseEntity
 {
     [Required]
     public string Name { get; set; }

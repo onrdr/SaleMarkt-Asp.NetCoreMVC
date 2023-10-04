@@ -1,4 +1,3 @@
-using Models.Smtp;
 using WebUI.ExtensionMethods;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,9 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddInfrastructure(builder.Configuration);
-
-builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddInfrastructure(builder); 
 
 var app = builder.Build();
 

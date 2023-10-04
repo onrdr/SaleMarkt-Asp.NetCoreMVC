@@ -109,7 +109,7 @@ public class ProductService : IProductService
         var deleteResult = await _productRepository.DeleteAsync(productId);
         return deleteResult > 0
             ? new SuccessResult(Messages.ProductDeleteSuccessfull)
-            : new ErrorResult(Messages.ProductAddError);
+            : new ErrorResult(Messages.ProductDeleteError);
     }
     #endregion 
 }

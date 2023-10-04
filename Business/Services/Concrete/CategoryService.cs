@@ -76,26 +76,11 @@ public class CategoryService : ICategoryService
 
     private async Task<IResult> CheckIfCategoryNameAlreadyExists(CategoryViewModel model)
     {
-
         var categoryList = await _categoryRepository.GetAllAsync(c => true);
         if (categoryList.Any(c => c.Name.ToLower() == model.Name.ToLower().Trim() && c.Id != model.Id))
         {
             return new ErrorResult(Messages.CategoryAlreadyExists);
-        }
-
-
-/*        var categoryList = await _categoryRepository.GetAllAsync(c => true);
-        if (categoryList.Contains(categoryResult.Data))
-        {
-            var list = categoryList.ToList();
-            list.Remove(categoryResult.Data);
-
-            if (list.Any(c => c.Name.ToLower() == model.Name.ToLower().Trim()))
-            {
-                return new ErrorResult(Messages.CategoryAlreadyExists);
-            }
-        }*/
-
+        } 
         return new SuccessResult();
     } 
 
@@ -121,7 +106,7 @@ public class CategoryService : ICategoryService
         var deleteResult = await _categoryRepository.DeleteAsync(categoryId);
         return deleteResult > 0
             ? new SuccessResult(Messages.CategoryDeleteSuccessfull)
-            : new ErrorResult(Messages.CategoryAddError);
+            : new ErrorResult(Messages.CategoryDeleteError);
     }
     #endregion
 }
