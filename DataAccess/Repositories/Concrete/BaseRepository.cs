@@ -33,6 +33,12 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
         return await _dataContext.SaveChangesAsync();
     }
 
+    public async Task<int> UpdateAsync(T entity)
+    {
+        _dataContext.Update(entity);
+        return await _dataContext.SaveChangesAsync();
+    }
+
     public async Task<int> DeleteAsync(Guid id)
     {
         var entity = await _dbSet.FindAsync(id);
@@ -44,9 +50,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
         return -1;
     }
 
-    public async Task<int> UpdateAsync(T entity)
+    public async Task<int> DeleteRangeAsync(IEnumerable<T> entities)
     {
-        _dataContext.Update(entity);
+        _dbSet.RemoveRange(entities);
         return await _dataContext.SaveChangesAsync();
-    }
+    } 
 }

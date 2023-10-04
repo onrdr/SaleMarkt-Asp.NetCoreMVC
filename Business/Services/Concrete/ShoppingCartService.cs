@@ -26,6 +26,14 @@ public class ShoppingCartService : IShoppingCartService
             : new SuccessDataResult<ShoppingCart>(category);
     }
 
+    public async Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllAsync(Expression<Func<ShoppingCart, bool>> predicate)
+    {
+        var categoryList = await _shoppingCartRepository.GetAllAsync(predicate);
+        return categoryList.Any()
+            ? new SuccessDataResult<IEnumerable<ShoppingCart>>(categoryList)
+            : new ErrorDataResult<IEnumerable<ShoppingCart>>(Messages.EmptyShoppingCartList);
+    }
+
     public async Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllWithProductAsync(Expression<Func<ShoppingCart, bool>> predicate)
     {
         var categoryList = await _shoppingCartRepository.GetAllWithProductAsync(predicate);
@@ -82,6 +90,14 @@ public class ShoppingCartService : IShoppingCartService
     public async Task<IResult> DeleteShoppingCart(Guid shoppingCartId)
     {
         var deleteResult = await _shoppingCartRepository.DeleteAsync(shoppingCartId);
+        return deleteResult > 0
+            ? new SuccessResult(Messages.ShoppingCartDeleteSuccessfull)
+            : new ErrorResult(Messages.ShoppingCartDeleteError);
+    }
+
+    public async Task<IResult> DeleteShoppingCartRange(IEnumerable<ShoppingCart> cartList)
+    {
+        var deleteResult = await _shoppingCartRepository.DeleteRangeAsync(cartList);
         return deleteResult > 0
             ? new SuccessResult(Messages.ShoppingCartDeleteSuccessfull)
             : new ErrorResult(Messages.ShoppingCartDeleteError);

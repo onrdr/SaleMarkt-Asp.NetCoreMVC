@@ -7,32 +7,41 @@ using Models.Entities.Concrete;
 using Models.Identity;
 using Models.ViewModels;
 using System.Security.Claims;
+using System.Transactions;
 
 namespace WebUI.Controllers;
 
 [Authorize]
 public class CartController : BaseController
 {
-    public ShoppingCartViewModel ShoppingCartVM { get; set; }
     private readonly IShoppingCartService _shoppingCartService;
+    private readonly IOrderHeaderService _orderHeaderService;
+    private readonly IOrderDetailsService _orderDetailsService;
 
     public CartController(
         IShoppingCartService shoppingCartService,
-        UserManager<AppUser> userManager) : base(userManager: userManager)
+        UserManager<AppUser> userManager,
+        IOrderHeaderService orderHeaderService,
+        IOrderDetailsService orderDetailsService) : base(userManager: userManager)
     {
         _shoppingCartService = shoppingCartService;
-        ShoppingCartVM = new ShoppingCartViewModel();
+        _orderHeaderService = orderHeaderService;
+        _orderDetailsService = orderDetailsService;
     }
 
     public async Task<IActionResult> Index()
     {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        var userId = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-        var shoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data;
-        ShoppingCartVM = new()
+        var userId = GetUserId();
+        var shoppingCartListResult = await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId);
+        if (!shoppingCartListResult.Success)
         {
-            ShoppingCartList = shoppingCartList,
+            TempData["ErrorMessage"] = shoppingCartListResult.Message;
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        var ShoppingCartVM = new ShoppingCartViewModel()
+        {
+            ShoppingCartList = shoppingCartListResult.Data,
             OrderHeader = new()
         };
 
@@ -63,7 +72,7 @@ public class CartController : BaseController
         }
 
         return RedirectToAction(nameof(Index));
-    } 
+    }
 
     public async Task<IActionResult> Delete(Guid cartId)
     {
@@ -79,44 +88,137 @@ public class CartController : BaseController
         {
             TempData["ErrorMessage"] = deleteResult.Message;
         }
-         
+
         return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Summary()
     {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        var userId = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-        ShoppingCartVM = new()
+        Guid userId = GetUserId();
+        var shoppingCartVM = new ShoppingCartViewModel()
         {
-            ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data,
+            ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data.ToList(),
             OrderHeader = new()
         };
 
         var appUser = await UserManager.FindByIdAsync(userId.ToString());
         if (appUser == null)
         {
-            TempData["ErrorMessage"] = Messages.UserNotFound; 
+            TempData["ErrorMessage"] = Messages.UserNotFound;
             return RedirectToAction(nameof(Index));
         }
 
-        ShoppingCartVM.OrderHeader.AppUser = appUser;
-
-        ShoppingCartVM.OrderHeader.Name = appUser.Name;
-        ShoppingCartVM.OrderHeader.PhoneNumber = appUser.PhoneNumber;
-        ShoppingCartVM.OrderHeader.StreetAddress = appUser.Address;
-        ShoppingCartVM.OrderHeader.City = appUser.City;
-        ShoppingCartVM.OrderHeader.State = appUser.Country;
-        ShoppingCartVM.OrderHeader.PostalCode = appUser.PostalCode;
-
-
-        foreach (var cart in ShoppingCartVM.ShoppingCartList)
+        SetOrderHeader(appUser, shoppingCartVM);
+        foreach (var cart in shoppingCartVM.ShoppingCartList)
         {
             cart.Price = GetPriceBasedOnQuantity(cart);
-            ShoppingCartVM.OrderHeader.OrderTotal += cart.Price * cart.Count;
+            shoppingCartVM.OrderHeader.OrderTotal += cart.Price * cart.Count;
         }
-        return View(ShoppingCartVM);
+
+        return View(shoppingCartVM);
+    }
+
+    [HttpPost]
+    [ActionName("Summary")]
+    public async Task<IActionResult> SummaryPOST(ShoppingCartViewModel shoppingCartViewModel)
+    {
+        var userId = GetUserId();
+        shoppingCartViewModel.ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data;
+        shoppingCartViewModel.OrderHeader.OrderDate = DateTime.UtcNow;
+        shoppingCartViewModel.OrderHeader.AppUserId = userId;
+
+        var appUser = await UserManager.FindByIdAsync(userId.ToString());
+        if (appUser == null)
+        {
+            TempData["ErrorMessage"] = Messages.UserNotFound;
+            return RedirectToAction(nameof(Index));
+        }
+        shoppingCartViewModel.OrderHeader.AppUser = appUser;
+
+        foreach (var cart in shoppingCartViewModel.ShoppingCartList)
+        {
+            cart.Price = GetPriceBasedOnQuantity(cart);
+            shoppingCartViewModel.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+        }
+
+        shoppingCartViewModel.OrderHeader.PaymentStatus = "Pending";
+        shoppingCartViewModel.OrderHeader.OrderStatus = "Approved";
+
+        using TransactionScope transactionScope = new(TransactionScopeAsyncFlowOption.Enabled);
+        var headerAddResult = await _orderHeaderService.CreateOrderHeader(shoppingCartViewModel.OrderHeader);
+        if (!headerAddResult.Success)
+        {
+            TempData["ErrorMessage"] = headerAddResult.Message;
+            return RedirectToAction(nameof(Index));
+        }
+
+        foreach (var cart in shoppingCartViewModel.ShoppingCartList)
+        {
+            OrderDetails orderDetails = new()
+            {
+                ProductId = cart.ProductId,
+                OrderHeaderId = shoppingCartViewModel.OrderHeader.Id,
+                Price = cart.Price,
+                Count = cart.Count
+            };
+
+            var detailsAddResult = await _orderDetailsService.CreateOrderDetails(orderDetails);
+            if (!detailsAddResult.Success)
+            {
+                TempData["ErrorMessage"] = detailsAddResult.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        transactionScope.Complete();
+        return RedirectToAction(nameof(OrderConfirmation), new { id = shoppingCartViewModel.OrderHeader.Id });
+    }
+
+    public async Task<IActionResult> OrderConfirmation(Guid id)
+    {
+        var orderHeaderList = await _orderHeaderService.GetAllWithAppUserAsync(o => o.Id == id);
+        if (orderHeaderList.Data == null)
+        {
+            TempData["ErrorMessage"] = orderHeaderList.Message;
+            return RedirectToAction(nameof(Summary));
+        }
+
+        var orderHeader = orderHeaderList.Data.First();
+        // TODO:Send Email about Order Confirmed
+
+        var shoppingCartlist = (await _shoppingCartService.GetAllAsync(u => u.AppUserId == orderHeader.AppUserId)).Data;
+        if (shoppingCartlist == null)
+        {
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        var deleteResult = await _shoppingCartService.DeleteShoppingCartRange(shoppingCartlist);
+        if (!deleteResult.Success)
+        {
+            TempData["ErrorMessage"] = deleteResult.Message;
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(id);
+    }
+
+    #region Private Helper Methods
+    private static void SetOrderHeader(AppUser? appUser, ShoppingCartViewModel shoppingCartViewModel)
+    {
+        shoppingCartViewModel.OrderHeader.AppUser = appUser;
+        shoppingCartViewModel.OrderHeader.Name = appUser.Name;
+        shoppingCartViewModel.OrderHeader.PhoneNumber = appUser.PhoneNumber;
+        shoppingCartViewModel.OrderHeader.Address = appUser.Address;
+        shoppingCartViewModel.OrderHeader.City = appUser.City;
+        shoppingCartViewModel.OrderHeader.Country = appUser.Country;
+        shoppingCartViewModel.OrderHeader.PostalCode = appUser.PostalCode;
+    }
+
+    private Guid GetUserId()
+    {
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        var userId = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
+        return userId;
     }
 
     private static double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
@@ -136,4 +238,5 @@ public class CartController : BaseController
         shoppingCart.Price = shoppingCart.Product.Price100;
         return shoppingCart.Product.Price100;
     }
+    #endregion
 }

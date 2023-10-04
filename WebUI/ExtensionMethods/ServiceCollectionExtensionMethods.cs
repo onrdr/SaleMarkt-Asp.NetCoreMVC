@@ -7,7 +7,7 @@ using DataAccess.Repositories.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
-using Models.Smtp;
+using Models.Smtp; 
 
 namespace WebUI.ExtensionMethods;
 
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensionMethods
             .ConfigureDatabase(builder.Configuration)
             .AddAuthorization()
             .AddIdentity()
-            .ConfigureAppCookie()
+            .ConfigureApplicationCookie()
             .AddAutoMapper(Assembly.GetExecutingAssembly())
             .ConfigureSmtpService(builder);
 
@@ -39,17 +39,23 @@ public static class ServiceCollectionExtensionMethods
 
     static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
-        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductService, ProductService>();
 
-        services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<ICompanyService, CompanyService>();
 
         services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
         services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
+        services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
+        services.AddScoped<IOrderHeaderService, OrderHeaderService>();
+
+        services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
+        services.AddScoped<IOrderDetailsService, OrderDetailsService>();
 
         services.AddScoped<IEmailService, EmailService>();
 
@@ -77,7 +83,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection ConfigureAppCookie(this IServiceCollection services)
+    static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services)
     {
         CookieBuilder cookieBuilder = new()
         {
@@ -104,5 +110,5 @@ public static class ServiceCollectionExtensionMethods
     {
         services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
         return services;
-    }
+    } 
 }

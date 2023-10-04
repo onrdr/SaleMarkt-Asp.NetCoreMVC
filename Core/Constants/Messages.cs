@@ -3,7 +3,7 @@
 public class Messages
 {
     public const string CategoryNotFound = "Category not found";
-    public const string EmptyCategoryList = "Category list is empty with the current filter";
+    public const string EmptyCategoryList = "Category list is empty";
     public const string CategoryAddSuccessfull = "Category successfully created"; 
     public const string CategoryAddError = "Error occured while adding the category to Database";
     public const string CategoryUpdateSuccessfull = "Category successfully updated";
@@ -13,7 +13,7 @@ public class Messages
     public const string CategoryAlreadyExists = "A Category already exists with the same name";
 
     public const string ProductNotFound = "Product not found";
-    public const string EmptyProductList = "Product list is empty with the current filter";
+    public const string EmptyProductList = "Product list is empty";
     public const string ProductAddSuccessfull = "Product successfully created";
     public const string ProductAddError = "Error occured while adding the product to Database";
     public const string ProductUpdateSuccessfull = "Product successfully updated";
@@ -22,7 +22,7 @@ public class Messages
     public const string ProductDeleteError = "Error occured while deleting the product from Database";
 
     public const string CompanyNotFound = "Company not found";
-    public const string EmptyCompanyList = "Company list is empty with the current filter";
+    public const string EmptyCompanyList = "Company list is empty";
     public const string CompanyUpdateSuccessfull = "Company successfully updated";
     public const string CompanyUpdateError = "Error occured while updating the company in Database";
 
@@ -31,11 +31,21 @@ public class Messages
     public const string UserUpdateError = "Error occured while updating the user in Database";
 
     public const string ShoppingCartNotFound = "Shopping Cart not found";
-    public const string EmptyShoppingCartList = "Shopping Cart is empty with the current filter";
+    public const string EmptyShoppingCartList = "Shopping Cart is empty";
     public const string ShoppingCartAddSuccessfull = "Shopping Cart successfully created";
     public const string ShoppingCartAddError = "Error occured while adding the shopping cart to Database";
     public const string ShoppingCartUpdateSuccessfull = "Shopping Cart successfully updated";
     public const string ShoppingCartUpdateError = "Error occured while updating the shopping cart in Database";
     public const string ShoppingCartDeleteSuccessfull = "Shopping Cart successfully deleted";
     public const string ShoppingCartDeleteError = "Error occured while deleting the shopping cart from Database";
+
+    public const string OrderHeaderFound = "Order Header not found";
+    public const string EmptyOrderHeaderList = "Order Header List is empty";
+    public const string OrderHeaderAddSuccessfull = "Order Header successfully created";
+    public const string OrderHeaderAddError = "Error occured while adding the order header to Database";
+
+    public const string OrderDetailsFound = "Order Details not found";
+    public const string EmptyOrderDetailsList = "Order Details List is empty";
+    public const string OrderDetailsAddSuccessfull = "Order Details successfully created";
+    public const string OrderDetailsAddError = "Error occured while adding the order details to Database";
 }

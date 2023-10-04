@@ -263,7 +263,13 @@ public class HomeController : BaseController
         }, Request.Scheme);
 
         var emailMessage = await _viewRenderService.RenderViewToStringAsync("_ResetPasswordEmailTemplate", passwordResetLink);
-        await _emailService.SendResetEmailAsync(user.Email, emailMessage);
+        var emailResult = await _emailService.SendResetEmailAsync(user.Email, emailMessage);
+        if (!emailResult.IsSuccessStatusCode)
+        {
+            TempData["ErrorMessage"] = "An error occured. Please try again later";
+            return View(model);
+        }
+        
         ViewBag.status = "success";
         return View();
     }
