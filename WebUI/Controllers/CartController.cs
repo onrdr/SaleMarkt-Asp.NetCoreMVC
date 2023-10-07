@@ -16,13 +16,13 @@ public class CartController : BaseController
 {
     private readonly IShoppingCartService _shoppingCartService;
     private readonly IOrderHeaderService _orderHeaderService;
-    private readonly IOrderDetailsService _orderDetailsService;
+    private readonly IOrderDetailService _orderDetailsService;
 
     public CartController(
         IShoppingCartService shoppingCartService,
         UserManager<AppUser> userManager,
         IOrderHeaderService orderHeaderService,
-        IOrderDetailsService orderDetailsService) : base(userManager: userManager)
+        IOrderDetailService orderDetailsService) : base(userManager: userManager)
     {
         _shoppingCartService = shoppingCartService;
         _orderHeaderService = orderHeaderService;
@@ -141,11 +141,11 @@ public class CartController : BaseController
             shoppingCartViewModel.OrderHeader.OrderTotal += (cart.Price * cart.Count);
         }
 
-        shoppingCartViewModel.OrderHeader.PaymentStatus = "Pending";
-        shoppingCartViewModel.OrderHeader.OrderStatus = "Approved";
+        shoppingCartViewModel.OrderHeader.PaymentStatus = OrderHeaderStatus.Pending;
+        shoppingCartViewModel.OrderHeader.OrderStatus = OrderHeaderStatus.Pending;
 
         using TransactionScope transactionScope = new(TransactionScopeAsyncFlowOption.Enabled);
-        var headerAddResult = await _orderHeaderService.CreateOrderHeader(shoppingCartViewModel.OrderHeader);
+        var headerAddResult = await _orderHeaderService.CreateOrderHeaderAsync(shoppingCartViewModel.OrderHeader);
         if (!headerAddResult.Success)
         {
             TempData["ErrorMessage"] = headerAddResult.Message;
@@ -154,7 +154,7 @@ public class CartController : BaseController
 
         foreach (var cart in shoppingCartViewModel.ShoppingCartList)
         {
-            OrderDetails orderDetails = new()
+            OrderDetail orderDetails = new()
             {
                 ProductId = cart.ProductId,
                 OrderHeaderId = shoppingCartViewModel.OrderHeader.Id,

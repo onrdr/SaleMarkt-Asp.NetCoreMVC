@@ -39,13 +39,15 @@ public class Messages
     public const string ShoppingCartDeleteSuccessfull = "Shopping Cart successfully deleted";
     public const string ShoppingCartDeleteError = "Error occured while deleting the shopping cart from Database";
 
-    public const string OrderHeaderFound = "Order Header not found";
+    public const string OrderHeaderNotFound = "Order Header not found";
     public const string EmptyOrderHeaderList = "Order Header List is empty";
     public const string OrderHeaderAddSuccessfull = "Order Header successfully created";
     public const string OrderHeaderAddError = "Error occured while adding the order header to Database";
+    public const string OrderHeaderUpdateSuccessfull = "Order Header successfully updated";
+    public const string OrderHeaderUpdateError = "Error occured while updating the order header to Database";
 
-    public const string OrderDetailsFound = "Order Details not found";
-    public const string EmptyOrderDetailsList = "Order Details List is empty";
-    public const string OrderDetailsAddSuccessfull = "Order Details successfully created";
-    public const string OrderDetailsAddError = "Error occured while adding the order details to Database";
+    public const string OrderDetailNotFound = "Order Details not found";
+    public const string EmptyOrderDetailList = "Order Details List is empty";
+    public const string OrderDetailAddSuccessfull = "Order Details successfully created";
+    public const string OrderDetailAddError = "Error occured while adding the order details to Database";
 }

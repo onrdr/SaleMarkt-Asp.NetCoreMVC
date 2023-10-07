@@ -1,4 +1,5 @@
-﻿using Business.Services.Abstract;
+﻿using AutoMapper;
+using Business.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels;
 
@@ -7,26 +8,30 @@ namespace WebUI.Controllers;
 public class CompanyController : BaseController
 {
     private readonly ICompanyService _companyService;
+    private readonly IMapper _mapper;
 
     public CompanyController(
         ICompanyService companyService,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        IMapper mapper)
             : base(webHostEnvironment: webHostEnvironment)
     {
         _companyService = companyService;
+        _mapper = mapper;
     }
 
     #region Company Details Info & Edit
     public async Task<IActionResult> Details()
     {
-        var result = await _companyService.GetAllAsync(c => true);
+        var result = await _companyService.GetCompanyAsync();
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
             return View();
         }
-         
-        return View(result.Data.ToList()[0]);
+
+        var companyViewModel = _mapper.Map<CompanyViewModel>(result.Data);
+        return View(companyViewModel);
     }
 
     [HttpPost]

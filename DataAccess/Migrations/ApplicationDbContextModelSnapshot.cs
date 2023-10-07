@@ -153,34 +153,34 @@ namespace DataAccess.Migrations
                         new
                         {
                             Id = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
-                            Description = "Category Action Description",
+                            Description = "Category1 Description",
                             DisplayOrder = 1,
                             ImageUrl = "",
-                            Name = "Action"
+                            Name = "Category1"
                         },
                         new
                         {
                             Id = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
-                            Description = "Category SciFi Description",
+                            Description = "Category2 Description",
                             DisplayOrder = 2,
                             ImageUrl = "",
-                            Name = "SciFi"
+                            Name = "Category2"
                         },
                         new
                         {
                             Id = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
-                            Description = "Category History Description",
+                            Description = "Category3 Description",
                             DisplayOrder = 3,
                             ImageUrl = "",
-                            Name = "History"
+                            Name = "Category3"
                         },
                         new
                         {
                             Id = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
-                            Description = "Category Crime Description",
+                            Description = "Category4 Description",
                             DisplayOrder = 4,
                             ImageUrl = "",
-                            Name = "Crime"
+                            Name = "Category4"
                         });
                 });
 
@@ -224,7 +224,7 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1ab3dc70-3f33-4805-98e0-82690cf40714"),
+                            Id = new Guid("db3feb47-e731-4331-a517-99a555380101"),
                             Address = "Beşiktaş",
                             City = "Istanbul",
                             Country = "Turkiye",
@@ -235,7 +235,7 @@ namespace DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Models.Entities.Concrete.OrderDetails", b =>
+            modelBuilder.Entity("Models.Entities.Concrete.OrderDetail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,18 +329,14 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ISBN")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -359,6 +355,10 @@ namespace DataAccess.Migrations
                     b.Property<double>("Price50")
                         .HasColumnType("float");
 
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -372,87 +372,227 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("552e5af1-2c2f-494c-ae4e-d3def3307d1a"),
-                            Author = "Billy Spark",
+                            Id = new Guid("4e3f48a5-7b82-4993-ae09-f3e9ad93dbbe"),
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SWD9999001",
+                            Color = "Red",
+                            Description = "Product 1 Description",
                             ImageUrl = "",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
                             Price50 = 85.0,
-                            Title = "Fortune of Time"
+                            Size = "M",
+                            Title = "Product 1"
                         },
                         new
                         {
-                            Id = new Guid("90cb6958-d27e-47da-aad9-67ab6cad65c6"),
-                            Author = "Nancy Hoover",
-                            CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "CAW777777701",
+                            Id = new Guid("e1e2f3a7-0af1-4ad0-994f-7d2b438a7fc7"),
+                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                            Color = "Blue",
+                            Description = "Product 2 Description",
                             ImageUrl = "",
                             ListPrice = 40.0,
                             Price = 30.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Dark Skies"
+                            Size = "S",
+                            Title = "Product 2"
                         },
                         new
                         {
-                            Id = new Guid("a86e8dce-41f7-4440-ba4f-4b6424b8da00"),
-                            Author = "Julian Button",
-                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "RITO5555501",
+                            Id = new Guid("5e9ca217-889c-4e73-b122-bf1ba896a593"),
+                            CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                            Color = "Green",
+                            Description = "Product 3 Description",
                             ImageUrl = "",
                             ListPrice = 55.0,
                             Price = 50.0,
                             Price100 = 35.0,
                             Price50 = 40.0,
-                            Title = "Vanish in the Sunset"
+                            Size = "L",
+                            Title = "Product 3"
                         },
                         new
                         {
-                            Id = new Guid("32aed196-a986-40c5-8bad-5e773f97e357"),
-                            Author = "Abby Muscles",
-                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "WS3333333301",
+                            Id = new Guid("287174ba-af0e-4bb8-8787-afc4df628523"),
+                            CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
+                            Color = "Black",
+                            Description = "Product 4 Description",
                             ImageUrl = "",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
                             Price50 = 60.0,
-                            Title = "Cotton Candy"
+                            Size = "XL",
+                            Title = "Product 4"
                         },
                         new
                         {
-                            Id = new Guid("7cc4275f-0ce0-45cf-8359-e8b4cabab400"),
-                            Author = "Ron Parker",
+                            Id = new Guid("f954578b-e7ee-4d95-84b4-19ac949b703b"),
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SOTJ1111111101",
+                            Color = "White",
+                            Description = "Product 5 Description",
                             ImageUrl = "",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 20.0,
                             Price50 = 25.0,
-                            Title = "Rock in the Ocean"
+                            Size = "M",
+                            Title = "Product 5"
                         },
                         new
                         {
-                            Id = new Guid("66bd5f42-3718-47d6-90fd-16d69aee93b1"),
-                            Author = "Laura Phantom",
+                            Id = new Guid("3a0afafb-999e-4c5f-a40f-eabc71dfb2de"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "FOT000000001",
+                            Color = "Yellow",
+                            Description = "Product 6 Description",
                             ImageUrl = "",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 20.0,
                             Price50 = 22.0,
-                            Title = "Leaves and Wonders"
+                            Size = "L",
+                            Title = "Product 6"
+                        },
+                        new
+                        {
+                            Id = new Guid("fc43e13a-5674-47de-84bd-718adf9ef154"),
+                            CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                            Color = "Red",
+                            Description = "Product 7 Description",
+                            ImageUrl = "",
+                            ListPrice = 60.0,
+                            Price = 55.0,
+                            Price100 = 45.0,
+                            Price50 = 50.0,
+                            Size = "S",
+                            Title = "Product 7"
+                        },
+                        new
+                        {
+                            Id = new Guid("6a677524-9a84-49e6-817b-4b6f3ebe0a58"),
+                            CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
+                            Color = "Blue",
+                            Description = "Product 8 Description",
+                            ImageUrl = "",
+                            ListPrice = 45.0,
+                            Price = 40.0,
+                            Price100 = 35.0,
+                            Price50 = 38.0,
+                            Size = "M",
+                            Title = "Product 8"
+                        },
+                        new
+                        {
+                            Id = new Guid("f03609fa-289e-42a0-8883-b5df1fc47677"),
+                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                            Color = "Green",
+                            Description = "Product 9 Description",
+                            ImageUrl = "",
+                            ListPrice = 70.0,
+                            Price = 65.0,
+                            Price100 = 55.0,
+                            Price50 = 60.0,
+                            Size = "L",
+                            Title = "Product 9"
+                        },
+                        new
+                        {
+                            Id = new Guid("19c3ed41-5456-4772-bb89-facf12445876"),
+                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                            Color = "Black",
+                            Description = "Product 10 Description",
+                            ImageUrl = "",
+                            ListPrice = 35.0,
+                            Price = 32.0,
+                            Price100 = 28.0,
+                            Price50 = 30.0,
+                            Size = "XL",
+                            Title = "Product 10"
+                        },
+                        new
+                        {
+                            Id = new Guid("bda4b519-14b2-44a3-84ba-a6c0ad217b14"),
+                            CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                            Color = "White",
+                            Description = "Product 11 Description",
+                            ImageUrl = "",
+                            ListPrice = 25.0,
+                            Price = 23.0,
+                            Price100 = 19.0,
+                            Price50 = 21.0,
+                            Size = "S",
+                            Title = "Product 11"
+                        },
+                        new
+                        {
+                            Id = new Guid("40319114-843a-4db2-ba4b-157f203267ef"),
+                            CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
+                            Color = "Yellow",
+                            Description = "Product 12 Description",
+                            ImageUrl = "",
+                            ListPrice = 50.0,
+                            Price = 45.0,
+                            Price100 = 40.0,
+                            Price50 = 42.0,
+                            Size = "M",
+                            Title = "Product 12"
+                        },
+                        new
+                        {
+                            Id = new Guid("b0cabd7a-a257-4474-97e4-2dff6661e848"),
+                            CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
+                            Color = "Red",
+                            Description = "Product 13 Description",
+                            ImageUrl = "",
+                            ListPrice = 40.0,
+                            Price = 38.0,
+                            Price100 = 32.0,
+                            Price50 = 35.0,
+                            Size = "L",
+                            Title = "Product 13"
+                        },
+                        new
+                        {
+                            Id = new Guid("54a38c0c-6cb6-4864-a495-8aa2aa085b79"),
+                            CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
+                            Color = "Blue",
+                            Description = "Product 14 Description",
+                            ImageUrl = "",
+                            ListPrice = 55.0,
+                            Price = 52.0,
+                            Price100 = 48.0,
+                            Price50 = 50.0,
+                            Size = "XL",
+                            Title = "Product 14"
+                        },
+                        new
+                        {
+                            Id = new Guid("45cd79e1-5786-4469-9405-91711fc45d2e"),
+                            CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
+                            Color = "Green",
+                            Description = "Product 15 Description",
+                            ImageUrl = "",
+                            ListPrice = 70.0,
+                            Price = 68.0,
+                            Price100 = 60.0,
+                            Price50 = 65.0,
+                            Size = "S",
+                            Title = "Product 15"
+                        },
+                        new
+                        {
+                            Id = new Guid("799ce3ef-8bde-4c28-9c54-4403f69b3961"),
+                            CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
+                            Color = "Black",
+                            Description = "Product 16 Description",
+                            ImageUrl = "",
+                            ListPrice = 45.0,
+                            Price = 42.0,
+                            Price100 = 38.0,
+                            Price50 = 40.0,
+                            Size = "M",
+                            Title = "Product 16"
                         });
                 });
 
@@ -530,19 +670,19 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f49efad1-e835-418d-8f50-da92512f9293"),
+                            Id = new Guid("2b76647d-c501-44c3-91c7-a2bd6843b6e7"),
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = new Guid("03e9b2b1-d2e0-4ba3-b2f0-e6fc0e3c07b8"),
+                            Id = new Guid("2f514e34-8a22-4e36-aefc-752ba3aa0b34"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("5cb3719d-01db-4c22-99bf-d2b5d8b4fbb5"),
+                            Id = new Guid("41102f40-1cee-4a61-9add-140d2608b1a5"),
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -681,7 +821,7 @@ namespace DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Models.Entities.Concrete.OrderDetails", b =>
+            modelBuilder.Entity("Models.Entities.Concrete.OrderDetail", b =>
                 {
                     b.HasOne("Models.Entities.Concrete.OrderHeader", "OrderHeader")
                         .WithMany()

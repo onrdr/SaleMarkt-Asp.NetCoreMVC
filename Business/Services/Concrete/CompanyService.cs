@@ -3,8 +3,7 @@ using Core.Constants;
 using Core.Utilities.Results;
 using DataAccess.Repositories.Abstract;
 using Models.Entities.Concrete;
-using Models.ViewModels;
-using System.Linq.Expressions;
+using Models.ViewModels; 
 
 namespace Business.Services.Concrete;
 
@@ -18,54 +17,41 @@ public class CompanyService : ICompanyService
     }
 
     #region Read
-    public async Task<IDataResult<Company>> GetByIdAsync(Guid companyId)
+    public async Task<IDataResult<Company>> GetCompanyAsync()
     {
-        var company = await _companyRepository.GetByIdAsync(companyId);
-        return company == null
+        var companyList = await _companyRepository.GetAllAsync(c => true);
+        return companyList.First() == null
             ? new ErrorDataResult<Company>(Messages.CompanyNotFound)
-            : new SuccessDataResult<Company>(company);
-    }
-
-    public async Task<IDataResult<IEnumerable<Company>>> GetAllAsync(Expression<Func<Company, bool>> predicate)
-    {
-        var companyList = await _companyRepository.GetAllAsync(predicate);
-        return companyList.Any()
-            ? new SuccessDataResult<IEnumerable<Company>>(companyList)
-            : new ErrorDataResult<IEnumerable<Company>>(Messages.EmptyCompanyList);
-    }
+            : new SuccessDataResult<Company>(companyList.First());
+    } 
     #endregion
 
     #region Update
     public async Task<IResult> UpdateCompany(CompanyViewModel model)
     {
-        var companyResult = await GetByIdAsync(model.Id);
+        var companyResult = await GetCompanyAsync();
         if (!companyResult.Success)
         {
             return companyResult;
         }
 
         CompleteUpdate(model, companyResult);
-        return await GetUpdateResult(companyResult);
-    }
-
-    private async Task<IResult> GetUpdateResult(IDataResult<Company> companyResult)
-    {
         var updateResult = await _companyRepository.UpdateAsync(companyResult.Data);
         return updateResult > 0
             ? new SuccessResult(Messages.CompanyUpdateSuccessfull)
             : new ErrorResult(Messages.CompanyUpdateError);
-    }
+    } 
 
-    private static void CompleteUpdate(CompanyViewModel model, IDataResult<Company> productResult)
+    private static void CompleteUpdate(CompanyViewModel model, IDataResult<Company> companyResult)
     {
-        productResult.Data.Name = model.Name;
-        productResult.Data.Email = model.Email;
-        productResult.Data.PhoneNumber = model.PhoneNumber; 
-        productResult.Data.Address = model.Address; 
-        productResult.Data.City = model.City; 
-        productResult.Data.Country = model.Country; 
-        productResult.Data.PostalCode = model.PostalCode; 
-        productResult.Data.ImageUrl = model.ImageUrl; 
+        companyResult.Data.Name = model.Name;
+        companyResult.Data.Email = model.Email;
+        companyResult.Data.PhoneNumber = model.PhoneNumber; 
+        companyResult.Data.Address = model.Address; 
+        companyResult.Data.City = model.City; 
+        companyResult.Data.Country = model.Country; 
+        companyResult.Data.PostalCode = model.PostalCode;
+        companyResult.Data.ImageUrl = model.ImageUrl; 
     }
     #endregion 
 }

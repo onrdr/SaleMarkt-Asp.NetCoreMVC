@@ -11,7 +11,7 @@ public class MappingProfile : Profile
     {
         CreateMap<CategoryViewModel, Category>().ReverseMap();
         CreateMap<ProductViewModel, Product>().ReverseMap();
-        CreateMap<ProductViewModel, Product>();
+        CreateMap<CompanyViewModel, Company>().ReverseMap();
 
         CreateMap<RegisterViewModel, AppUser>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FullName))

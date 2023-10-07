@@ -9,10 +9,10 @@ function loadDataTable() {
         "columns": [
             {
                 data: 'imageUrl',
-                "width": "15%",
+                "width": "10%",
                 "render": function (data) {
                     return `<div>
-                     <img class="p-3" src="${data}" style="width:100%; border-radius:5px; border:1px solid #ffffff" />
+                     <img src="${data}" style="width:100%; border-radius:5px; border:1px solid #ffffff" />
                     </div>`;
                 }
             },
@@ -28,11 +28,12 @@ function loadDataTable() {
                     }
                 }
             }, 
-            { data: 'author', "width": "15%" },
-            { data: 'listPrice', "width": "5%" },
+            { data: 'size', "width": "5%" },
+            { data: 'color', "width": "10%" },
+            { data: 'price', "width": "5%" },
             { data: 'price50', "width": "5%" },
             { data: 'price100', "width": "5%" },
-            { data: 'category.name', "width": "10%" },
+            { data: 'category.name', "width": "15%" },
             {
                 data: 'id',
                 "width": "10%",

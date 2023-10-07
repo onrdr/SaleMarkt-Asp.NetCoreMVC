@@ -22,33 +22,33 @@ public static class CategorySeeder
             new Category()
             {
                 Id = Guid.Parse("34245A4D-0BAA-4C22-8245-02ABB9063B11"),
-                Name = "Action",
+                Name = "Category1",
                 DisplayOrder = 1,
-                Description = "Category Action Description",
+                Description = "Category1 Description",
                 ImageUrl = ""
             },
             new Category()
             {
                 Id = Guid.Parse("76D6BE2F-8D6C-4E93-94CC-4EB0341950BC"),
-                Name = "SciFi",
+                Name = "Category2",
                 DisplayOrder = 2,
-                Description = "Category SciFi Description",
+                Description = "Category2 Description",
                 ImageUrl = ""
             },
             new Category()
             {
                 Id = Guid.Parse("DB9B235F-A5D6-49DC-8E95-022F443F8582"),
-                Name = "History",
+                Name = "Category3",
                 DisplayOrder = 3,
-                Description = "Category History Description",
+                Description = "Category3 Description",
                 ImageUrl = ""
             },
              new Category()
             {
                 Id = Guid.Parse("8179ED4D-7E5B-49C4-33F3-08DBC21909AC"),
-                Name = "Crime",
+                Name = "Category4",
                 DisplayOrder = 4,
-                Description = "Category Crime Description",
+                Description = "Category4 Description",
                 ImageUrl = ""
             },
         };

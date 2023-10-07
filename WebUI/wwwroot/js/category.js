@@ -24,8 +24,8 @@ function loadDataTable() {
                 "width": "15%",
                 "render": function (data) {
                     return `<div class="w-75 btn-group" role="group">
-                     <a href="/category/edit?id=${data}" class="btn btn-sm btn-warning mx-2 rounded mx-4"> <i class="bi bi-pencil-square"></i></a>               
-                     <a onClick=Delete('/category/delete/${data}') class="btn btn-sm btn-danger mx-2 rounded"> <i class="bi bi-trash-fill"></i></a>
+                     <a href="/category/edit?id=${data}" class="btn btn-warning mx-2 rounded mx-4"> <i class="bi bi-pencil-square"></i></a>               
+                     <a onClick=Delete('/category/delete/${data}') class="btn btn-danger mx-2 rounded"> <i class="bi bi-trash-fill"></i></a>
                     </div>`
                 }
             },

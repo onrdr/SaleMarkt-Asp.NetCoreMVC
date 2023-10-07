@@ -37,16 +37,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin Panel
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
-                            </ul>
-                        </li>
+                        @if (User.IsInRole(RoleNames.Admin) || User.IsInRole(RoleNames.SuperAdmin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Panel
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
@@ -70,8 +72,13 @@
                                     <i class="bi bi-person-workspace"></i> Welcome @User.Identity.Name.Replace("-", " ")
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
+                                    <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Details">User Details</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Company" asp-action="Details">Company Details</a></li>
+                                    @if (User.IsInRole(RoleNames.Admin) || User.IsInRole(RoleNames.SuperAdmin))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Company" asp-action="Details">Company Details</a></li>
+                                    }
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="ChangePassword">Change Password</a></li>
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a></li>

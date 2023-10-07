@@ -8,6 +8,7 @@ using Models.Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
+using Core.Constants;
 
 namespace WebUI.Controllers;
 
@@ -222,6 +223,7 @@ public class HomeController : BaseController
             return AddCreateErrorsAndSendToClient(model, result);
         }
 
+        await UserManager.AddToRoleAsync(user, RoleNames.Customer);
         TempData["SuccessMessage"] = "Register Successfull";
         return RedirectToAction(nameof(Login), routeValues: new { email = model.Email, retunUrl = string.Empty });
     }

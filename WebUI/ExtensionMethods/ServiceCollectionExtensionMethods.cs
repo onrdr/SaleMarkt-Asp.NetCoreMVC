@@ -54,8 +54,8 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<IOrderHeaderRepository, OrderHeaderRepository>();
         services.AddScoped<IOrderHeaderService, OrderHeaderService>();
 
-        services.AddScoped<IOrderDetailsRepository, OrderDetailsRepository>();
-        services.AddScoped<IOrderDetailsService, OrderDetailsService>();
+        services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+        services.AddScoped<IOrderDetailService, OrderDetailService>();
 
         services.AddScoped<IEmailService, EmailService>();
 

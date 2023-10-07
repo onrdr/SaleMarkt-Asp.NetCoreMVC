@@ -4,9 +4,9 @@ using Models.Entities.Abstract;
 
 namespace Models.Entities.Concrete;
 
-public class OrderDetails : IBaseEntity
+public class OrderDetail : IBaseEntity
 {
-    public OrderDetails()
+    public OrderDetail()
     {
         Id = Guid.NewGuid();
     }

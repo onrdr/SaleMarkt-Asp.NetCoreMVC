@@ -15,12 +15,11 @@ public class ProductViewModel
     [MinLength(6)]
     public string Description { get; set; }
 
-    [Required]
-    [MinLength(5)]
-    public string ISBN { get; set; }
+    [Required] 
+    public string Size { get; set; }
 
     [Required]
-    public string Author { get; set; }
+    public string Color { get; set; }
 
     [Required]
     [DisplayName("List Price")]

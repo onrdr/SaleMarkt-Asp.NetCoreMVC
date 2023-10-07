@@ -14,6 +14,7 @@ public class CompanyViewModel
     [Required]
     [DisplayName("Email Address")]
     [EmailAddress]
+    [RegularExpression(@".*\.com$", ErrorMessage = "The email must end with .com")]
     public string Email { get; set; }
 
     [Required]

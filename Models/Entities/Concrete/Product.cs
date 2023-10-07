@@ -19,13 +19,13 @@ public class Product : IBaseEntity
     public string Title { get; set; }
 
     [Required]
-    public string Description { get; set; }
+    public string Size { get; set; }
 
     [Required]
-    public string ISBN { get; set; }
+    public string Color { get; set; }
 
     [Required]
-    public string Author { get; set; }
+    public string Description { get; set; } 
 
     [Required]
     public double ListPrice { get; set; }

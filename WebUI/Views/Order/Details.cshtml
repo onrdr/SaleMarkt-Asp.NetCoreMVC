@@ -1,0 +1,191 @@
+﻿@model OrderViewModel
+
+<form method="post">
+    <input asp-for="OrderHeader.Id" hidden />
+    <br />
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+                <div class="container row">
+                    <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                        <h3 class="text-light"><i class="bi bi-cart text-light"></i> &nbsp; Order Summary</h3>
+                    </div> 
+                </div> 
+            </div>
+            <div class="card-body">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pb-4">
+                            <div class="row">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary">Buyer Details:</span>
+                                </h4>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Name</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.Name" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Phone</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.PhoneNumber" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Address</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.Address" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">City</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.City" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">State</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.Country" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Zip Code</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.PostalCode" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Email</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.AppUser.Email" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Order Date</div>
+                                <div class="col-9">
+                                    <input value="@Model.OrderHeader.OrderDate.ToShortDateString()" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Shipping Date</div>
+                                <div class="col-9">
+                                    <input value="@Model.OrderHeader.ShippingDate.ToShortDateString()" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Payment Status</div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.PaymentStatus" readonly type="text" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Order Summary</span>
+                            </h4>
+                            <ul class="list-group mb-3">
+                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Pending)
+                                {
+                                    <li class="list-group-item bg-warning text-light">
+                                        <div class="row container">
+                                            <h5>Order Status - @Model.OrderHeader.OrderStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="list-group-item bg-success text-light">
+                                        <div class="row container">
+                                            <h5>Order Status - @Model.OrderHeader.OrderStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+                                @if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
+                                {
+                                    <li class="list-group-item bg-warning text-light">
+                                        <div class="row container">
+                                            <h5>Payment Status - @Model.OrderHeader.PaymentStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="list-group-item bg-success text-light">
+                                        <div class="row container">
+                                            <h5>Payment Status - @Model.OrderHeader.PaymentStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+                                <hr />
+                                @foreach (var detail in Model.OrderDetailList)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
+                                                <h6 class="my-0 text-primary">@detail.Product.Title</h6>
+                                                <small class="text-muted">Price : @detail.Price.ToString("c")</small><br />
+                                                <small class="text-muted">Quantity : @detail.Count</small>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <p class="text-success">@((detail.Count * detail.Price).ToString("c"))</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                <li class="list-group-item bg-danger">
+                                    <div class="row container">
+                                        <div class="col-6">
+                                            <h5 class="text-white">TOTAL </h5>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <h5 class="text-white">@Model.OrderHeader.OrderTotal.ToString("c")</h5>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
+                            {
+                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Pending && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
+                                {
+                                    <button type="submit" asp-action="ConfirmOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-success form-control my-1">
+                                        Confirm Order
+                                    </button>
+                                }
+                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
+                                {
+                                    <button type="submit" asp-action="CancelOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-danger form-control my-1">
+                                        Cancel Order
+                                    </button>
+                                }
+
+                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
+                                {
+                                    <button type="submit" asp-action="ConfirmPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-success form-control my-1">
+                                        Confirm Payment
+                                    </button>
+                                }
+                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Approved)
+                                {
+                                    <button type="submit" asp-action="CancelPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-danger form-control my-1">
+                                        Cancel Payment
+                                    </button>
+                                }
+                            }
+                            <div class="mt-4 text-end">
+                                <a asp-action="Index" class="btn btn-outline-info form-control">Back to Orders</a>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
