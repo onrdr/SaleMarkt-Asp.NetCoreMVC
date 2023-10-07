@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Models.ViewModels.Abstract;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.ViewModels;
 
-public class CategoryViewModel
+public class CategoryViewModel : IImageViewModel
 {
     [Required]
     public Guid Id { get; set; }
@@ -25,4 +26,5 @@ public class CategoryViewModel
 
     [DisplayName("Image")]
     public string? ImageUrl { get; set; }
+    public string FolderName { get; set; } = "category";
 }

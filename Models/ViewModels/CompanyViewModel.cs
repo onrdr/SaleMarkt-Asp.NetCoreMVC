@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Models.ViewModels.Abstract;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.ViewModels;
 
-public class CompanyViewModel
+public class CompanyViewModel : IImageViewModel
 {
     [Required]
     public Guid Id { get; set; }
@@ -26,4 +27,5 @@ public class CompanyViewModel
     public string? Country { get; set; }
     public string? PostalCode { get; set; }
     public string? ImageUrl { get; set; }
+    public string FolderName { get; set; } = "logo";
 }

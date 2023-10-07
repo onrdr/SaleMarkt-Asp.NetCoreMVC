@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Core.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Identity;
@@ -7,6 +8,7 @@ using Models.ViewModels;
 
 namespace WebUI.Controllers;
 
+[Authorize]
 public class UserController : BaseController
 {
     private static readonly List<string> ErrorList = new();
@@ -20,7 +22,7 @@ public class UserController : BaseController
 
     }
 
-    #region Company Details Info & Edit
+    #region User Info & Edit
     public IActionResult Details()
     {
         if (CurrentUser is null)
@@ -39,13 +41,17 @@ public class UserController : BaseController
         {
             TempData["ErrorMessage"] = Messages.UserNotFound;
             return View();
-        }
-
+        } 
+         
         var result = await CompleteUpdate(user);
         if (!result.Succeeded)
-        {
-            var errors = result.Errors.ToList();
-            TempData["ErrorMessage"] = Messages.UserUpdateError;
+        { 
+            var errorListAsString = new List<string>();
+            TempData["ModelError"] = errorListAsString;
+            foreach (var error in result.Errors)
+            {
+                errorListAsString.Add(error.Description);
+            }            
             return View();
         }
 
@@ -66,17 +72,7 @@ public class UserController : BaseController
 
         return await UserManager.UpdateAsync(CurrentUser);
     }
-    #endregion
-
-    #region Logout
-    public async Task<IActionResult> Logout()
-    {
-        await SignInManager.SignOutAsync();
-
-        TempData["SuccessMessage"] = "Logout Successfull";
-        return RedirectToAction(nameof(Index), "Home");
-    }
-    #endregion
+    #endregion     
 
     #region Change Password      
     public IActionResult ChangePassword()
@@ -146,6 +142,23 @@ public class UserController : BaseController
         TempData["ModelError"] = errorMessagesFinal;
 
         return View(model);
+    }
+    #endregion
+
+    #region Logout
+    public async Task<IActionResult> Logout()
+    {
+        await SignInManager.SignOutAsync();
+
+        TempData["SuccessMessage"] = "Logout Successfull";
+        return RedirectToAction(nameof(Index), "Home");
+    }
+    #endregion
+
+    #region AccessDenied
+    public IActionResult AccessDenied()
+    {
+        return View();
     }
     #endregion
 }

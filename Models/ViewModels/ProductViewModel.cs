@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using Models.ViewModels.Abstract;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models.ViewModels;
 
-public class ProductViewModel
+public class ProductViewModel : IImageViewModel
 {
     [Required]
     public Guid Id { get; set; }
@@ -49,4 +50,6 @@ public class ProductViewModel
 
     [DisplayName("Image")]
     public string? ImageUrl { get; set; }
+
+    public string FolderName { get; set; } = "product";
 }

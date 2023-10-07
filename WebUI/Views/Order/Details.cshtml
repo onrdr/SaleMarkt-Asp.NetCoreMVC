@@ -9,8 +9,8 @@
                 <div class="container row">
                     <div class="col-12 d-none d-md-block col-md-6 pb-1">
                         <h3 class="text-light"><i class="bi bi-cart text-light"></i> &nbsp; Order Summary</h3>
-                    </div> 
-                </div> 
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="container rounded p-2">
@@ -95,7 +95,7 @@
                                         </div>
                                     </li>
                                 }
-                                else
+                                else if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved)
                                 {
                                     <li class="list-group-item bg-success text-light">
                                         <div class="row container">
@@ -103,6 +103,15 @@
                                         </div>
                                     </li>
                                 }
+                                else if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Completed)
+                                {
+                                    <li class="list-group-item bg-info text-light">
+                                        <div class="row container">
+                                            <h5>Order Status - @Model.OrderHeader.OrderStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+
                                 @if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
                                 {
                                     <li class="list-group-item bg-warning text-light">
@@ -111,9 +120,17 @@
                                         </div>
                                     </li>
                                 }
-                                else
+                                else if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Approved)
                                 {
                                     <li class="list-group-item bg-success text-light">
+                                        <div class="row container">
+                                            <h5>Payment Status - @Model.OrderHeader.PaymentStatus</h5>
+                                        </div>
+                                    </li>
+                                }
+                                else if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Completed)
+                                {
+                                    <li class="list-group-item bg-info text-light">
                                         <div class="row container">
                                             <h5>Payment Status - @Model.OrderHeader.PaymentStatus</h5>
                                         </div>
@@ -161,10 +178,6 @@
                                             class="btn btn-danger form-control my-1">
                                         Cancel Order
                                     </button>
-                                }
-
-                                @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
-                                {
                                     <button type="submit" asp-action="ConfirmPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
                                             class="btn btn-success form-control my-1">
                                         Confirm Payment
@@ -176,12 +189,22 @@
                                             class="btn btn-danger form-control my-1">
                                         Cancel Payment
                                     </button>
+                                    <button type="submit" asp-action="CompleteOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-success form-control my-1">
+                                        Complete Payment
+                                    </button>
+                                }
+                                @if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Completed)
+                                {
+                                    <button type="submit" class="btn btn-info form-control my-1" disabled>
+                                        Order Completed
+                                    </button>
                                 }
                             }
                             <div class="mt-4 text-end">
-                                <a asp-action="Index" class="btn btn-outline-info form-control">Back to Orders</a>
+                                <a asp-action="Index" class="btn btn-outline-primary form-control">Back to Orders</a>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

@@ -37,7 +37,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User.IsInRole(RoleNames.Admin) || User.IsInRole(RoleNames.SuperAdmin))
+                        @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,6 +46,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
                                     <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
                                 </ul>
                             </li>
                         }
@@ -72,8 +73,11 @@
                                     <i class="bi bi-person-workspace"></i> Welcome @User.Identity.Name.Replace("-", " ")
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    @if (User.IsInRole(RoleNames.Customer))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                    }
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Details">User Details</a></li>
                                     @if (User.IsInRole(RoleNames.Admin) || User.IsInRole(RoleNames.SuperAdmin))
                                     {
@@ -98,7 +102,6 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            <partial name="_Notification" />
             @RenderBody()
         </main>
     </div>
@@ -109,6 +112,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_Notification" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

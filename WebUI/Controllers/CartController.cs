@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models.Entities.Concrete;
 using Models.Identity;
-using Models.ViewModels;
-using System.Security.Claims;
+using Models.ViewModels; 
 using System.Transactions;
 
 namespace WebUI.Controllers;
@@ -29,6 +28,7 @@ public class CartController : BaseController
         _orderDetailsService = orderDetailsService;
     }
 
+    #region Shoppimg Cart List 
     public async Task<IActionResult> Index()
     {
         var userId = GetUserId();
@@ -53,7 +53,9 @@ public class CartController : BaseController
 
         return View(ShoppingCartVM);
     }
+    #endregion
 
+    #region Plus Minus Number of Product 
     public async Task<IActionResult> PlusMinus(Guid cartId, int change)
     {
         var cartFromDbResult = await _shoppingCartService.GetByIdAsync(cartId);
@@ -73,7 +75,9 @@ public class CartController : BaseController
 
         return RedirectToAction(nameof(Index));
     }
+    #endregion
 
+    #region Delete Product From Shopping Cart 
     public async Task<IActionResult> Delete(Guid cartId)
     {
         var cartFromDbResult = await _shoppingCartService.GetByIdAsync(cartId);
@@ -91,7 +95,9 @@ public class CartController : BaseController
 
         return RedirectToAction(nameof(Index));
     }
+    #endregion
 
+    #region Order Summary 
     public async Task<IActionResult> Summary()
     {
         Guid userId = GetUserId();
@@ -173,7 +179,9 @@ public class CartController : BaseController
         transactionScope.Complete();
         return RedirectToAction(nameof(OrderConfirmation), new { id = shoppingCartViewModel.OrderHeader.Id });
     }
+    #endregion
 
+    #region Order Confirmation 
     public async Task<IActionResult> OrderConfirmation(Guid id)
     {
         var orderHeaderList = await _orderHeaderService.GetAllWithAppUserAsync(o => o.Id == id);
@@ -201,6 +209,7 @@ public class CartController : BaseController
 
         return View(id);
     }
+    #endregion
 
     #region Private Helper Methods
     private static void SetOrderHeader(AppUser? appUser, ShoppingCartViewModel shoppingCartViewModel)
@@ -212,14 +221,7 @@ public class CartController : BaseController
         shoppingCartViewModel.OrderHeader.City = appUser.City;
         shoppingCartViewModel.OrderHeader.Country = appUser.Country;
         shoppingCartViewModel.OrderHeader.PostalCode = appUser.PostalCode;
-    }
-
-    private Guid GetUserId()
-    {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        var userId = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-        return userId;
-    }
+    } 
 
     private static double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
     {

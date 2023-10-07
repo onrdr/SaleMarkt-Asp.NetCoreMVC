@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Business.Services.Abstract;
+using Core.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels;
 
 namespace WebUI.Controllers;
 
+[Authorize(Roles = $"{RoleNames.SuperAdmin}, {RoleNames.Admin}")]
 public class CategoryController : BaseController
 {
     private readonly ICategoryService _categoryService;
@@ -84,40 +87,7 @@ public class CategoryController : BaseController
         TempData["SuccessMessage"] = result.Message;
         return RedirectToAction(nameof(Index));
     }
-    #endregion
-
-    #region Private Functions
-    private void HandleImageUpload(CategoryViewModel model, IFormFile? file)
-    {
-        var wwwRootPath = WebHostEnvironment.WebRootPath;
-
-        if (file is not null && !string.IsNullOrEmpty(model.ImageUrl))
-            DeleteOldImage(model.ImageUrl, wwwRootPath);
-
-        if (file is not null)
-            CreateNewImage(model, file, wwwRootPath);
-    }
-
-    private static void CreateNewImage(CategoryViewModel model, IFormFile file, string wwwRootPath)
-    {
-        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        var imagePath = Path.Combine(wwwRootPath, "images", "category", fileName);
-
-        using var fileStream = new FileStream(imagePath, FileMode.Create);
-        file.CopyTo(fileStream);
-
-        model.ImageUrl = @"images\category\" + fileName;
-    }
-
-    private static void DeleteOldImage(string? imageUrl, string wwwRootPath)
-    {
-        if (string.IsNullOrEmpty(imageUrl)) { return; }
-
-        var oldImagePath = Path.Combine(wwwRootPath, imageUrl.TrimStart('/'));
-        if (System.IO.File.Exists(oldImagePath))
-            System.IO.File.Delete(oldImagePath);
-    }
-    #endregion
+    #endregion 
 
     #region API Calls
     [HttpGet]

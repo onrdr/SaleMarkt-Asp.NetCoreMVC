@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Identity;
 using Models.Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.CodeAnalysis;
-using System.Security.Claims;
+using Microsoft.CodeAnalysis; 
 using Core.Constants;
 
 namespace WebUI.Controllers;
@@ -62,7 +61,7 @@ public class HomeController : BaseController
     [Authorize]
     public async Task<IActionResult> Details(ShoppingCart model)
     {
-        SetAppUserId(model);
+        model.AppUserId = GetUserId();
         var shoppingCartResult = await _shoppingCartService
             .GetAllWithProductAsync(s => s.AppUserId == model.AppUserId && s.ProductId == model.ProductId);
 
@@ -88,14 +87,7 @@ public class HomeController : BaseController
 
         TempData["SuccessMessage"] = "Cart successfully updated";
         return RedirectToAction(nameof(Index));
-    }
-
-    private void SetAppUserId(ShoppingCart model)
-    {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-        model.AppUserId = Guid.Parse(userId);
-    }
+    } 
     #endregion
 
     #region Login
@@ -220,7 +212,7 @@ public class HomeController : BaseController
 
         if (!result.Succeeded)
         {
-            return AddCreateErrorsAndSendToClient(model, result);
+            return AddRegisterErrorsAndSendToClient(model, result);
         }
 
         await UserManager.AddToRoleAsync(user, RoleNames.Customer);
@@ -228,7 +220,7 @@ public class HomeController : BaseController
         return RedirectToAction(nameof(Login), routeValues: new { email = model.Email, retunUrl = string.Empty });
     }
 
-    private IActionResult AddCreateErrorsAndSendToClient(RegisterViewModel model, IdentityResult result)
+    private IActionResult AddRegisterErrorsAndSendToClient(RegisterViewModel model, IdentityResult result)
     {
         foreach (var error in result.Errors)
         {

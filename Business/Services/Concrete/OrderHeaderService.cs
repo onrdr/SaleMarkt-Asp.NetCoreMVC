@@ -75,5 +75,22 @@ public class OrderHeaderService : IOrderHeaderService
         return updateResult > 0
             ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
             : new ErrorResult(Messages.OrderHeaderUpdateError);
-    } 
+    }
+
+    public async Task<IResult> CompleteOrder(Guid orderHeaderId)
+    {
+        var orderHeaderResult = await GetByIdAsync(orderHeaderId);
+        if (!orderHeaderResult.Success)
+        {
+            return orderHeaderResult;
+        }
+
+        orderHeaderResult.Data.OrderStatus = OrderHeaderStatus.Completed;
+        orderHeaderResult.Data.PaymentStatus = OrderHeaderStatus.Completed;
+
+        var updateResult = await _orderHeaderRepository.UpdateAsync(orderHeaderResult.Data);
+        return updateResult > 0
+            ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
+            : new ErrorResult(Messages.OrderHeaderUpdateError);
+    }
 }
