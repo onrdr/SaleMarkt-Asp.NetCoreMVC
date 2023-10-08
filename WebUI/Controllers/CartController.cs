@@ -65,7 +65,11 @@ public class CartController : BaseController
             return RedirectToAction(nameof(Index));
         }
 
-        cartFromDbResult.Data.Count += change;
+        if (cartFromDbResult.Data.Count == 1 && change == -1)
+        {
+            TempData["ErrorMessage"] = "Count cannot be zero. You may delete it";
+            return RedirectToAction(nameof(Index));
+        }
 
         var updateResult = await _shoppingCartService.UpdateShoppingCart(cartFromDbResult.Data);
         if (!updateResult.Success)
