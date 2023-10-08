@@ -1,6 +1,7 @@
 ﻿@model ShoppingCartViewModel
 
 <form method="post">
+    <input type="hidden" id="updatedCartData" name="updatedCartData" />
     <br />
     <div class="card shadow border-0">
         <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
@@ -21,7 +22,6 @@
                     <a asp-controller="Home" asp-action="Index" class="btn btn-outline-success shadow rounded text-uppercase mb-5 btn-sm"><small>Continue Shopping</small></a>
                 </div>
                 <div class="col-md-10 offset-md-1">
-
                     @foreach (var item in Model.ShoppingCartList)
                     {
                         <div class="row border-bottom pb-3">
@@ -37,35 +37,41 @@
                             </div>
                             <div class="col-12 col-lg-6 pt-md-3">
                                 <h5 class="text-uppercase text-secondary"><strong>@item.Product.Title</strong></h5>
-                                @if (item.Product.Description.Length > 45)
+                                @if (item.Product.Description.Length > 40)
                                 {
-                                    <p><small>@Html.Raw(item.Product.Description.Substring(0, 45)) ...</small></p>
+                                    <p><small>@Html.Raw(item.Product.Description.Substring(0, 40)) ...</small></p>
                                 }
                                 else
                                 {
-                                    <p><small>@Html.Raw(item.Product.Description)</small></p>
+                                    <p><small>@Html.Raw(item.Product.Description) ...</small></p>
                                 }
-
                             </div>
                             <div class="col-12  col-lg-5 text-center row">
                                 <div class="col-3 text-md-right pt-2 pt-md-4">
                                     <h6 class="fw-semibold">
-                                        @item.Price.ToString("c")
-                                        <span class="text-muted">&nbsp;x&nbsp;</span>@item.Count
+                                        <span class="count" data-itemid="@item.Id">@item.Count</span>
+                                        <span class="text-muted">&nbsp;x&nbsp;</span>
+                                        <span class="price" data-itemid="@item.Id">@item.Price</span>
                                     </h6>
                                 </div>
                                 <div class="col-6 col-sm-4 col-lg-6 pt-2">
                                     <div class="w-75 btn-group" role="group">
-                                        <a asp-action="PlusMinus" asp-route-change="+1" asp-route-cartId="@item.Id" class="btn btn-sm btn-outline-primary rounded shadow bg-gradient py-2">
+                                        <a class="btn btn-sm btn-outline-primary rounded shadow bg-gradient py-2 btn-plus"
+                                           data-itemid="@item.Id"
+                                           data-count="@item.Count">
                                             <i class="bi bi-plus-square"></i>
-                                        </a> &nbsp;
-                                        <a asp-action="PlusMinus" asp-route-change="-1" asp-route-cartId="@item.Id" class="btn btn-sm btn-outline-primary rounded shadow bg-gradient py-2">
+                                        </a>
+                                        &nbsp;
+                                        <a class="btn btn-minus btn-sm btn-outline-primary rounded shadow bg-gradient py-2"
+                                           data-itemid="@item.Id"
+                                           data-count="@item.Count">
                                             <i class="bi bi-dash-square"></i>
                                         </a>
+
                                     </div>
                                 </div>
                                 <div class="col-3 col-sm-4 col-lg-2 text-right pt-2">
-                                    <a asp-action="Delete" asp-route-cartId="@item.Id" class="btn btn-danger rounded shadow bg-gradient py-2 ">
+                                    <a asp-action="Delete" asp-route-cartId="@item.Id" class="btn btn-danger rounded shadow bg-gradient py-2">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </div>
@@ -80,17 +86,101 @@
                         <ul class="list-group mb-4">
                             <li class="d-flex justify-content-between align-items-center">
                                 <h5 class="text-dark fw-semibold text-uppercase"> Total (USD)</h5>
-                                <h4 class="text-dark fw-bolder">@Model.OrderHeader.OrderTotal.ToString("c")</h4>
+                                <h4 id="order-total" class="text-dark fw-bolder">@Model.OrderHeader.OrderTotal</h4>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="row">
                     <div class="offset-4 col-4">
-                        <a asp-action="Summary" class="btn btn-outline-success rounded shadow bg-gradient w-100 py-2">Summary</a>
+                        <a id="summary-button" class="btn btn-outline-success rounded shadow bg-gradient w-100 py-2">Summary</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var updatedCart = []; // Initialize an array to store updated cart data
+
+            // Event handler for the plus button
+            $('.btn-plus').on('click', function () { 
+                var itemId = $(this).data('itemid');
+                var countElement = $('.count[data-itemid="' + itemId + '"]');
+                var priceElement = $('.price[data-itemid="' + itemId + '"]');
+                var totalElement = $('#order-total');
+
+                var count = parseInt(countElement.text());
+                var price = parseFloat(priceElement.text());
+                var total = parseFloat(totalElement.text());
+
+                count++;
+                total += price;
+
+                countElement.text(count);
+                totalElement.text(total.toFixed(2)); // Assuming you want to show the total with 2 decimal places
+
+                // Check if the item already exists in updatedCart
+                var existingItem = updatedCart.find(item => item.cartId === itemId);
+
+                if (existingItem) {
+                    // Update the count for the existing item
+                    existingItem.newCount = count;
+                } else {
+                    // If not, add the item to updatedCart
+                    updatedCart.push({ cartId: itemId, newCount: count });
+                }
+            });
+
+            // Event handler for the minus button
+            $('.btn-minus').on('click', function () {
+                var itemId = $(this).data('itemid');
+                var countElement = $('.count[data-itemid="' + itemId + '"]');
+                var priceElement = $('.price[data-itemid="' + itemId + '"]');
+                var totalElement = $('#order-total');
+
+                var count = parseInt(countElement.text());
+                var price = parseFloat(priceElement.text());
+                var total = parseFloat(totalElement.text());
+
+                if (count > 1) {
+                    count--;
+                    total -= price;
+                }
+
+                countElement.text(count);
+                totalElement.text(total.toFixed(2)); // Assuming you want to show the total with 2 decimal places
+
+                // Check if the item already exists in updatedCart
+                var existingItem = updatedCart.find(item => item.cartId === itemId);
+
+                if (existingItem) {
+                    // Update the count for the existing item
+                    existingItem.newCount = count;
+                } else {
+                    // If not, add the item to updatedCart
+                    updatedCart.push({ cartId: itemId, newCount: count });
+                }
+            });
+
+            // Event handler for the Summary button
+            $('#summary-button').on('click', function () {
+                $.ajax({
+                    url: '/Cart/UpdateProductCount',
+                    type: 'POST',
+                    data: { updatedCarts: updatedCart }, // Send the updated cart data to the server
+                    success: function (result) {
+                        window.location.href = result.redirectTo;
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -28,7 +28,7 @@ public class CartController : BaseController
         _orderDetailsService = orderDetailsService;
     }
 
-    #region Shoppimg Cart List 
+    #region Shopping Cart List 
     public async Task<IActionResult> Index()
     {
         var userId = GetUserId();
@@ -56,28 +56,23 @@ public class CartController : BaseController
     #endregion
 
     #region Plus Minus Number of Product 
-    public async Task<IActionResult> PlusMinus(Guid cartId, int change)
+    [HttpPost]
+    public async Task<IActionResult> UpdateProductCount(List<UpdatedCartItem> updatedCarts)
     {
-        var cartFromDbResult = await _shoppingCartService.GetByIdAsync(cartId);
-        if (!cartFromDbResult.Success)
+        var errors = new List<string>();
+        TempData["ErrorMessage"] = errors;
+
+        foreach (var updatedCart in updatedCarts)
         {
-            TempData["ErrorMessage"] = cartFromDbResult.Message;
-            return RedirectToAction(nameof(Index));
+            var updateResult = await _shoppingCartService.UpdateShoppingCartCount(updatedCart);
+            if (!updateResult.Success)
+            {
+                errors.Add(updateResult.Message);
+            } 
         }
 
-        if (cartFromDbResult.Data.Count == 1 && change == -1)
-        {
-            TempData["ErrorMessage"] = "Count cannot be zero. You may delete it";
-            return RedirectToAction(nameof(Index));
-        }
-
-        var updateResult = await _shoppingCartService.UpdateShoppingCart(cartFromDbResult.Data);
-        if (!updateResult.Success)
-        {
-            TempData["ErrorMessage"] = updateResult.Message;
-        }
-
-        return RedirectToAction(nameof(Index));
+        var summaryUrl = Url.Action(nameof(Summary));
+        return Json(new { redirectTo = summaryUrl });
     }
     #endregion
 
@@ -101,7 +96,7 @@ public class CartController : BaseController
     }
     #endregion
 
-    #region Order Summary 
+    #region Order Summary  
     public async Task<IActionResult> Summary()
     {
         Guid userId = GetUserId();
@@ -246,3 +241,4 @@ public class CartController : BaseController
     }
     #endregion
 }
+

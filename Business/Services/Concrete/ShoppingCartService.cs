@@ -84,6 +84,21 @@ public class ShoppingCartService : IShoppingCartService
         model.ProductId = entity.ProductId;
         model.Count = entity.Count; 
     }
+
+    public async Task<IResult> UpdateShoppingCartCount(UpdatedCartItem updatedCart)
+    {
+        var shoppingCartResult = await GetByIdAsync(updatedCart.CartId);
+        if (!shoppingCartResult.Success)
+        {
+            return shoppingCartResult;
+        }
+
+        shoppingCartResult.Data.Count = updatedCart.NewCount;
+        var updateResult = await _shoppingCartRepository.UpdateAsync(shoppingCartResult.Data);
+        return updateResult > 0
+            ? new SuccessResult(Messages.ShoppingCartUpdateSuccessfull)
+            : new ErrorResult(Messages.ShoppingCartUpdateError);
+    }
     #endregion 
 
     #region Delete

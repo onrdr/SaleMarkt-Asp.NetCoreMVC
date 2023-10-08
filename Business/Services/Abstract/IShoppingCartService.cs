@@ -11,6 +11,7 @@ public interface IShoppingCartService
     Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllWithProductAsync(Expression<Func<ShoppingCart, bool>> predicate);
     Task<IResult> CreateShoppingCart(ShoppingCart model);
     Task<IResult> UpdateShoppingCart(ShoppingCart model);
+    Task<IResult> UpdateShoppingCartCount(UpdatedCartItem updatedCart);
     Task<IResult> DeleteShoppingCart(Guid shoppingCartId);
     Task<IResult> DeleteShoppingCartRange(IEnumerable<ShoppingCart> cartList);
     Task<int> GetItemCountForUserAsync(Guid appUserId);
