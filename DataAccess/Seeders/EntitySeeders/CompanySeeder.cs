@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.Entities.Concrete; 
+using Models.Entities.Concrete;
 
-namespace DataAccess.Seeders;
+namespace DataAccess.Seeders.EntitySeeders;
 
 public static class CompanySeeder
 {
@@ -22,14 +22,14 @@ public static class CompanySeeder
             new Company()
             {
                 Id = Guid.NewGuid(),
-                Name = "SaleMarkt", 
+                Name = "SaleMarkt",
                 Email = "salemarkt@salemarkt.com",
                 PhoneNumber = "1234567890",
                 Address = "Beşiktaş",
                 City = "Istanbul",
                 Country = "Turkiye",
                 PostalCode = "34000",
-            }, 
+            },
         };
 
         return companies;

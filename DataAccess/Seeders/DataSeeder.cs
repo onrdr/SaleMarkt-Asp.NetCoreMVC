@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataAccess.Seeders.EntitySeeders;
+using DataAccess.Seeders.IdentitySeeders;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Seeders;
 
@@ -10,7 +12,9 @@ public static class DataSeeder
             .SeedCategories()
             .SeedProducts()
             .SeedCompanies()
-            .SeedRoles(); 
+            .SeedRoles()
+            .SeedAppUsers()
+            .SeedAppUserRoles(); 
 
         return modelBuilder;
     }

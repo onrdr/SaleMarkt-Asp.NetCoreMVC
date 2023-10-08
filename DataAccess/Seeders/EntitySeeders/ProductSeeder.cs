@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models.Entities.Concrete; 
+using Models.Entities.Concrete;
 
-namespace DataAccess.Seeders;
+namespace DataAccess.Seeders.EntitySeeders;
 
 public static class ProductSeeder
 {
@@ -38,7 +38,7 @@ public static class ProductSeeder
                 Id = Guid.NewGuid(),
                 Title = "Product 2",
                 Color = "Blue",
-                Size = "S", 
+                Size = "S",
                 Description = "Product 2 Description",
                 ListPrice = 40,
                 Price = 30,

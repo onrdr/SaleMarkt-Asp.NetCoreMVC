@@ -99,11 +99,19 @@ namespace DataAccess.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -224,7 +232,7 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("db3feb47-e731-4331-a517-99a555380101"),
+                            Id = new Guid("dc25bafb-40d3-4f4c-9a26-f2f14c34ad9c"),
                             Address = "Beşiktaş",
                             City = "Istanbul",
                             Country = "Turkiye",
@@ -372,11 +380,11 @@ namespace DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4e3f48a5-7b82-4993-ae09-f3e9ad93dbbe"),
+                            Id = new Guid("cf8523a5-79cb-4c6d-affc-ee99942906d1"),
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Color = "Red",
                             Description = "Product 1 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 99.0,
                             Price = 90.0,
                             Price100 = 80.0,
@@ -386,11 +394,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e1e2f3a7-0af1-4ad0-994f-7d2b438a7fc7"),
+                            Id = new Guid("327353b3-04ee-411b-a096-24980fa107ba"),
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Color = "Blue",
                             Description = "Product 2 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 40.0,
                             Price = 30.0,
                             Price100 = 20.0,
@@ -400,11 +408,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5e9ca217-889c-4e73-b122-bf1ba896a593"),
+                            Id = new Guid("69ebc18b-c821-4ade-9790-04f8fc510146"),
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Color = "Green",
                             Description = "Product 3 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 55.0,
                             Price = 50.0,
                             Price100 = 35.0,
@@ -414,11 +422,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("287174ba-af0e-4bb8-8787-afc4df628523"),
+                            Id = new Guid("938d8e64-db0e-4390-b7d2-582810774755"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Color = "Black",
                             Description = "Product 4 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
@@ -428,11 +436,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f954578b-e7ee-4d95-84b4-19ac949b703b"),
+                            Id = new Guid("2f36eefc-89d9-49c1-9ebf-be97db6870e0"),
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Color = "White",
                             Description = "Product 5 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 30.0,
                             Price = 27.0,
                             Price100 = 20.0,
@@ -442,11 +450,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3a0afafb-999e-4c5f-a40f-eabc71dfb2de"),
+                            Id = new Guid("b4591371-41d8-48fd-990f-e5c4f3b89ad8"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Color = "Yellow",
                             Description = "Product 6 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 20.0,
@@ -456,11 +464,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fc43e13a-5674-47de-84bd-718adf9ef154"),
+                            Id = new Guid("7e02241b-fc68-4bd8-b601-8f09bf049f94"),
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Color = "Red",
                             Description = "Product 7 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 60.0,
                             Price = 55.0,
                             Price100 = 45.0,
@@ -470,11 +478,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6a677524-9a84-49e6-817b-4b6f3ebe0a58"),
+                            Id = new Guid("83240dc5-6012-425b-9c35-5176a8b55f9b"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Color = "Blue",
                             Description = "Product 8 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 45.0,
                             Price = 40.0,
                             Price100 = 35.0,
@@ -484,11 +492,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f03609fa-289e-42a0-8883-b5df1fc47677"),
+                            Id = new Guid("503f1008-d44f-49cf-b528-9de7b4078c54"),
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Color = "Green",
                             Description = "Product 9 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 70.0,
                             Price = 65.0,
                             Price100 = 55.0,
@@ -498,11 +506,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("19c3ed41-5456-4772-bb89-facf12445876"),
+                            Id = new Guid("1b8fe840-2751-4282-b41c-0beb710b1f45"),
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Color = "Black",
                             Description = "Product 10 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 35.0,
                             Price = 32.0,
                             Price100 = 28.0,
@@ -512,11 +520,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bda4b519-14b2-44a3-84ba-a6c0ad217b14"),
+                            Id = new Guid("72623fd5-7860-4a98-838f-f773773d5de9"),
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Color = "White",
                             Description = "Product 11 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 25.0,
                             Price = 23.0,
                             Price100 = 19.0,
@@ -526,11 +534,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("40319114-843a-4db2-ba4b-157f203267ef"),
+                            Id = new Guid("40c72ab7-31ac-4814-be33-b7232e8e44e9"),
                             CategoryId = new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"),
                             Color = "Yellow",
                             Description = "Product 12 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 50.0,
                             Price = 45.0,
                             Price100 = 40.0,
@@ -540,11 +548,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b0cabd7a-a257-4474-97e4-2dff6661e848"),
+                            Id = new Guid("560f45eb-1d1c-4024-b6ac-6b54a1bb68ea"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Color = "Red",
                             Description = "Product 13 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 40.0,
                             Price = 38.0,
                             Price100 = 32.0,
@@ -554,11 +562,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("54a38c0c-6cb6-4864-a495-8aa2aa085b79"),
+                            Id = new Guid("9cad99c8-412d-4c88-abb5-0ccd311853b0"),
                             CategoryId = new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"),
                             Color = "Blue",
                             Description = "Product 14 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 55.0,
                             Price = 52.0,
                             Price100 = 48.0,
@@ -568,11 +576,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("45cd79e1-5786-4469-9405-91711fc45d2e"),
+                            Id = new Guid("aeaa8536-d241-41af-95a6-c900c3527437"),
                             CategoryId = new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"),
                             Color = "Green",
                             Description = "Product 15 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 70.0,
                             Price = 68.0,
                             Price100 = 60.0,
@@ -582,11 +590,11 @@ namespace DataAccess.Migrations
                         },
                         new
                         {
-                            Id = new Guid("799ce3ef-8bde-4c28-9c54-4403f69b3961"),
+                            Id = new Guid("fbe600cf-1fee-4402-87c8-aacd627fcbd3"),
                             CategoryId = new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"),
                             Color = "Black",
                             Description = "Product 16 Description",
-                            ImageUrl = "",
+                            ImageUrl = "images\\product\\product.png",
                             ListPrice = 45.0,
                             Price = 42.0,
                             Price100 = 38.0,
@@ -768,6 +776,98 @@ namespace DataAccess.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e6218c9e-f224-46f1-a38e-08dbc6b81e6e"),
+                            AccessFailedCount = 0,
+                            Address = "Levent",
+                            City = "Istanbul",
+                            ConcurrencyStamp = "a5b4ce0d-3189-4b16-a4df-9adbde35b40d",
+                            Country = "Turkiye",
+                            Email = "superadmin@salemarkt.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Super Admin",
+                            NormalizedEmail = "SUPERADMIN@SALEMARKT.COM",
+                            NormalizedUserName = "SUPER-ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAECByl9RKmTARk5w1x7F8JgWCAT8zKI9y2s/BaQVHO2pPxMAncULF+44kC7fMz4nnpA==",
+                            PhoneNumber = "1234567890",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "34000",
+                            SecurityStamp = "LB3ETSAI7Y2TFBWIODGRBQU774ITQI7G",
+                            TwoFactorEnabled = false,
+                            UserName = "Super-Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("fd91a0bc-13e9-46d0-d3d7-08dbc6b87e76"),
+                            AccessFailedCount = 0,
+                            Address = "Beşiktaş",
+                            City = "Istanbul",
+                            ConcurrencyStamp = "156d7eb0-4752-4147-817a-90696985e4d5",
+                            Country = "Turkiye",
+                            Email = "companyadmin@salemarkt.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Company Admin",
+                            NormalizedEmail = "COMPANYADMIN@SALEMARKT.COM",
+                            NormalizedUserName = "COMPANY-ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPvC/yQD0wrfDxCYISaEgR2+RfJQcGEJzK2PeseSSyDlpOj9cVEsz9oaCIEGHGw1ag==",
+                            PhoneNumber = "0987654321",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "34000",
+                            SecurityStamp = "BZMCGV4LGIAVLGR4NXGRVTBCBKZNAZRK",
+                            TwoFactorEnabled = false,
+                            UserName = "Company-Admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("ad4c1f6b-f620-41d7-d3d8-08dbc6b87e76"),
+                            AccessFailedCount = 0,
+                            Address = "Şişli",
+                            City = "Istanbul",
+                            ConcurrencyStamp = "b124af6f-c7a3-4abc-a917-456602df151d",
+                            Country = "Turkiye",
+                            Email = "customer@salemarkt.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            Name = "Company Customer ",
+                            NormalizedEmail = "CUSTOMER@SALEMARKT.COM",
+                            NormalizedUserName = "COMPANY-CUSTOMER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEPT05PyWYpkO5AqVs4mvyalAB0VPjWhSknJ1HonAod5tewuuD5R9FtW2mO23/21XQ==",
+                            PhoneNumber = "1029384756",
+                            PhoneNumberConfirmed = false,
+                            PostalCode = "34000",
+                            SecurityStamp = "PVNIK4FXHMWDXUJSOPGDPO4DPHTHOAM7",
+                            TwoFactorEnabled = false,
+                            UserName = "Company-Customer"
+                        });
+                });
+
+            modelBuilder.Entity("Models.Identity.AppUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
+
+                    b.HasDiscriminator().HasValue("AppUserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("ad4c1f6b-f620-41d7-d3d8-08dbc6b87e76"),
+                            RoleId = new Guid("41102f40-1cee-4a61-9add-140d2608b1a5")
+                        },
+                        new
+                        {
+                            UserId = new Guid("fd91a0bc-13e9-46d0-d3d7-08dbc6b87e76"),
+                            RoleId = new Guid("2f514e34-8a22-4e36-aefc-752ba3aa0b34")
+                        },
+                        new
+                        {
+                            UserId = new Guid("e6218c9e-f224-46f1-a38e-08dbc6b81e6e"),
+                            RoleId = new Guid("2b76647d-c501-44c3-91c7-a2bd6843b6e7")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

@@ -1,5 +1,4 @@
-﻿
-namespace Models.Entities.Concrete;
+﻿namespace Models.ViewModels;
 
 public class UpdatedCartItem
 {

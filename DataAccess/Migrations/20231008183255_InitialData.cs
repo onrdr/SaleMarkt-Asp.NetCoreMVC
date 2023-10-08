@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -158,7 +158,8 @@ namespace DataAccess.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -338,6 +339,16 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "City", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PostalCode", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { new Guid("ad4c1f6b-f620-41d7-d3d8-08dbc6b87e76"), 0, "Şişli", "Istanbul", "b124af6f-c7a3-4abc-a917-456602df151d", "Turkiye", "customer@salemarkt.com", false, false, null, "Company Customer ", "CUSTOMER@SALEMARKT.COM", "COMPANY-CUSTOMER", "AQAAAAIAAYagAAAAEEPT05PyWYpkO5AqVs4mvyalAB0VPjWhSknJ1HonAod5tewuuD5R9FtW2mO23/21XQ==", "1029384756", false, "34000", "PVNIK4FXHMWDXUJSOPGDPO4DPHTHOAM7", false, "Company-Customer" },
+                    { new Guid("e6218c9e-f224-46f1-a38e-08dbc6b81e6e"), 0, "Levent", "Istanbul", "a5b4ce0d-3189-4b16-a4df-9adbde35b40d", "Turkiye", "superadmin@salemarkt.com", false, false, null, "Super Admin", "SUPERADMIN@SALEMARKT.COM", "SUPER-ADMIN", "AQAAAAIAAYagAAAAECByl9RKmTARk5w1x7F8JgWCAT8zKI9y2s/BaQVHO2pPxMAncULF+44kC7fMz4nnpA==", "1234567890", false, "34000", "LB3ETSAI7Y2TFBWIODGRBQU774ITQI7G", false, "Super-Admin" },
+                    { new Guid("fd91a0bc-13e9-46d0-d3d7-08dbc6b87e76"), 0, "Beşiktaş", "Istanbul", "156d7eb0-4752-4147-817a-90696985e4d5", "Turkiye", "companyadmin@salemarkt.com", false, false, null, "Company Admin", "COMPANYADMIN@SALEMARKT.COM", "COMPANY-ADMIN", "AQAAAAIAAYagAAAAEPvC/yQD0wrfDxCYISaEgR2+RfJQcGEJzK2PeseSSyDlpOj9cVEsz9oaCIEGHGw1ag==", "0987654321", false, "34000", "BZMCGV4LGIAVLGR4NXGRVTBCBKZNAZRK", false, "Company-Admin" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Description", "DisplayOrder", "ImageUrl", "Name" },
                 values: new object[,]
@@ -351,29 +362,39 @@ namespace DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Companies",
                 columns: new[] { "Id", "Address", "City", "Country", "Email", "ImageUrl", "Name", "PhoneNumber", "PostalCode" },
-                values: new object[] { new Guid("db3feb47-e731-4331-a517-99a555380101"), "Beşiktaş", "Istanbul", "Turkiye", "salemarkt@salemarkt.com", null, "SaleMarkt", "1234567890", "34000" });
+                values: new object[] { new Guid("dc25bafb-40d3-4f4c-9a26-f2f14c34ad9c"), "Beşiktaş", "Istanbul", "Turkiye", "salemarkt@salemarkt.com", null, "SaleMarkt", "1234567890", "34000" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId", "Discriminator" },
+                values: new object[,]
+                {
+                    { new Guid("41102f40-1cee-4a61-9add-140d2608b1a5"), new Guid("ad4c1f6b-f620-41d7-d3d8-08dbc6b87e76"), "AppUserRole" },
+                    { new Guid("2b76647d-c501-44c3-91c7-a2bd6843b6e7"), new Guid("e6218c9e-f224-46f1-a38e-08dbc6b81e6e"), "AppUserRole" },
+                    { new Guid("2f514e34-8a22-4e36-aefc-752ba3aa0b34"), new Guid("fd91a0bc-13e9-46d0-d3d7-08dbc6b87e76"), "AppUserRole" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "CategoryId", "Color", "Description", "ImageUrl", "ListPrice", "Price", "Price100", "Price50", "Size", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("19c3ed41-5456-4772-bb89-facf12445876"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Black", "Product 10 Description", "", 35.0, 32.0, 28.0, 30.0, "XL", "Product 10" },
-                    { new Guid("287174ba-af0e-4bb8-8787-afc4df628523"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Black", "Product 4 Description", "", 70.0, 65.0, 55.0, 60.0, "XL", "Product 4" },
-                    { new Guid("3a0afafb-999e-4c5f-a40f-eabc71dfb2de"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Yellow", "Product 6 Description", "", 25.0, 23.0, 20.0, 22.0, "L", "Product 6" },
-                    { new Guid("40319114-843a-4db2-ba4b-157f203267ef"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "Yellow", "Product 12 Description", "", 50.0, 45.0, 40.0, 42.0, "M", "Product 12" },
-                    { new Guid("45cd79e1-5786-4469-9405-91711fc45d2e"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Green", "Product 15 Description", "", 70.0, 68.0, 60.0, 65.0, "S", "Product 15" },
-                    { new Guid("4e3f48a5-7b82-4993-ae09-f3e9ad93dbbe"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Red", "Product 1 Description", "", 99.0, 90.0, 80.0, 85.0, "M", "Product 1" },
-                    { new Guid("54a38c0c-6cb6-4864-a495-8aa2aa085b79"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Blue", "Product 14 Description", "", 55.0, 52.0, 48.0, 50.0, "XL", "Product 14" },
-                    { new Guid("5e9ca217-889c-4e73-b122-bf1ba896a593"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "Green", "Product 3 Description", "", 55.0, 50.0, 35.0, 40.0, "L", "Product 3" },
-                    { new Guid("6a677524-9a84-49e6-817b-4b6f3ebe0a58"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Blue", "Product 8 Description", "", 45.0, 40.0, 35.0, 38.0, "M", "Product 8" },
-                    { new Guid("799ce3ef-8bde-4c28-9c54-4403f69b3961"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Black", "Product 16 Description", "", 45.0, 42.0, 38.0, 40.0, "M", "Product 16" },
-                    { new Guid("b0cabd7a-a257-4474-97e4-2dff6661e848"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Red", "Product 13 Description", "", 40.0, 38.0, 32.0, 35.0, "L", "Product 13" },
-                    { new Guid("bda4b519-14b2-44a3-84ba-a6c0ad217b14"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "White", "Product 11 Description", "", 25.0, 23.0, 19.0, 21.0, "S", "Product 11" },
-                    { new Guid("e1e2f3a7-0af1-4ad0-994f-7d2b438a7fc7"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Blue", "Product 2 Description", "", 40.0, 30.0, 20.0, 25.0, "S", "Product 2" },
-                    { new Guid("f03609fa-289e-42a0-8883-b5df1fc47677"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Green", "Product 9 Description", "", 70.0, 65.0, 55.0, 60.0, "L", "Product 9" },
-                    { new Guid("f954578b-e7ee-4d95-84b4-19ac949b703b"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "White", "Product 5 Description", "", 30.0, 27.0, 20.0, 25.0, "M", "Product 5" },
-                    { new Guid("fc43e13a-5674-47de-84bd-718adf9ef154"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Red", "Product 7 Description", "", 60.0, 55.0, 45.0, 50.0, "S", "Product 7" }
+                    { new Guid("1b8fe840-2751-4282-b41c-0beb710b1f45"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Black", "Product 10 Description", "images\\product\\product.png", 35.0, 32.0, 28.0, 30.0, "XL", "Product 10" },
+                    { new Guid("2f36eefc-89d9-49c1-9ebf-be97db6870e0"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "White", "Product 5 Description", "images\\product\\product.png", 30.0, 27.0, 20.0, 25.0, "M", "Product 5" },
+                    { new Guid("327353b3-04ee-411b-a096-24980fa107ba"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Blue", "Product 2 Description", "images\\product\\product.png", 40.0, 30.0, 20.0, 25.0, "S", "Product 2" },
+                    { new Guid("40c72ab7-31ac-4814-be33-b7232e8e44e9"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "Yellow", "Product 12 Description", "images\\product\\product.png", 50.0, 45.0, 40.0, 42.0, "M", "Product 12" },
+                    { new Guid("503f1008-d44f-49cf-b528-9de7b4078c54"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Green", "Product 9 Description", "images\\product\\product.png", 70.0, 65.0, 55.0, 60.0, "L", "Product 9" },
+                    { new Guid("560f45eb-1d1c-4024-b6ac-6b54a1bb68ea"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Red", "Product 13 Description", "images\\product\\product.png", 40.0, 38.0, 32.0, 35.0, "L", "Product 13" },
+                    { new Guid("69ebc18b-c821-4ade-9790-04f8fc510146"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "Green", "Product 3 Description", "images\\product\\product.png", 55.0, 50.0, 35.0, 40.0, "L", "Product 3" },
+                    { new Guid("72623fd5-7860-4a98-838f-f773773d5de9"), new Guid("db9b235f-a5d6-49dc-8e95-022f443f8582"), "White", "Product 11 Description", "images\\product\\product.png", 25.0, 23.0, 19.0, 21.0, "S", "Product 11" },
+                    { new Guid("7e02241b-fc68-4bd8-b601-8f09bf049f94"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Red", "Product 7 Description", "images\\product\\product.png", 60.0, 55.0, 45.0, 50.0, "S", "Product 7" },
+                    { new Guid("83240dc5-6012-425b-9c35-5176a8b55f9b"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Blue", "Product 8 Description", "images\\product\\product.png", 45.0, 40.0, 35.0, 38.0, "M", "Product 8" },
+                    { new Guid("938d8e64-db0e-4390-b7d2-582810774755"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Black", "Product 4 Description", "images\\product\\product.png", 70.0, 65.0, 55.0, 60.0, "XL", "Product 4" },
+                    { new Guid("9cad99c8-412d-4c88-abb5-0ccd311853b0"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Blue", "Product 14 Description", "images\\product\\product.png", 55.0, 52.0, 48.0, 50.0, "XL", "Product 14" },
+                    { new Guid("aeaa8536-d241-41af-95a6-c900c3527437"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Green", "Product 15 Description", "images\\product\\product.png", 70.0, 68.0, 60.0, 65.0, "S", "Product 15" },
+                    { new Guid("b4591371-41d8-48fd-990f-e5c4f3b89ad8"), new Guid("8179ed4d-7e5b-49c4-33f3-08dbc21909ac"), "Yellow", "Product 6 Description", "images\\product\\product.png", 25.0, 23.0, 20.0, 22.0, "L", "Product 6" },
+                    { new Guid("cf8523a5-79cb-4c6d-affc-ee99942906d1"), new Guid("34245a4d-0baa-4c22-8245-02abb9063b11"), "Red", "Product 1 Description", "images\\product\\product.png", 99.0, 90.0, 80.0, 85.0, "M", "Product 1" },
+                    { new Guid("fbe600cf-1fee-4402-87c8-aacd627fcbd3"), new Guid("76d6be2f-8d6c-4e93-94cc-4eb0341950bc"), "Black", "Product 16 Description", "images\\product\\product.png", 45.0, 42.0, 38.0, 40.0, "M", "Product 16" }
                 });
 
             migrationBuilder.CreateIndex(

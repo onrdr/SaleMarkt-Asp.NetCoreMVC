@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.Entities.Concrete;
 
-namespace DataAccess.Seeders;
+namespace DataAccess.Seeders.EntitySeeders;
 
 public static class CategorySeeder
 {

@@ -1,14 +1,4 @@
-﻿@inject IShoppingCartService _shoppingCartService
-@{
-    var userId = Guid.NewGuid();
-    if (User.Identity.IsAuthenticated)
-    {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        userId = Guid.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value);
-    }
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -91,7 +81,7 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart text-dark"></i><b class="text-danger">(@await _shoppingCartService.GetItemCountForUserAsync(userId))</b>
+                               @await Component.InvokeAsync("ShoppingCartCount")
                             </a>
                         </li>
 
