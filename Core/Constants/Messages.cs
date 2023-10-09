@@ -46,7 +46,7 @@ public class Messages
     public const string OrderHeaderUpdateSuccessfull = "Order Header successfully updated";
     public const string OrderHeaderUpdateError = "Error occured while updating the order header to Database";
     public const string OrderHeaderDeleteSuccessfull = "Order Header successfully deleted";
-    public const string OrderHeaderDeleteError = "Error occured while deleting the order header to Database";
+    public const string OrderHeaderDeleteError = "Error occured while deleting the order header from Database";
 
     public const string OrderDetailNotFound = "Order Details not found";
     public const string EmptyOrderDetailList = "Order Details List is empty";
@@ -54,4 +54,6 @@ public class Messages
     public const string OrderDetailAddError = "Error occured while adding the order details to Database";
 
     public const string EmptyOrderList = "Order List is empty";
+    public const string OrderDeleteSuccessfull = "Order successfully deleted";
+    public const string OrderDeleteError = "Error occured while deleting the order from Database";
 }

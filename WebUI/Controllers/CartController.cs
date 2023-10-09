@@ -130,6 +130,7 @@ public class CartController : BaseController
         var userId = GetUserId();
         shoppingCartViewModel.ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data;
         shoppingCartViewModel.OrderHeader.OrderDate = DateTime.UtcNow;
+        shoppingCartViewModel.OrderHeader.ShippingDate = DateTime.UtcNow.AddDays(2);
         shoppingCartViewModel.OrderHeader.AppUserId = userId;
 
         var appUser = await UserManager.FindByIdAsync(userId.ToString());

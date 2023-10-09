@@ -104,7 +104,7 @@ public class OrderHeaderService : IOrderHeaderService
 
         var updateResult = await _orderHeaderRepository.DeleteAsync(orderHeaderId);
         return updateResult > 0
-            ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
-            : new ErrorResult(Messages.OrderHeaderUpdateError);
+            ? new SuccessResult(Messages.OrderHeaderDeleteSuccessfull)
+            : new ErrorResult(Messages.OrderHeaderDeleteError);
     }
 }

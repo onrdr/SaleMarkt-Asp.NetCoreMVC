@@ -124,7 +124,6 @@ public class OrderController : BaseController
     #endregion
 
     #region API Calls
-
     [HttpGet]
     public async Task<IActionResult> GetAll()
     { 
@@ -148,11 +147,11 @@ public class OrderController : BaseController
         var result = await _orderHeaderService.DeleteOrder(orderHeaderId);
         if (!result.Success)
         {
-            TempData["ErrorMessage"] = result.Message;
+            TempData["ErrorMessage"] = Messages.OrderDeleteError;
         }
         else
         {
-            TempData["SuccessMessage"] = "Order Deleted";
+            TempData["SuccessMessage"] = Messages.OrderDeleteSuccessfull;
         }
         
         var summaryUrl = Url.Action(nameof(Index));
