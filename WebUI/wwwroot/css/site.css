@@ -18,7 +18,8 @@ html {
 }
 
 body {  
-    margin-bottom: 60px;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .btn-custom-width {

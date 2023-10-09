@@ -1,11 +1,8 @@
-﻿using System.Net.Mail;
-using System.Net;
-using Business.Services.Abstract;
+﻿using Business.Services.Abstract;
 using Models.Smtp;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using SendGrid.Helpers.Errors.Model;
 
 namespace Business.Services.Concrete;
 
@@ -20,22 +17,22 @@ public class EmailService : IEmailService
 
     public async Task<Response> SendEmailForConfirmation(string toEmail, string message)
     {
-        return await Execute(toEmail, message);
+        return await Execute(toEmail, message, _smtpSettings.ConfirmEmailSubject, "SaleMarkt Confirm Email");
     }
 
     public async Task<Response> SendResetEmailAsync(string toEmail, string message)
     {
-        return await Execute(toEmail, message);
+        return await Execute(toEmail, message, _smtpSettings.PasswordResetSubject, "SaleMarkt Reset Password");
     }
 
-    private async Task<Response> Execute(string toEmail, string message)
+    private async Task<Response> Execute(string toEmail, string message, string subj, string content)
     {
         var apiKey = _smtpSettings.ApiKey;
         var client = new SendGridClient(apiKey);
         var from = new EmailAddress(_smtpSettings.FromEmail);
-        var subject = _smtpSettings.PasswordResetSubject;
+        var subject = subj;
         var to = new EmailAddress(toEmail);
-        var plainTextContent = "SaleMarkt reset password";
+        var plainTextContent = content;
         var htmlContent = message;
         var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
         var response = await client.SendEmailAsync(msg);

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>SaleMarkt</title> 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
@@ -14,10 +15,12 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand">
-                    <img src="~/images/logo/logo.jpg" alt="Company Logo" width="35" height="35">
-                </a>
+            <div class="container-fluid">
+                <div class="mx-4">
+                    <a class="navbar-brand">
+                        <img src="~/images/logo/logo.jpg" alt="Company Logo" width="120" height="60">
+                    </a>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -81,7 +84,7 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Cart" asp-action="Index">
-                               @await Component.InvokeAsync("ShoppingCartCount")
+                                @await Component.InvokeAsync("ShoppingCartCount")
                             </a>
                         </li>
 
@@ -90,17 +93,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container pb-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy;2023 - SaleMarkt <i class="bi bi-heart-fill"></i><a asp-controller="Home" asp-action="Contact"></a>
-        </div>
-    </footer>
+    <partial name="_Footer" />
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_Notification" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

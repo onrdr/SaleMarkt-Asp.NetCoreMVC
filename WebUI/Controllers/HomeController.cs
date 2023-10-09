@@ -35,9 +35,13 @@ public class HomeController : BaseController
         _shoppingCartService = shoppingCartService;
     }
 
+    public IActionResult Index()
+    {
+        return View();
+    }
 
     #region HomePage Product List & Details
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> ProductList()
     {
         var productResult = await _productService.GetAllProductsWithCategory(c => true);
 

@@ -50,4 +50,6 @@ public class Messages
     public const string EmptyOrderDetailList = "Order Details List is empty";
     public const string OrderDetailAddSuccessfull = "Order Details successfully created";
     public const string OrderDetailAddError = "Error occured while adding the order details to Database";
+
+    public const string EmptyOrderList = "Order List is empty";
 }

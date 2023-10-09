@@ -1,7 +1,7 @@
 ﻿using Business.Services.Abstract;
 using Core.Constants;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 using Models.ViewModels; 
 
 namespace WebUI.Controllers;
@@ -38,7 +38,7 @@ public class OrderController : BaseController
         var orderDetailResult = await _orderDetailsService.GetAllWithProductAsync(o => o.OrderHeaderId == orderHeaderId);
         if (!orderDetailResult.Success)
         {
-            TempData["ErrorMessage"] = orderDetailResult.Message;
+            TempData["ErrorMessage"] = Messages.EmptyOrderList;
             return RedirectToAction(nameof(Index));
         }
 
@@ -132,8 +132,8 @@ public class OrderController : BaseController
         var orderHeaderResult = await _orderHeaderService.GetAllWithAppUserAsync(o => true);
         if (!orderHeaderResult.Success)
         {
-            TempData["ErrorMessage"] = orderHeaderResult.Message;
-        }
+            return Json(data: null);
+        } 
 
         if (User.IsInRole(RoleNames.Customer))
         { 

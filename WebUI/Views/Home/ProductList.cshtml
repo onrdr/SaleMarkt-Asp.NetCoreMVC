@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row pb-3">
+    @foreach (var product in Model)
+    {
+        <div class="col-lg-3 col-sm-6 mt-4">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border border-1 border-top rounded">
+                        <img src="~/@product.ImageUrl" class="card-img-top rounded" style="height:100%; max-width:100%" />
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center"><strong>@product.Title</strong></p>
+                                <p class="card-title text-warning text-center">Color: <strong>@product.Color</strong></p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center mb-0">
+                                    List Price:
+                                    <span class="text-decoration-line-through">
+                                        @product.ListPrice.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="pl-1">
+                                <p class="text-dark text-opacity-75 text-center">
+                                    As low as:
+                                    <span>
+                                        @product.Price100.ToString("c")
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <a asp-controller="Home" asp-action="Details" asp-route-productId="@product.Id"
+                               class="btn btn-outline-info border border-2 bg-gradient form-control shadow rounded">
+                                <b>Details</b>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
