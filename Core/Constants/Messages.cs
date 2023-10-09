@@ -45,6 +45,8 @@ public class Messages
     public const string OrderHeaderAddError = "Error occured while adding the order header to Database";
     public const string OrderHeaderUpdateSuccessfull = "Order Header successfully updated";
     public const string OrderHeaderUpdateError = "Error occured while updating the order header to Database";
+    public const string OrderHeaderDeleteSuccessfull = "Order Header successfully deleted";
+    public const string OrderHeaderDeleteError = "Error occured while deleting the order header to Database";
 
     public const string OrderDetailNotFound = "Order Details not found";
     public const string EmptyOrderDetailList = "Order Details List is empty";

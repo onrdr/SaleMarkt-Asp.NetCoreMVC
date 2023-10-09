@@ -30,3 +30,22 @@ body {
     max-width: 100px;
     max-height: 100px;
 }
+
+/* Change the color of indicators to text-success */
+#carouselExampleIndicators .carousel-indicators button {
+    background-color: transparent; 
+    border: 2px solid #28a745; 
+}
+
+/* Change the color of previous and next buttons to text-success */
+#carouselExampleIndicators .carousel-control-prev,
+#carouselExampleIndicators .carousel-control-next {
+    background-color: transparent !important;
+    color: #28a745 !important;
+}
+
+/* Remove list-style-type (dots) from <li> elements */
+footer ul li {
+    list-style-type: none;
+}
+

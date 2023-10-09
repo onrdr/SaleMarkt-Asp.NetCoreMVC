@@ -7,13 +7,11 @@
 <form method="post">
     <input asp-for="ProductId" hidden/>
     <input asp-for="Product" hidden/>
-    <div class="card shadow border-0 mt-4 mb-4 rounded">
+    <div class="card shadow border-0 mt-4 mb-4 rounded offset-1 col-10">
         <div class="card-header bg-info bg-gradient text-light py-4 rounded">
             <div class="row">
                 <div class="col-12 text-center">
                     <h3 class="text-white text-uppercase">@Model.Product.Title</h3>
-                    <p class="text-white-50 fw-semibold mb-0">Size: @Model.Product.Size</p>
-                    <p class="text-white-50 fw-semibold mb-0">Color:  @Model.Product.Color</p>
                 </div>
             </div>
         </div>
@@ -26,6 +24,9 @@
                     <div class="col-12 col-lg-7 offset-1">
                         <div class="col-12 col-md-6 pb-4">
                             <span class="badge text-bg-danger">Category: @Model.Product.Category.Name</span>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">Size : @Model.Product.Size</h6>
                         </div>
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50 ">Color : @Model.Product.Color</h6>
@@ -83,13 +84,13 @@
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6 pb-1">
-                                <button type="submit" class="btn btn-success bg-gradient w-100 py-2 text-uppercase fw-semibold">
+                                <button type="submit" class="btn btn-success rounded shadow bg-gradient w-100 py-2 text-uppercase fw-semibold">
                                     Add to Cart
                                 </button>
                             </div>
                             <div class="col-12 col-md-6 pb-1 text-end">
-                                <a asp-action="Index" class="btn btn-outline-primary bg-gradient fw-semibold btn-sm text-uppercase mx-4">
-                                    <small>Back to Home Page</small>
+                                <a asp-action="ProductList" class="btn btn-outline-info rounded shadow bg-gradient fw-semibold btn-sm text-uppercase mx-4">
+                                    Back to Product List
                                 </a>
                             </div>
                         </div>

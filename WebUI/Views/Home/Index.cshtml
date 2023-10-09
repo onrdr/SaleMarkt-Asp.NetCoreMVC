@@ -1,27 +1,13 @@
-﻿<!-- Modal -->
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="w-100 pt-1 mb-5 text-right">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="" method="get" class="modal-content modal-body border-0 p-0">
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                <button type="submit" class="input-group-text bg-success text-light">
-                    <i class="fa fa-fw fa-search text-white"></i>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+﻿@inject ICategoryService _categoryService
+@inject IProductService _productService
 
 <!-- Start Banner Hero -->
-<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
-    </ol>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="container">
@@ -84,16 +70,18 @@
             </div>
         </div>
     </div>
-    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
-        <i class="fas fa-chevron-left"></i>
-    </a>
-    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
-        <i class="fas fa-chevron-right"></i>
-    </a>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="false"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
 </div>
 <!-- End Banner Hero -->
 <!-- Start Categories -->
-
 <section class="container py-5">
     <hr />
     <div class="row text-center pt-3">
@@ -106,27 +94,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./images/home/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
-            <h5 class="text-center mt-3 mb-3">Watches</h5>
-            <p class="text-center"><a asp-controller="Home" asp-action="ProductList" class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./images/home/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Shoes</h2>
-            <p class="text-center"><a asp-controller="Home" asp-action="ProductList" class="btn btn-success">Go Shop</a></p>
-        </div>
-        <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img src="./images/home/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-            <h2 class="h5 text-center mt-3 mb-3">Accessories</h2>
-            <p class="text-center"><a asp-controller="Home" asp-action="ProductList" class="btn btn-success">Go Shop</a></p>
-        </div>
+        @foreach (var category in (await _categoryService.GetAllAsync(x => true)).Data.Take(3))
+        {
+            <div class="col-12 col-md-4 p-5 mt-3 text-center">
+                <a><img src="~/@category.ImageUrl" class="rounded-circle img-fluid border"></a>
+                <h5 class="text-center mt-3 mb-3">@category.Name</h5>
+                <p class="text-center"><a asp-controller="Home" asp-action="ProductList" class="btn btn-success">Go Shop</a></p>
+            </div>
+        }
     </div>
 </section>
-<!-- End Categories of The Month -->
+<!-- End Categories -->
 <!-- Start Featured Product -->
-<section class="bg-light border border-0"> 
-    <div class="container py-5">
+<section class="bg-light border border-0">
+    <div class="container">
         <hr />
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
@@ -138,78 +119,46 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./images/home/feature_prod_01.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$240.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Gym Weight</a>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt in culpa qui officia deserunt.
-                        </p>
-                        <p class="text-muted">Reviews (24)</p>
+            @foreach (var product in (await _productService.GetAllAsync(p => true)).Data.Take(3))
+            {
+                <div class="col-lg-4 col-sm-6 mt-4">
+                    <div class="row p-2">
+                        <div class="col-12 p-1">
+                            <div class="card border border-1 border-top rounded">
+                                <img src="~/@product.ImageUrl" class="card-img-top rounded" style="height:100%; max-width:100%" />
+                                <div class="card-body pb-0">
+                                    <div class="pl-1">
+                                        <p class="card-title h5 text-dark opacity-75 text-uppercase text-center"><strong>@product.Title</strong></p>
+                                        <p class="card-title text-warning text-center"><strong>@product.Description</strong></p>
+                                    </div>
+                                    <div class="pl-1">
+                                        <p class="text-dark text-opacity-75 text-center mb-0">
+                                            List Price:
+                                            <span class="text-decoration-line-through">
+                                                @product.ListPrice.ToString("c")
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="pl-1">
+                                        <p class="text-dark text-opacity-75 text-center">
+                                            As low as:
+                                            <span>
+                                                @product.Price100.ToString("c")
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a asp-controller="Home" asp-action="Details" asp-route-productId="@product.Id"
+                                       class="btn btn-info border border-2 bg-gradient form-control shadow rounded">
+                                        <b>Details</b>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./images/home/feature_prod_02.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                                <i class="text-muted fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$480.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Cloud Nike Shoes</a>
-                        <p class="card-text">
-                            Aenean gravida dignissim finibus. Nullam ipsum diam, posuere vitae pharetra sed, commodo ullamcorper.
-                        </p>
-                        <p class="text-muted">Reviews (48)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a href="shop-single.html">
-                        <img src="./images/home/feature_prod_03.jpg" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
-                            <li>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                                <i class="text-warning fa fa-star"></i>
-                            </li>
-                            <li class="text-muted text-right">$360.00</li>
-                        </ul>
-                        <a href="shop-single.html" class="h2 text-decoration-none text-dark">Summer Addides Shoes</a>
-                        <p class="card-text">
-                            Curabitur ac mi sit amet diam luctus porta. Phasellus pulvinar sagittis diam, et scelerisque ipsum lobortis nec.
-                        </p>
-                        <p class="text-muted">Reviews (74)</p>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </section>

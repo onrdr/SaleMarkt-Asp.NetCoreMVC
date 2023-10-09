@@ -90,7 +90,7 @@ public class HomeController : BaseController
         }
 
         TempData["SuccessMessage"] = "Cart successfully updated";
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(ProductList));
     } 
     #endregion
 

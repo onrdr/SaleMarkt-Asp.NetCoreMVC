@@ -52,7 +52,7 @@ public class OrderController : BaseController
     }
     #endregion
 
-    #region Order Confirm & Cancel 
+    #region Order Confirm & Pend 
     public async Task<IActionResult> ConfirmOrder(Guid orderHeaderId)
     {
         var result = await _orderHeaderService.UpdateOrderStatus(orderHeaderId, OrderHeaderStatus.Approved);
@@ -66,7 +66,7 @@ public class OrderController : BaseController
         return RedirectToAction(nameof(Details), new { orderHeaderId });
     }
 
-    public async Task<IActionResult> CancelOrder(Guid orderHeaderId)
+    public async Task<IActionResult> PendOrder(Guid orderHeaderId)
     {
         var result = await _orderHeaderService.UpdateOrderStatus(orderHeaderId, OrderHeaderStatus.Pending);
         if (!result.Success)
@@ -77,10 +77,10 @@ public class OrderController : BaseController
 
         TempData["SuccessMessage"] = "Order Status Updated to Pending";
         return RedirectToAction(nameof(Details), new { orderHeaderId });
-    }
+    }   
     #endregion
 
-    #region Payment Confirm & Cancel 
+    #region Payment Confirm & Pend 
     public async Task<IActionResult> ConfirmPayment(Guid orderHeaderId)
     {
         var result = await _orderHeaderService.UpdatePaymentStatus(orderHeaderId, OrderHeaderStatus.Approved);
@@ -94,8 +94,7 @@ public class OrderController : BaseController
         return RedirectToAction(nameof(Details), new { orderHeaderId });
     }
 
-
-    public async Task<IActionResult> CancelPayment(Guid orderHeaderId)
+    public async Task<IActionResult> PendPayment(Guid orderHeaderId)
     {
         var result = await _orderHeaderService.UpdatePaymentStatus(orderHeaderId, OrderHeaderStatus.Pending);
         if (!result.Success)
@@ -142,5 +141,22 @@ public class OrderController : BaseController
 
         return Json(new { data = orderHeaderResult.Data });
     }
-    #endregion 
+
+    [HttpDelete]
+    public async Task<IActionResult> CancelOrder(Guid orderHeaderId)
+    {
+        var result = await _orderHeaderService.DeleteOrder(orderHeaderId);
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.Message;
+        }
+        else
+        {
+            TempData["SuccessMessage"] = "Order Deleted";
+        }
+        
+        var summaryUrl = Url.Action(nameof(Index));
+        return Json(new { redirectTo = summaryUrl }); 
+    }
+    #endregion
 }

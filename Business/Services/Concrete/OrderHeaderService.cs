@@ -93,4 +93,18 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
+
+    public async Task<IResult> DeleteOrder(Guid orderHeaderId)
+    {
+        var orderHeaderResult = await GetByIdAsync(orderHeaderId);
+        if (!orderHeaderResult.Success)
+        {
+            return orderHeaderResult;
+        }
+
+        var updateResult = await _orderHeaderRepository.DeleteAsync(orderHeaderId);
+        return updateResult > 0
+            ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
+            : new ErrorResult(Messages.OrderHeaderUpdateError);
+    }
 }

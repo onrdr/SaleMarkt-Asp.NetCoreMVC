@@ -4,11 +4,14 @@
     <input asp-for="OrderHeader.Id" hidden />
     <br />
     <div class="container">
-        <div class="card">
-            <div class="card-header bg-dark text-light ml-0">
-                <div class="container row">
-                    <div class="col-12 d-none d-md-block col-md-6 pb-1">
-                        <h3 class="text-light"><i class="bi bi-cart text-light"></i> &nbsp; Order Summary</h3>
+        <div class="card offset-1 col-10">
+            <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
+                <div class="row px-4">
+                    <div class="col-6">
+                        <h2 class="pt-2 text-primary">Order Summary</h2>
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-action="Index" class="btn btn-outline-info shadow rounded">Back to Orders</a>
                     </div>
                 </div>
             </div>
@@ -18,7 +21,7 @@
                         <div class="col-12 col-lg-6 pb-4">
                             <div class="row">
                                 <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-primary">Buyer Details:</span>
+                                    <span class="text-info">Buyer Details:</span>
                                 </h4>
                             </div>
                             <div class="row my-1">
@@ -84,7 +87,7 @@
                         </div>
                         <div class="col-12 col-lg-5 offset-lg-1">
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="text-primary">Order Summary</span>
+                                <span class="text-info">Order Summary</span>
                             </h4>
                             <ul class="list-group mb-3">
                                 @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Pending)
@@ -136,7 +139,7 @@
                                         </div>
                                     </li>
                                 }
-                                <hr />
+
                                 @foreach (var detail in Model.OrderDetailList)
                                 {
                                     <li class="list-group-item d-flex justify-content-between p-2">
@@ -152,58 +155,59 @@
                                         </div>
                                     </li>
                                 }
-                                <li class="list-group-item bg-danger">
+                                <li class="list-group-item bg-white">
                                     <div class="row container">
                                         <div class="col-6">
-                                            <h5 class="text-white">TOTAL </h5>
+                                            <h5>TOTAL </h5>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <h5 class="text-white">@Model.OrderHeader.OrderTotal.ToString("c")</h5>
+                                            <h5>@Model.OrderHeader.OrderTotal.ToString("c")</h5>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
+
                             @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
                             {
                                 @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Pending && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
                                 {
+                                    <a onclick="Delete('/order/cancelOrder?orderHeaderId=@Model.OrderHeader.Id')" class="btn btn-outline-danger form-control my-1 rounded">
+                                        Cancel Order
+                                    </a>
                                     <button type="submit" asp-action="ConfirmOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
-                                            class="btn btn-success form-control my-1">
+                                            class="btn btn-outline-success form-control my-1 rounded">
                                         Confirm Order
                                     </button>
                                 }
                                 @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Pending)
                                 {
-                                    <button type="submit" asp-action="CancelOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
-                                            class="btn btn-danger form-control my-1">
-                                        Cancel Order
+                                    <button type="submit" asp-action="PendOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-outline-warning form-control my-1">
+                                        Change Order to Pending
                                     </button>
                                     <button type="submit" asp-action="ConfirmPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
-                                            class="btn btn-success form-control my-1">
+                                            class="btn btn-outline-success form-control my-1">
                                         Confirm Payment
                                     </button>
                                 }
                                 @if (Model.OrderHeader.OrderStatus == OrderHeaderStatus.Approved && Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Approved)
                                 {
-                                    <button type="submit" asp-action="CancelPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
-                                            class="btn btn-danger form-control my-1">
-                                        Cancel Payment
+                                    <button type="submit" asp-action="PendPayment" asp-route-orderHeaderId="@Model.OrderHeader.Id"
+                                            class="btn btn-outline-warning form-control my-1">
+                                        Change Payment to Pending
                                     </button>
                                     <button type="submit" asp-action="CompleteOrder" asp-route-orderHeaderId="@Model.OrderHeader.Id"
-                                            class="btn btn-success form-control my-1">
+                                            class="btn btn-outline-success form-control my-1">
                                         Complete Payment
                                     </button>
                                 }
                                 @if (Model.OrderHeader.PaymentStatus == OrderHeaderStatus.Completed)
                                 {
-                                    <button type="submit" class="btn btn-info form-control my-1" disabled>
+                                    <button type="submit" class="btn btn-outline-info form-control my-1" disabled>
                                         Order Completed
                                     </button>
                                 }
                             }
-                            <div class="mt-4 text-end">
-                                <a asp-action="Index" class="btn btn-outline-primary form-control">Back to Orders</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -211,4 +215,9 @@
         </div>
     </div>
 </form>
+
+
+@section Scripts{
+    <script src="~/js/order.js"></script>
+}
 

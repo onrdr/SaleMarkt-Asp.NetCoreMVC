@@ -12,5 +12,6 @@ public interface IOrderHeaderService
     Task<IResult> CreateOrderHeaderAsync(OrderHeader model); 
     Task<IResult> UpdateOrderStatus(Guid orderHeaderId, string orderStatus); 
     Task<IResult> UpdatePaymentStatus(Guid orderHeaderId, string paymentStatus); 
-    Task<IResult> CompleteOrder(Guid orderHeaderId); 
+    Task<IResult> CompleteOrder(Guid orderHeaderId);
+    Task<IResult> DeleteOrder(Guid orderHeaderId);
 }
