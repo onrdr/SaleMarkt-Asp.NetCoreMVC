@@ -31,6 +31,15 @@ body {
     max-height: 100px;
 }
 
+.renderBody {
+    min-height: 60vh;
+    background-color: #f3f1f1;
+    padding-bottom: 100px; 
+}
+
+.renderCard{
+    padding-top: 50px;
+}
 /* Change the color of indicators to text-success */
 #carouselExampleIndicators .carousel-indicators button {
     background-color: transparent !important;
@@ -75,4 +84,5 @@ footer ul li {
     border-bottom:hidden;
     border-bottom-color: #808080;
     padding-bottom:0;
+    padding-left:130px;
 }

@@ -4,30 +4,32 @@
     ViewData["Title"] = "Create Category";
 }
 
-<div class="card shadow border-0 rounded offset-2 col-8 mt-4 p-0">
-    <div class="card-header">
-        <div class="row mt-2 text-center">
-            <h2 class="text-info">Create Category</h2>
+<div class="renderCard">
+    <div class="card shadow border-0 rounded offset-2 col-8">
+        <div class="card-header">
+            <div class="row p-3">
+                <h2 class="text-info">Create Category</h2>
+            </div>
         </div>
-    </div>
-    <div class="card-body p-0">
-        <form method="post" asp-controller="Category" asp-action="Create" enctype="multipart/form-data">
-            <div class="border p-3">
+        <div class="card-body p-0">
+            <form method="post" asp-controller="Category" asp-action="Create" enctype="multipart/form-data">
+                <div class="border p-3">
 
-                <partial name="_CreateUpdateCategoryForm" data="@Model" />
+                    <partial name="_CreateUpdateCategoryForm" data="@Model" />
 
-                <div class="row mt-4">
-                    <div class="col-6">
-                        <button type="submit" class="form-control btn btn-outline-info shadow">Create</button>
-                    </div>
-                    <div class="col-6">
-                        <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <button type="submit" class="form-control btn btn-info shadow">Create</button>
+                        </div>
+                        <div class="col-6">
+                            <a asp-controller="Category" asp-action="Index" class="form-control btn btn-outline-secondary shadow">Back To List</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div> 
+</div>
 
 @section Scripts {
     @{

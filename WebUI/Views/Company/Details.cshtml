@@ -4,95 +4,97 @@
     ViewData["Title"] = "Company Details";
 }
 
-<div class="card shadow border-0 rounded mt-4 p-0">
-    <div class="card-header">
-        <div class="row mt-2 text-center">
-            <h2 class="text-warning">Company Details</h2>
+<div class="renderCard">
+    <div class="card shadow border-0 rounded offset-1 col-10">
+        <div class="card-header">
+            <div class="row p-3">
+                <h2 class="text-info">Company Details</h2>
+            </div>
         </div>
-    </div>
-    <div class="card-body p-0">
-        <form method="post" asp-controller="Company" asp-action="Details" enctype="multipart/form-data">
-            <input asp-for="ImageUrl" hidden />
-            <input asp-for="Id" hidden />
-            <div class="row">
-                <div class="col-9">
-                    <div class="border p-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="Name" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="Name" class="text-danger"></span>
-                                    <label asp-for="Name" class="ms-0"></label>
+        <div class="card-body">
+            <form method="post" asp-controller="Company" asp-action="Details" enctype="multipart/form-data">
+                <input asp-for="ImageUrl" hidden />
+                <input asp-for="Id" hidden />
+                <div class="row">
+                    <div class="col-9">
+                        <div class="border-0 p-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="Name" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                        <label asp-for="Name" class="ms-0"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input id="emailInput" asp-for="Email" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                        <label asp-for="Email" class="ms-0"></label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input id="emailInput" asp-for="Email" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
-                                    <label asp-for="Email" class="ms-0"></label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="PhoneNumber" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                        <label asp-for="PhoneNumber" class="ms-0"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="Address" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                        <label asp-for="Address" class="ms-0"></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="PhoneNumber" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                    <label asp-for="PhoneNumber" class="ms-0"></label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="City" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="City" class="text-danger"></span>
+                                        <label asp-for="City" class="ms-0"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="Country" class="form-control border-0 shadow rounded" />
+                                        <span asp-validation-for="Country" class="text-danger"></span>
+                                        <label asp-for="Country" class="ms-0"></label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="Address" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="Address" class="text-danger"></span>
-                                    <label asp-for="Address" class="ms-0"></label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="PostalCode" class="form-control border-0 shadow rounded"></input>
+                                        <label asp-for="PostalCode" class="ms-0"></label>
+                                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating py-2 col-12 mb-3">
+                                        <input asp-for="ImageUrl" type="file" name="file" class="form-control border-0 shadow rounded" />
+                                        <label asp-for="ImageUrl" class="ms-0"></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="City" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="City" class="text-danger"></span>
-                                    <label asp-for="City" class="ms-0"></label>
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <button id="submitButton" type="submit" class="form-control btn btn-warning rounded shadow">Update</button>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="Country" class="form-control border-0 shadow rounded" />
-                                    <span asp-validation-for="Country" class="text-danger"></span>
-                                    <label asp-for="Country" class="ms-0"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="PostalCode" class="form-control border-0 shadow rounded"></input>
-                                    <label asp-for="PostalCode" class="ms-0"></label>
-                                    <span asp-validation-for="PostalCode" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating py-2 col-12 mb-3">
-                                    <input asp-for="ImageUrl" type="file" name="file" class="form-control border-0 shadow rounded" />
-                                    <label asp-for="ImageUrl" class="ms-0"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-6">
-                                <button id="submitButton" type="submit" class="form-control btn btn-outline-warning shadow">Update</button>
                             </div>
                         </div>
                     </div>
+                    <div class="col-3">
+                        <img class="p-3" src="~/@Model.ImageUrl"
+                             style="width:100%; border-radius:5px; border:1px solid #ffffff" />
+                    </div>
                 </div>
-                <div class="col-3">
-                    <img class="p-3" src="~/@Model.ImageUrl"
-                         style="width:100%; border-radius:5px; border:1px solid #ffffff" />
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 

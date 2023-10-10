@@ -4,14 +4,14 @@
     ViewData["Title"] = "Product Details";
 }
 
-<form method="post">
+<form method="post" class="renderCard">
     <input asp-for="ProductId" hidden/>
     <input asp-for="Product" hidden/>
-    <div class="card shadow border-0 mt-4 mb-4 rounded offset-1 col-10">
-        <div class="card-header bg-info bg-gradient text-light py-4 rounded">
-            <div class="row">
+    <div class="card shadow border-0 rounded offset-1 col-10">
+        <div class="card-header bg-info bg-gradient text-light rounded">
+            <div class="row p-1">
                 <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.Product.Title</h3>
+                    <h3 class="text-white">@Model.Product.Title</h3>
                 </div>
             </div>
         </div>

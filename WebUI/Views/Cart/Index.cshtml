@@ -1,16 +1,13 @@
 ﻿@model ShoppingCartViewModel
 
-<form method="post">
+<form method="post" class="renderCard">
     <input type="hidden" id="updatedCartData" name="updatedCartData" />
-    <br />
     <div class="container">
         <div class="card shadow border-0 rounded offset-1 col-10">
-            <div class="card-header bg-secondary bg-gradient text-light ml-0 py-4">
-                <div class="row px-4">
+            <div class="card-header">
+                <div class="row p-3">
                     <div class="col-6">
-                        <h2 class="pt-2 text-primary">
-                            Shopping Cart
-                        </h2>
+                        <h2 class="text-info">Shopping Cart</h2>
                     </div>
                     <div class="col-6 text-end">
                         <a asp-controller="Home" asp-action="ProductList" class="btn btn-outline-info shadow rounded"><small>Continue Shopping</small></a>
@@ -47,14 +44,14 @@
                                     }
                                 </div>
                                 <div class="col-12  col-lg-5 text-center row">
-                                    <div class="col-3 text-md-right pt-2 pt-md-4">
+                                    <div class="col-4 text-md-right pt-2 pt-md-4">
                                         <h6 class="fw-semibold">
                                             <span class="count" data-itemid="@item.Id">@item.Count</span>
                                             <span class="text-muted">&nbsp;x&nbsp;</span>
                                             <span class="price" data-itemid="@item.Id">@item.Price</span>
                                         </h6>
                                     </div>
-                                    <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                    <div class="col-5 col-sm-4 col-lg-6 pt-2">
                                         <div class="w-75 btn-group" role="group">
                                             <a class="btn btn-sm btn-outline-primary rounded shadow bg-gradient py-2 btn-plus"
                                                data-itemid="@item.Id"
@@ -67,7 +64,6 @@
                                                data-count="@item.Count">
                                                 <i class="bi bi-dash-square"></i>
                                             </a>
-
                                         </div>
                                     </div>
                                     <div class="col-3 col-sm-4 col-lg-2 text-right pt-2">

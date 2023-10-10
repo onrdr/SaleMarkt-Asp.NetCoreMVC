@@ -40,6 +40,11 @@ public class HomeController : BaseController
         return View();
     }
 
+    public IActionResult About()
+    {
+        return View();
+    }
+
     #region HomePage Product List & Details
     public async Task<IActionResult> ProductList()
     {
