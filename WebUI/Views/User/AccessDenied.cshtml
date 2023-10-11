@@ -2,17 +2,23 @@
     ViewData["Title"] = "Access Denied";
 }
 
-<div class="row">
-    <div class="col-4 offset-4">
-        <h1 class="display-4 border-bottom text-center pb-2">@ViewData["Title"]</h1>
+<div class="renderCard" style="zoom:80%">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h1 class="display-4 border-bottom text-center text-danger pb-2"><b>@ViewData["Title"]</b></h1>
+        </div>
     </div>
-</div>
-<br />
-<div class="row">
-    <div class="col">
-        <h1 class="text-danger text-center"><i class="fa-solid fa-ban fa-3x"></i></h1>
-        <br />
-        <h3 class="text-center">You do not have access to this page</h3>
-        <p class="text-center">@ViewBag.message</p>
+    <div class="row text-center">
+        <div class="col-8 offset-2 text-center">
+            <img src="~/images/accessDenied.jpg" alt="Alternate Text" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col">
+            <h1 class="text-danger text-center"><i class="fa-solid fa-ban fa-3x"></i></h1>
+            <br />
+            <h3 class="text-center ">You do not have access to this page</h3> 
+        </div>
     </div>
 </div>
