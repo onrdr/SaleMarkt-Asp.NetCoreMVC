@@ -19,8 +19,7 @@ This projects enables admin to
   ![event-app-structure-1](https://user-images.githubusercontent.com/106915107/228821415-7b3820ec-3d6c-4662-b60d-e63f8a6bb07e.png)
   
 # Used Technologies and Tools:
-
-## Backend
+Backend
 - Monolith Architecture / NTier
 - ASP.NET Core MVC
 - ASP.NET Core Identity / Authentication & Authorization
@@ -32,7 +31,7 @@ This projects enables admin to
 - Localization
 - Initial Database Seeding with Migration
   
-## Frontend
+Frontend
 - Razor Pages
 - ViewComponents
 - Partial Views
@@ -44,4 +43,4 @@ This projects enables admin to
 - DataTables
 
 # How to run the project in your local
-## Detailed Docker build and run information will be provided once the project finished
+Detailed Docker build and run information will be provided once the project finished
