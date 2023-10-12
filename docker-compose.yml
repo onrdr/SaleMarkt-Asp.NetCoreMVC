@@ -1,0 +1,35 @@
+version: '3.4'
+
+networks:
+  salemarkt-network:
+
+services:
+  webui:
+    build:
+      context: .
+      dockerfile: /WebUI/Dockerfile
+    ports:
+      - "8080:80"
+      - "8081:443" 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=SaleMarkt1*
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/salemarkt.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    depends_on:
+      - mssql
+    networks:
+      - salemarkt-network
+
+  mssql:
+    container_name: salemarktdb
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: SaleMarkt1*
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    networks:
+      - salemarkt-network

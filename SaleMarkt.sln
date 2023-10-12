@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{EDA5699D-C0FD-4A80-9DF2-02941D1DB693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{EDA5699D-C0FD-4A80-9DF2-02941D1DB693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{B6445290-B6FA-4A25-9FDA-A7F5BADF4311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{B6445290-B6FA-4A25-9FDA-A7F5BADF4311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{10346711-8767-4D76-AF0F-D1BB1EA253E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{10346711-8767-4D76-AF0F-D1BB1EA253E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{3261A9FC-D6B9-4840-905E-24F088FC753A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{3261A9FC-D6B9-4840-905E-24F088FC753A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{74045BC4-9645-48D7-BC50-4A31294F79F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{74045BC4-9645-48D7-BC50-4A31294F79F9}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{374075B1-3C7F-4DDA-972C-378833711E27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{74045BC4-9645-48D7-BC50-4A31294F79F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74045BC4-9645-48D7-BC50-4A31294F79F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74045BC4-9645-48D7-BC50-4A31294F79F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{374075B1-3C7F-4DDA-972C-378833711E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374075B1-3C7F-4DDA-972C-378833711E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374075B1-3C7F-4DDA-972C-378833711E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374075B1-3C7F-4DDA-972C-378833711E27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
