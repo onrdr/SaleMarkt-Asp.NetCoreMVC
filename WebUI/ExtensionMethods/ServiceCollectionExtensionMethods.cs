@@ -7,7 +7,7 @@ using DataAccess.Repositories.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
-using Models.Smtp; 
+using Models.Smtp;
 
 namespace WebUI.ExtensionMethods;
 
@@ -31,7 +31,15 @@ public static class ServiceCollectionExtensionMethods
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection"),
+            sqlServerOptionsAction: sqlOptions =>
+            { 
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(2),
+                    errorNumbersToAdd: null
+                );
+            });
         });
 
         return services;
@@ -110,5 +118,5 @@ public static class ServiceCollectionExtensionMethods
     {
         services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
         return services;
-    } 
+    }
 }
