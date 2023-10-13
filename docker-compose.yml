@@ -22,13 +22,15 @@ services:
       - mssql
     networks:
       - salemarkt-network
+    
 
   mssql:
     container_name: salemarktdb
     image: mcr.microsoft.com/mssql/server
     environment:
-      SA_PASSWORD: SaleMarkt1*
-      ACCEPT_EULA: Y
+      - _SA_PASSWORD=Sale!Markt1*
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
     ports:
       - "1433:1433"
     networks:
