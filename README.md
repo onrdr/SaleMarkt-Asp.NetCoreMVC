@@ -98,7 +98,7 @@ After completing sql image pull and project image created
 - Company Admin : 
   - username:
     ```
-    admin@salemarkt.com
+    companyadmin@salemarkt.com
     ```
   - password:
     ```
