@@ -3,9 +3,10 @@ using Core.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Models.Entities.Concrete;
 using Models.Identity;
-using Models.ViewModels; 
+using Models.ViewModels;
 using System.Transactions;
 
 namespace WebUI.Controllers;
@@ -57,7 +58,7 @@ public class CartController : BaseController
 
     #region Plus Minus Number of Product 
     [HttpPost]
-    public async Task<IActionResult> UpdateProductCount(List<UpdatedCartItem> updatedCarts)
+    public async Task<IActionResult> UpdateProductCount(List<UpdatedCartItem> updatedCarts, string? redirectTo)
     {
         var errors = new List<string>();
         TempData["ErrorMessage"] = errors;
@@ -68,11 +69,15 @@ public class CartController : BaseController
             if (!updateResult.Success)
             {
                 errors.Add(updateResult.Message);
-            } 
+            }
         }
 
-        var summaryUrl = Url.Action(nameof(Summary));
-        return Json(new { redirectTo = summaryUrl });
+        if (redirectTo is "summary")
+        {
+            return Json(new { redirectTo = Url.Action(nameof(Summary)) });
+        }
+
+        return Json(new { redirectTo = Url.Action(action: "ProductList", controller: "Home") });
     }
     #endregion
 
@@ -221,7 +226,7 @@ public class CartController : BaseController
         shoppingCartViewModel.OrderHeader.City = appUser.City;
         shoppingCartViewModel.OrderHeader.Country = appUser.Country;
         shoppingCartViewModel.OrderHeader.PostalCode = appUser.PostalCode;
-    } 
+    }
 
     private static double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
     {

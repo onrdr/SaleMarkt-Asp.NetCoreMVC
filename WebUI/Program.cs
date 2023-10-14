@@ -28,10 +28,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-    await app.EnsureDatabaseConnected();
-}
+await app.EnsureDatabaseCreated();
 
 app.Run();

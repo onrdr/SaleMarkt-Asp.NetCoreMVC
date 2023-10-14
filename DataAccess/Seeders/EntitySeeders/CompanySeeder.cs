@@ -29,6 +29,7 @@ public static class CompanySeeder
                 City = "Istanbul",
                 Country = "Turkiye",
                 PostalCode = "34000",
+                ImageUrl = "images\\logo\\6c277f4a-a721-49b7-8434-5aa865c2e3fa.png"
             },
         };
 

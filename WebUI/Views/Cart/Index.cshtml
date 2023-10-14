@@ -10,7 +10,7 @@
                         <h2 class="text-info">Shopping Cart</h2>
                     </div>
                     <div class="col-6 text-end">
-                        <a asp-controller="Home" asp-action="ProductList" class="btn btn-outline-info shadow rounded"><small>Continue Shopping</small></a>
+                        <a id="shop-button" class="btn btn-outline-info shadow rounded"><small>Continue Shopping</small></a>
                     </div>
                 </div>
             </div>
@@ -100,75 +100,5 @@
 
 @section Scripts
 {
-    <script>
-        $(document).ready(function () {
-            var updatedCart = [];
-
-            $('.btn-plus').on('click', function () {
-                var itemId = $(this).data('itemid');
-                var countElement = $('.count[data-itemid="' + itemId + '"]');
-                var priceElement = $('.price[data-itemid="' + itemId + '"]');
-                var totalElement = $('#order-total');
-
-                var count = parseInt(countElement.text());
-                var price = parseFloat(priceElement.text());
-                var total = parseFloat(totalElement.text());
-
-                count++;
-                total += price;
-
-                countElement.text(count);
-                totalElement.text(total.toFixed(2)); 
-                 
-                var existingItem = updatedCart.find(item => item.cartId === itemId);
-
-                if (existingItem) {  
-                    existingItem.newCount = count;
-                } else { 
-                    updatedCart.push({ cartId: itemId, newCount: count });
-                }
-            });
-             
-            $('.btn-minus').on('click', function () {
-                var itemId = $(this).data('itemid');
-                var countElement = $('.count[data-itemid="' + itemId + '"]');
-                var priceElement = $('.price[data-itemid="' + itemId + '"]');
-                var totalElement = $('#order-total');
-
-                var count = parseInt(countElement.text());
-                var price = parseFloat(priceElement.text());
-                var total = parseFloat(totalElement.text());
-
-                if (count > 1) {
-                    count--;
-                    total -= price;
-                }
-
-                countElement.text(count);
-                totalElement.text(total.toFixed(2)); 
-                 
-                var existingItem = updatedCart.find(item => item.cartId === itemId);
-
-                if (existingItem) { 
-                    existingItem.newCount = count;
-                } else { 
-                    updatedCart.push({ cartId: itemId, newCount: count });
-                }
-            });
-             
-            $('#summary-button').on('click', function () {
-                $.ajax({
-                    url: '/Cart/UpdateProductCount',
-                    type: 'POST',
-                    data: { updatedCarts: updatedCart },
-                    success: function (result) {
-                        window.location.href = result.redirectTo;
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="~/js/cart.js"></script>
 }

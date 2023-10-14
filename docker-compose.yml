@@ -19,9 +19,16 @@ services:
     volumes:
       - ~/.aspnet/https:/https:ro
     depends_on:
-      - mssql
+      mssql:
+        condition: service_healthy
     networks:
       - salemarkt-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://mssql:1433"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
   mssql:
     container_name: salemarktdb
@@ -31,5 +38,11 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "1433:1433"
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost,1433", "-U", "sa", "-P", "Sale!Markt1", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - salemarkt-network
+
