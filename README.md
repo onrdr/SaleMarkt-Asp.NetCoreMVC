@@ -68,8 +68,8 @@ After completing sql image pull and project image created
 ![start-1](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/ac7bfc0c-7cc3-4ac6-a4de-63cd781ed7d4)
 
 - You will also see this in your docker desktop
-
-![docker-waiting](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/99d79aa4-4538-455f-8500-425dba833b75)
+ 
+![docker-wait](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/c324649d-bc5c-4cc5-ab62-a0ab26340a10)
 
 ### 4- Wait until SQL Server connects and webui project starts. It will take approximately 1 minute 
 - And then you will see healthy server and web app after a successfull setup
@@ -77,8 +77,8 @@ After completing sql image pull and project image created
 ![healthy](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/f4ca3493-d683-41be-9d60-146a31891521)
 
 - You will also see this in your docker desktop
-
-![docker-started](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/38520d1e-31d5-4be4-b8c9-f82a04638a0f)
+ 
+![docker-success](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/0309e88b-f22d-4d04-b6d8-55ae33248e2c)
 
 ### 5- Open the aplication in any web browser and trust the certificate. Note that all the data was seeded. 
 ```
