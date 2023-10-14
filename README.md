@@ -30,6 +30,7 @@ Backend
 - Caching
 - Localization
 - Initial Database Seeding with Migration
+- Docker
   
 Frontend
 - Razor Pages
@@ -42,5 +43,78 @@ Frontend
 - Ajax Requests
 - DataTables
 
-# How to run the project in your local
-Detailed Docker build and run information will be provided once the project finished
+# How to run the project in your local  
+First of all, please make sure that the docker is running on your device.
+
+### 1- Open a terminal or powershell and clone the repository
+```
+ git clone https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC
+```
+
+### 2- Navigate to the API Directory
+```
+ cd SaleMarkt-Asp.NetCoreMVC
+```
+
+### 3- Run the docker compose file
+```
+ docker compose up -d
+```
+
+### 4- Wait until container is initiated inside docker 
+After completing sql image pull and project image created 
+- What you will see in the powershell
+
+![start-1](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/ac7bfc0c-7cc3-4ac6-a4de-63cd781ed7d4)
+
+- You will also see this in your docker desktop
+
+![docker-waiting](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/99d79aa4-4538-455f-8500-425dba833b75)
+
+### 4- Wait until SQL Server connects and webui project starts. It will take approximately 1 minute 
+- And then you will see healthy server and web app after a successfull setup
+
+![healthy](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/f4ca3493-d683-41be-9d60-146a31891521)
+
+- You will also see this in your docker desktop
+
+![docker-started](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/38520d1e-31d5-4be4-b8c9-f82a04638a0f)
+
+### 5- Open the aplication in any web browser and trust the certificate. Note that all the data was seeded. 
+```
+ https://localhost:8081
+```
+
+### 6- Login Credentials for you to try the application
+- SuperAdmin : 
+  - username:
+    ```
+    superadmin@salemarkt.com
+    ```
+  - password:
+    ```
+    Super1*
+    ```
+- Company Admin : 
+  - username:
+    ```
+    admin@salemarkt.com
+    ```
+  - password:
+    ```
+    Admin1*
+    ```
+- Customer : 
+  - username:
+    ```
+    customer@salemarkt.com
+    ```
+  - password:
+    ```
+    Customer1*
+    ```
+
+### 5- This is the website you are going to see
+
+![home](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/d754cb0b-8165-4a7e-bc0a-7d1d35d76c86)
+
