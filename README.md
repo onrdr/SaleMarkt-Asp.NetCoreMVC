@@ -1,4 +1,7 @@
 # Sale Markt e-Commerce Web Project 
+
+![home](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/d9dd36d3-c9f3-46a9-85b1-7b161d1fbc42)
+
 This projects enables customers to 
   - List all the products
   - List all the categories
@@ -71,7 +74,7 @@ After completing sql image pull and project image created
  
 ![docker-wait](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/c324649d-bc5c-4cc5-ab62-a0ab26340a10)
 
-### 4- Wait until SQL Server connects and webui project starts. It will take approximately 1 minute 
+### 5- Wait until SQL Server connects and webui project starts. It will take approximately 1 minute 
 - And then you will see healthy server and web app after a successfull setup
 
 ![healthy](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/f4ca3493-d683-41be-9d60-146a31891521)
@@ -80,12 +83,12 @@ After completing sql image pull and project image created
  
 ![docker-success](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/0309e88b-f22d-4d04-b6d8-55ae33248e2c)
 
-### 5- Open the aplication in any web browser and trust the certificate. Note that all the data was seeded. 
+### 6- Open the aplication in any web browser and trust the certificate. Note that all the data was seeded. 
 ```
  https://localhost:8081
 ```
 
-### 6- Login Credentials for you to try the application
+# Login Credentials for you to try the application
 - SuperAdmin : 
   - username:
     ```
@@ -112,9 +115,5 @@ After completing sql image pull and project image created
   - password:
     ```
     Customer1*
-    ```
-
-### 5- This is the website you are going to see
-
-![home](https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC/assets/106915107/d754cb0b-8165-4a7e-bc0a-7d1d35d76c86)
+    ``` 
 
