@@ -38,12 +38,7 @@ public class HomeController : BaseController
     public IActionResult Index()
     {
         return View();
-    }
-
-    public IActionResult About()
-    {
-        return View();
-    }
+    } 
 
     #region HomePage Product List & Details
     public async Task<IActionResult> ProductList()
@@ -315,6 +310,13 @@ public class HomeController : BaseController
 
     #region Contact
     public IActionResult Contact()
+    {
+        return View();
+    }
+    #endregion
+
+    #region About
+    public IActionResult About()
     {
         return View();
     }

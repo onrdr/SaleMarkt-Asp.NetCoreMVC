@@ -28,18 +28,10 @@ public static class ServiceCollectionExtensionMethods
     }
 
     static IServiceCollection ConfigureDatabase(this IServiceCollection services, ConfigurationManager configurationManager)
-    {
+    { 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection"),
-            sqlServerOptionsAction: sqlOptions =>
-            { 
-                sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 3,
-                    maxRetryDelay: TimeSpan.FromSeconds(2),
-                    errorNumbersToAdd: null
-                );
-            });
+            options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection"));
         });
 
         return services;
@@ -67,7 +59,7 @@ public static class ServiceCollectionExtensionMethods
 
         services.AddScoped<IEmailService, EmailService>();
 
-        services.AddScoped<IViewRenderService, ViewRenderService>();
+        services.AddScoped<IViewRenderService, ViewRenderService>(); 
 
         return services;
     }
