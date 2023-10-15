@@ -118,11 +118,11 @@ public class HomeController : BaseController
 
         var user = await UserManager.FindByEmailAsync(model.Email);
 
-        var userAccountResult = await CheckIfUserExistsAndAccountNotLocked(user);
+        var userAccountResult = await CheckIfUserExistsAndAccountNotLockedOrSuspended(user);
         if (!userAccountResult)
         {
             return View(model);
-        }
+        } 
 
         var result = await GetLoginResult(model, user);
         if (!result.Succeeded)
@@ -143,11 +143,17 @@ public class HomeController : BaseController
         return loginModel is not null ? View(loginModel) : View(registerModel);
     }
 
-    private async Task<bool> CheckIfUserExistsAndAccountNotLocked(AppUser? user)
+    private async Task<bool> CheckIfUserExistsAndAccountNotLockedOrSuspended(AppUser? user)
     {
         if (user is null)
         {
             ErrorList.Add("User not found");
+            return false;
+        }
+
+        if (user.IsSuspended)
+        {
+            ErrorList.Add("Your account has been suspended. Please contact administration");
             return false;
         }
 
@@ -212,6 +218,7 @@ public class HomeController : BaseController
         }
 
         AppUser user = Mapper.Map<AppUser>(model);
+        user.Role = RoleNames.Customer;
         var result = await UserManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)

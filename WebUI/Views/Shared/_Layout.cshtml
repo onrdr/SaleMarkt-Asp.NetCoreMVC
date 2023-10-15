@@ -40,6 +40,10 @@
                                     <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
                                     <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
                                     <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
+                                    @if (User.IsInRole(RoleNames.SuperAdmin))
+                                    {
+                                        <li><a class="dropdown-item" asp-controller="SuperAdmin" asp-action="ListUsers">Users</a></li>
+                                    }
                                 </ul>
                             </li>
                         }

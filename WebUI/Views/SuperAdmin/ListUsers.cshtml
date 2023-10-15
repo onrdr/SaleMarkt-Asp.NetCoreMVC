@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<div class="container renderCard">
+    <div class="card shadow border-0 rounded">
+        <div class="card-header">
+            <div class="row p-3">
+                <div class="col-6">
+                    <h2 class="text-info">User List</h2>
+                </div> 
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="tblUsers" class="table table-bordered table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Adress</th> 
+                            <th>Role</th>
+                            <th>Edit / Delete</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/userlist.js"></script>
+}

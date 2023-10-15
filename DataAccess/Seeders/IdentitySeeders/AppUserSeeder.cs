@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Constants;
+using Microsoft.EntityFrameworkCore;
 using Models.Identity;
 
 namespace DataAccess.Seeders.IdentitySeeders;
@@ -35,6 +36,7 @@ public static class AppUserSeeder
                 City = "Istanbul",
                 Country = "Turkiye",
                 PostalCode = "34000",
+                Role = RoleNames.SuperAdmin
             },
 
             new AppUser()
@@ -53,6 +55,7 @@ public static class AppUserSeeder
                 City = "Istanbul",
                 Country = "Turkiye",
                 PostalCode = "34000",
+                Role = RoleNames.Admin
             },
 
             new AppUser()
@@ -71,6 +74,7 @@ public static class AppUserSeeder
                 City = "Istanbul",
                 Country = "Turkiye",
                 PostalCode = "34000",
+                Role = RoleNames.Customer
             },
         };
 

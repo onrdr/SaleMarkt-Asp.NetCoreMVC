@@ -17,7 +17,7 @@ public class UserController : BaseController
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         IMapper mapper)
-            : base(userManager, signInManager, mapper: mapper)
+            : base(userManager: userManager, signInManager: signInManager, mapper: mapper)
     {
 
     }

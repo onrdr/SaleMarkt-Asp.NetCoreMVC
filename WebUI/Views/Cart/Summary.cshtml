@@ -110,9 +110,18 @@
                             @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
                         </p>
                     </div>
-                    <div class="col-12 col-md-4">
-                        <button type="submit" value="Place Order" class="btn btn-success form-control shadow rounded">Place Order</button>
-                    </div>
+                    @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
+                    {
+                        <div class="col-12 col-md-4">
+                            <button type="submit" value="Place Order" class="btn btn-success form-control shadow rounded" disabled>Place Order</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-12 col-md-4">
+                            <button type="submit" value="Place Order" class="btn btn-success form-control shadow rounded">Place Order</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

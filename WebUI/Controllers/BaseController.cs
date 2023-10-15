@@ -9,17 +9,20 @@ namespace WebUI.Controllers;
 public class BaseController : Controller
 {
     protected UserManager<AppUser> UserManager { get; }
+    protected RoleManager<AppRole> RoleManager { get; }
     protected SignInManager<AppUser> SignInManager { get; }
     protected IWebHostEnvironment WebHostEnvironment { get; } 
     protected IMapper Mapper { get; } 
 
     public BaseController(
         UserManager<AppUser> userManager = null, 
+        RoleManager<AppRole> roleManager = null,
         SignInManager<AppUser> signInManager = null,
         IWebHostEnvironment webHostEnvironment = null,
         IMapper mapper = null)
     {
         UserManager = userManager;
+        RoleManager = roleManager;
         SignInManager = signInManager;
         WebHostEnvironment = webHostEnvironment;
         Mapper = mapper;

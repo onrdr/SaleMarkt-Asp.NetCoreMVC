@@ -8,6 +8,11 @@ public class AppUser : IdentityUser<Guid>, IBaseEntity
 {
     [Required]
     public string Name { get; set; }
+
+    [Required]
+    public string Role { get; set; }
+
+    public bool IsSuspended { get; set; }
     public string? Address { get; set; }
     public string? City { get; set; }
     public string? Country { get; set; }
