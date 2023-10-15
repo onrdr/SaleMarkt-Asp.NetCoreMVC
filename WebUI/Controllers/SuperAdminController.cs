@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.Identity;
+using Models.ViewModels;
 
 namespace WebUI.Controllers;
 
@@ -14,67 +15,102 @@ public class SuperAdminController : BaseController
     public SuperAdminController(
         UserManager<AppUser> userManager,
         RoleManager<AppRole> roleManager,
-        IMapper mapper) 
+        IMapper mapper)
             : base(userManager: userManager, roleManager: roleManager, mapper: mapper)
     {
-        
+
     }
 
+    #region UserList
     public IActionResult ListUsers()
     {
         return View();
     }
+    #endregion
 
-    #region API Calls
+    #region Assign Role 
+    public async Task<IActionResult> RoleAssign(string userId)
+    {
+        var user = await UserManager.FindByIdAsync(userId);
+        TempData["userId"] = userId;
+
+        var roles = await RoleManager.Roles.ToListAsync();
+        var userRoles = await UserManager.GetRolesAsync(user);
+        var roleAssignViewModels = new List<RoleAssignViewModel>();
+
+        foreach (var role in roles)
+        {
+            var roleVm = new RoleAssignViewModel
+            {
+                RoleId = role.Id,
+                RoleName = role.Name,
+                Exist = userRoles.Contains(role.Name)
+            };
+            roleAssignViewModels.Add(roleVm);
+        }
+        return View(roleAssignViewModels);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> RoleAssign(List<RoleAssignViewModel> list)
+    {
+        var user = await UserManager.FindByIdAsync(TempData["userId"].ToString());
+        foreach (var model in list)
+        {
+            if (model.Exist)
+            {
+                var addResult = await UserManager.AddToRoleAsync(user, model.RoleName);
+                continue;
+            }
+            var removeResult = await UserManager.RemoveFromRoleAsync(user, model.RoleName);
+        }
+        return RedirectToAction(nameof(ListUsers));
+    }
+    #endregion
+
+    #region API Calls 
     [HttpGet]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await UserManager.Users.ToListAsync(); 
-        var superAdminUser = users.FirstOrDefault(user => user.Role == RoleNames.SuperAdmin);
-
+        var users = await UserManager.Users.ToListAsync();
+        var superAdminUser = users.FirstOrDefault(user =>
+            UserManager.IsInRoleAsync(user, RoleNames.SuperAdmin).Result);
         if (superAdminUser != null)
         {
             users.Remove(superAdminUser);
             users.Insert(0, superAdminUser);
         }
 
-        return Json(new { data = users});
+        var userDataWithRoles = users.Select(user => new
+        {
+            user.Name,
+            user.Email,
+            Address = $"{user.Address} / {user.City} / {user.Country}",
+            user.Id,  
+            Roles = UserManager.GetRolesAsync(user).Result,
+            user.IsSuspended
+        }).ToList();
+
+        return Json(new { data = userDataWithRoles });
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ListRoles()
-    {
-        var roles = await RoleManager.Roles.ToListAsync();
-        return View(roles);
-    }
-
-    [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> ChangeSuspendStatus(Guid userId, bool isSuspended)
     {
-        var user = await UserManager.FindByIdAsync(userId.ToString()); 
+        var user = await UserManager.FindByIdAsync(userId.ToString());
         if (user == null)
         {
-            TempData["ErrorMessage"] = Messages.UserNotFound;
-            return Json(Messages.UserNotFound);
-        }
-
-        if (user.Role == RoleNames.SuperAdmin)
-        { 
-            return BadRequest();
+            return Json (new { result = false, message =  Messages.UserNotFound });
         }
 
         user.IsSuspended = isSuspended;
         var updateResult = await UserManager.UpdateAsync(user);
-        if (updateResult.Succeeded)
+        if (!updateResult.Succeeded)
         {
-            TempData["SuccessMessage"] = Messages.UserUpdateSuccessfull;
-        }
-        else
-        {
-            TempData["SuccessMessage"] = Messages.UserUpdateError;
+            return Json(new { result = false, message = Messages.UserUpdateError });
         }
 
-        return Json(TempData["SuccessMessage"]);
+        return Json(new { result = true, message = Messages.UserUpdateSuccessfull });
     }
     #endregion
 }

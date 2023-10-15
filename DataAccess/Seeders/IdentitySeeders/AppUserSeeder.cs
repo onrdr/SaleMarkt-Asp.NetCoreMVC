@@ -35,8 +35,7 @@ public static class AppUserSeeder
                 Address = "Levent",
                 City = "Istanbul",
                 Country = "Turkiye",
-                PostalCode = "34000",
-                Role = RoleNames.SuperAdmin
+                PostalCode = "34000"
             },
 
             new AppUser()
@@ -54,8 +53,7 @@ public static class AppUserSeeder
                 Address = "Beşiktaş",
                 City = "Istanbul",
                 Country = "Turkiye",
-                PostalCode = "34000",
-                Role = RoleNames.Admin
+                PostalCode = "34000"
             },
 
             new AppUser()
@@ -73,8 +71,7 @@ public static class AppUserSeeder
                 Address = "Şişli",
                 City = "Istanbul",
                 Country = "Turkiye",
-                PostalCode = "34000",
-                Role = RoleNames.Customer
+                PostalCode = "34000"
             },
         };
 

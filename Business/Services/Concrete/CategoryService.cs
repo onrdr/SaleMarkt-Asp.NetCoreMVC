@@ -39,9 +39,9 @@ public class CategoryService : ICategoryService
     #endregion
 
     #region Create
-    public async Task<IResult> CreateCategory(CategoryViewModel model)
+    public async Task<IResult> CreateCategoryAsync(CategoryViewModel model)
     {
-        var existResult = await CheckIfCategoryNameAlreadyExists(model);
+        var existResult = await CheckIfCategoryNameAlreadyExistsAsync(model);
         if (!existResult.Success)
         {
             return existResult;
@@ -55,7 +55,7 @@ public class CategoryService : ICategoryService
     #endregion
 
     #region Update
-    public async Task<IResult> UpdateCategory(CategoryViewModel model)
+    public async Task<IResult> UpdateCategoryAsync(CategoryViewModel model)
     {
         var categoryResult = await GetByIdAsync(model.Id);
         if (!categoryResult.Success)
@@ -63,7 +63,7 @@ public class CategoryService : ICategoryService
             return categoryResult;
         }
 
-        var existResult = await CheckIfCategoryNameAlreadyExists(model);
+        var existResult = await CheckIfCategoryNameAlreadyExistsAsync(model);
         if (!existResult.Success)
         {
             return existResult;
@@ -71,10 +71,10 @@ public class CategoryService : ICategoryService
 
         CompleteUpdate(model, categoryResult);
 
-        return await GetUpdateResult(categoryResult);
+        return await GetUpdateResultAsync(categoryResult);
     }
 
-    private async Task<IResult> CheckIfCategoryNameAlreadyExists(CategoryViewModel model)
+    private async Task<IResult> CheckIfCategoryNameAlreadyExistsAsync(CategoryViewModel model)
     {
         var categoryList = await _categoryRepository.GetAllAsync(c => true);
         if (categoryList.Any(c => c.Name.ToLower() == model.Name.ToLower().Trim() && c.Id != model.Id))
@@ -91,7 +91,7 @@ public class CategoryService : ICategoryService
         categoryResult.Data.Description = model.Description;
         categoryResult.Data.ImageUrl = model.ImageUrl;
     }
-    private async Task<IResult> GetUpdateResult(IDataResult<Category> categoryResult)
+    private async Task<IResult> GetUpdateResultAsync(IDataResult<Category> categoryResult)
     {
         var updateResult = await _categoryRepository.UpdateAsync(categoryResult.Data);
         return updateResult > 0
@@ -101,7 +101,7 @@ public class CategoryService : ICategoryService
     #endregion
 
     #region Delete
-    public async Task<IResult> DeleteCategory(Guid categoryId)
+    public async Task<IResult> DeleteCategoryAsync(Guid categoryId)
     {
         var deleteResult = await _categoryRepository.DeleteAsync(categoryId);
         return deleteResult > 0

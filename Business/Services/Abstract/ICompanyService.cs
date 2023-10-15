@@ -7,5 +7,5 @@ namespace Business.Services.Abstract;
 public interface ICompanyService
 {
     Task<IDataResult<Company>> GetCompanyAsync(); 
-    Task<IResult> UpdateCompany(CompanyViewModel model);
+    Task<IResult> UpdateCompanyAsync(CompanyViewModel model);
 }

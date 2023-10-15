@@ -2,8 +2,7 @@
 using Core.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc; 
 using Models.Entities.Concrete;
 using Models.Identity;
 using Models.ViewModels;
@@ -65,7 +64,7 @@ public class CartController : BaseController
 
         foreach (var updatedCart in updatedCarts)
         {
-            var updateResult = await _shoppingCartService.UpdateShoppingCartCount(updatedCart);
+            var updateResult = await _shoppingCartService.UpdateShoppingCartCountAsync(updatedCart);
             if (!updateResult.Success)
             {
                 errors.Add(updateResult.Message);
@@ -91,7 +90,7 @@ public class CartController : BaseController
             return RedirectToAction(nameof(Index));
         }
 
-        var deleteResult = await _shoppingCartService.DeleteShoppingCart(cartId);
+        var deleteResult = await _shoppingCartService.DeleteShoppingCartAsync(cartId);
         if (!deleteResult.Success)
         {
             TempData["ErrorMessage"] = deleteResult.Message;
@@ -173,7 +172,7 @@ public class CartController : BaseController
                 Count = cart.Count
             };
 
-            var detailsAddResult = await _orderDetailsService.CreateOrderDetails(orderDetails);
+            var detailsAddResult = await _orderDetailsService.CreateOrderDetailsAsync(orderDetails);
             if (!detailsAddResult.Success)
             {
                 TempData["ErrorMessage"] = detailsAddResult.Message;
@@ -205,7 +204,7 @@ public class CartController : BaseController
             return RedirectToAction(nameof(Index), "Home");
         }
 
-        var deleteResult = await _shoppingCartService.DeleteShoppingCartRange(shoppingCartlist);
+        var deleteResult = await _shoppingCartService.DeleteShoppingCartRangeAsync(shoppingCartlist);
         if (!deleteResult.Success)
         {
             TempData["ErrorMessage"] = deleteResult.Message;

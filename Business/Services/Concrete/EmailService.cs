@@ -15,17 +15,17 @@ public class EmailService : IEmailService
         _smtpSettings = smtpSettings.Value;
     }
 
-    public async Task<Response> SendEmailForConfirmation(string toEmail, string message)
+    public async Task<Response> SendEmailForConfirmationAsync(string toEmail, string message)
     {
-        return await Execute(toEmail, message, _smtpSettings.ConfirmEmailSubject, "SaleMarkt Confirm Email");
+        return await ExecuteAsync(toEmail, message, _smtpSettings.ConfirmEmailSubject, "SaleMarkt Confirm Email");
     }
 
     public async Task<Response> SendResetEmailAsync(string toEmail, string message)
     {
-        return await Execute(toEmail, message, _smtpSettings.PasswordResetSubject, "SaleMarkt Reset Password");
+        return await ExecuteAsync(toEmail, message, _smtpSettings.PasswordResetSubject, "SaleMarkt Reset Password");
     }
 
-    private async Task<Response> Execute(string toEmail, string message, string subj, string content)
+    private async Task<Response> ExecuteAsync(string toEmail, string message, string subj, string content)
     {
         var apiKey = _smtpSettings.ApiKey;
         var client = new SendGridClient(apiKey);

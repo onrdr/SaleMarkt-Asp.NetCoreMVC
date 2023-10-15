@@ -1,8 +1,7 @@
 ﻿using Business.Services.Abstract;
 using Core.Constants;
 using Core.Utilities.Results;
-using DataAccess.Repositories.Abstract;
-using DataAccess.Repositories.Concrete;
+using DataAccess.Repositories.Abstract; 
 using Models.Entities.Concrete;
 using System.Linq.Expressions;
 
@@ -33,7 +32,7 @@ public class OrderDetailService : IOrderDetailService
             : new SuccessDataResult<IEnumerable<OrderDetail>>(orderDetailList);
     } 
 
-    public async Task<IResult> CreateOrderDetails(OrderDetail model)
+    public async Task<IResult> CreateOrderDetailsAsync(OrderDetail model)
     {
         var addResult = await _orderDetailsRepository.AddAsync(model);
         return addResult > 0

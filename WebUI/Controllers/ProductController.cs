@@ -47,7 +47,7 @@ public class ProductController : BaseController
     {
         HandleImageUpload(model, file);
 
-        var result = await _productService.CreateProduct(model);
+        var result = await _productService.CreateProductAsync(model);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -77,7 +77,7 @@ public class ProductController : BaseController
     {
         HandleImageUpload(model, file);
 
-        var result = await _productService.UpdateProduct(model);
+        var result = await _productService.UpdateProductAsync(model);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -94,7 +94,7 @@ public class ProductController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var products = await _productService.GetAllProductsWithCategory(c => true);
+        var products = await _productService.GetAllProductsWithCategoryAsync(c => true);
         return Json(new { data = products.Data });
     }
 
@@ -107,7 +107,7 @@ public class ProductController : BaseController
             return Json(productResult);
         }
 
-        var deleteResult = await _productService.DeleteProduct(id);
+        var deleteResult = await _productService.DeleteProductAsync(id);
         if (!deleteResult.Success)
         {
             TempData["ErrorMessage"] = deleteResult.Message;

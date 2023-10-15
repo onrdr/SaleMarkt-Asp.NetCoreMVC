@@ -55,7 +55,7 @@ public class OrderController : BaseController
     #region Order Confirm & Pend 
     public async Task<IActionResult> ConfirmOrder(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.UpdateOrderStatus(orderHeaderId, OrderHeaderStatus.Approved);
+        var result = await _orderHeaderService.UpdateOrderStatusAsync(orderHeaderId, OrderHeaderStatus.Approved);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -68,7 +68,7 @@ public class OrderController : BaseController
 
     public async Task<IActionResult> PendOrder(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.UpdateOrderStatus(orderHeaderId, OrderHeaderStatus.Pending);
+        var result = await _orderHeaderService.UpdateOrderStatusAsync(orderHeaderId, OrderHeaderStatus.Pending);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -83,7 +83,7 @@ public class OrderController : BaseController
     #region Payment Confirm & Pend 
     public async Task<IActionResult> ConfirmPayment(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.UpdatePaymentStatus(orderHeaderId, OrderHeaderStatus.Approved);
+        var result = await _orderHeaderService.UpdatePaymentStatusAsync(orderHeaderId, OrderHeaderStatus.Approved);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -96,7 +96,7 @@ public class OrderController : BaseController
 
     public async Task<IActionResult> PendPayment(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.UpdatePaymentStatus(orderHeaderId, OrderHeaderStatus.Pending);
+        var result = await _orderHeaderService.UpdatePaymentStatusAsync(orderHeaderId, OrderHeaderStatus.Pending);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -111,7 +111,7 @@ public class OrderController : BaseController
     #region Complete Order 
     public async Task<IActionResult> CompleteOrder(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.CompleteOrder(orderHeaderId);
+        var result = await _orderHeaderService.CompleteOrderAsync(orderHeaderId);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -144,7 +144,7 @@ public class OrderController : BaseController
     [HttpDelete]
     public async Task<IActionResult> CancelOrder(Guid orderHeaderId)
     {
-        var result = await _orderHeaderService.DeleteOrder(orderHeaderId);
+        var result = await _orderHeaderService.DeleteOrderAsync(orderHeaderId);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = Messages.OrderDeleteError;

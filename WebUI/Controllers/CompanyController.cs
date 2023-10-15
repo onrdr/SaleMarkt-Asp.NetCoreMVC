@@ -42,7 +42,7 @@ public class CompanyController : BaseController
     {
         HandleImageUpload(model, file);
 
-        var result = await _companyService.UpdateCompany(model);
+        var result = await _companyService.UpdateCompanyAsync(model);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;

@@ -43,14 +43,14 @@ public class HomeController : BaseController
     #region HomePage Product List & Details
     public async Task<IActionResult> ProductList()
     {
-        var productResult = await _productService.GetAllProductsWithCategory(c => true);
+        var productResult = await _productService.GetAllProductsWithCategoryAsync(c => true);
 
         return View(productResult.Data);
     }
 
     public async Task<IActionResult> Details(Guid productId)
     {
-        var productResult = await _productService.GetProductWithCategory(productId);
+        var productResult = await _productService.GetProductWithCategoryAsync(productId);
         var shoppingCart = new ShoppingCart
         {
             Product = productResult.Data,
@@ -71,7 +71,7 @@ public class HomeController : BaseController
 
         if (shoppingCartResult.Data is null)
         {
-            var addResult = await _shoppingCartService.CreateShoppingCart(model);
+            var addResult = await _shoppingCartService.CreateShoppingCartAsync(model);
             if (!addResult.Success)
             {
                 TempData["ErrorMessage"] = addResult.Message;
@@ -81,7 +81,7 @@ public class HomeController : BaseController
         else
         {
             shoppingCartResult.Data.First().Count += model.Count;
-            var updateResult = await _shoppingCartService.UpdateShoppingCart(shoppingCartResult.Data.First());
+            var updateResult = await _shoppingCartService.UpdateShoppingCartAsync(shoppingCartResult.Data.First());
             if (!updateResult.Success)
             {
                 TempData["ErrorMessage"] = updateResult.Message;
@@ -217,8 +217,7 @@ public class HomeController : BaseController
             return AddModelErrorsAndSendToClient(registerModel: model);
         }
 
-        AppUser user = Mapper.Map<AppUser>(model);
-        user.Role = RoleNames.Customer;
+        AppUser user = Mapper.Map<AppUser>(model); 
         var result = await UserManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)

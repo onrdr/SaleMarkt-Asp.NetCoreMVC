@@ -27,7 +27,7 @@ public class CompanyService : ICompanyService
     #endregion
 
     #region Update
-    public async Task<IResult> UpdateCompany(CompanyViewModel model)
+    public async Task<IResult> UpdateCompanyAsync(CompanyViewModel model)
     {
         var companyResult = await GetCompanyAsync();
         if (!companyResult.Success)

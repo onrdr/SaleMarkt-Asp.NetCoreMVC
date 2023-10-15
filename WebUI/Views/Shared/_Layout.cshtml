@@ -30,23 +30,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin Panel
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
-                                    @if (User.IsInRole(RoleNames.SuperAdmin))
-                                    {
-                                        <li><a class="dropdown-item" asp-controller="SuperAdmin" asp-action="ListUsers">Users</a></li>
-                                    }
-                                </ul>
-                            </li>
-                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="ProductList">Shop</a>
                         </li>
@@ -71,6 +54,23 @@
                         }
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (User.IsInRole(RoleNames.SuperAdmin) || User.IsInRole(RoleNames.Admin))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Admin Panel
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" asp-controller="Category" asp-action="Index">Categories</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Products</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="Index">Orders</a></li>
+                                        @if (User.IsInRole(RoleNames.SuperAdmin))
+                                        {
+                                            <li><a class="dropdown-item" asp-controller="SuperAdmin" asp-action="ListUsers">Users</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
                             <li class="nav-item dropdown ms-auto text-info">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person-workspace"></i> Welcome @User.Identity.Name.Replace("-", " ")
@@ -92,12 +92,14 @@
                                 </ul>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Cart" asp-action="Index">
-                                @await Component.InvokeAsync("ShoppingCartCount")
-                            </a>
-                        </li>
-
+                        @if (User.IsInRole(RoleNames.Customer))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                                    @await Component.InvokeAsync("ShoppingCartCount")
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

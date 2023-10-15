@@ -10,10 +10,10 @@ public interface IShoppingCartService
     Task<IDataResult<ShoppingCart>> GetByIdAsync(Guid shoppingCartId);
     Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllAsync(Expression<Func<ShoppingCart, bool>> predicate);
     Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllWithProductAsync(Expression<Func<ShoppingCart, bool>> predicate);
-    Task<IResult> CreateShoppingCart(ShoppingCart model);
-    Task<IResult> UpdateShoppingCart(ShoppingCart model);
-    Task<IResult> UpdateShoppingCartCount(UpdatedCartItem updatedCart);
-    Task<IResult> DeleteShoppingCart(Guid shoppingCartId);
-    Task<IResult> DeleteShoppingCartRange(IEnumerable<ShoppingCart> cartList);
+    Task<IResult> CreateShoppingCartAsync(ShoppingCart model);
+    Task<IResult> UpdateShoppingCartAsync(ShoppingCart model);
+    Task<IResult> UpdateShoppingCartCountAsync(UpdatedCartItem updatedCart);
+    Task<IResult> DeleteShoppingCartAsync(Guid shoppingCartId);
+    Task<IResult> DeleteShoppingCartRangeAsync(IEnumerable<ShoppingCart> cartList);
     Task<int> GetItemCountForUserAsync(Guid appUserId);
 }

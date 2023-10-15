@@ -18,6 +18,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/salemarkt.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
+      - ./https/salemarkt.pfx:/https/salemarkt.pfx:ro 
     depends_on:
       mssql:
         condition: service_healthy

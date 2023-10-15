@@ -1,0 +1,39 @@
+﻿@model List<RoleAssignViewModel>
+
+@{
+    ViewData["Title"] = "RoleAssign";
+}
+
+<div class="renderCard">
+    <div class="card shadow border-0 rounded offset-4 col-4">
+        <div class="card-header">
+            <div class="row mt-2 text-center">
+                <h2 class="text-info">Assign Role To User</h2>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <form method="post">
+                <div class="border p-3">
+                    <div class="row offset-4 col-4">
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <div class="form-check">
+                                <input asp-for="@Model[i].Exist" type="checkbox" class="form-check-input" />
+                                <label asp-for="@Model[i].RoleId" class="form-check-label">@Model[i].RoleName</label>
+
+                                <input asp-for="@Model[i].RoleName" type="hidden" />
+                                <input asp-for="@Model[i].RoleId" type="hidden" />
+                                <hr />
+                            </div>
+                        }
+                    </div>
+                    <div class="row mt-4">
+                        <div class="text-center">
+                            <button id="submitButton" type="submit" class="form-control btn btn-info shadow rounded">Assign</button>
+                        </div>                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -9,15 +9,15 @@ public interface IProductService
 {
     Task<IDataResult<Product>> GetByIdAsync(Guid productId);
 
-    Task<IDataResult<Product>> GetProductWithCategory(Guid id);
+    Task<IDataResult<Product>> GetProductWithCategoryAsync(Guid id);
 
     Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate);
 
-    Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate);
+    Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate);
 
-    Task<IResult> CreateProduct(ProductViewModel model);
+    Task<IResult> CreateProductAsync(ProductViewModel model);
 
-    Task<IResult> UpdateProduct(ProductViewModel model);
+    Task<IResult> UpdateProductAsync(ProductViewModel model);
 
-    Task<IResult> DeleteProduct(Guid categoryId);
+    Task<IResult> DeleteProductAsync(Guid categoryId);
 }

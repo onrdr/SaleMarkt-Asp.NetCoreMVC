@@ -29,7 +29,7 @@ public class ProductService : IProductService
             : new SuccessDataResult<Product>(product);
     }
 
-    public async Task<IDataResult<Product>> GetProductWithCategory(Guid id)
+    public async Task<IDataResult<Product>> GetProductWithCategoryAsync(Guid id)
     {
         var product = await _productRepository.GetProductWithCategory(id);
         return product == null
@@ -45,7 +45,7 @@ public class ProductService : IProductService
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
     }
 
-    public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
+    public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
         var productList = await _productRepository.GetAllProductsWithCategory(predicate);
         return productList.Any()
@@ -56,7 +56,7 @@ public class ProductService : IProductService
     #endregion
 
     #region Create
-    public async Task<IResult> CreateProduct(ProductViewModel model)
+    public async Task<IResult> CreateProductAsync(ProductViewModel model)
     {
         var addResult = await _productRepository.AddAsync(_mapper.Map<Product>(model));
         return addResult > 0
@@ -67,7 +67,7 @@ public class ProductService : IProductService
     #endregion
 
     #region Update
-    public async Task<IResult> UpdateProduct(ProductViewModel model)
+    public async Task<IResult> UpdateProductAsync(ProductViewModel model)
     {
         var productResult = await GetByIdAsync(model.Id);
         if (!productResult.Success)
@@ -76,10 +76,10 @@ public class ProductService : IProductService
         }
 
         CompleteUpdate(model, productResult);
-        return await GetUpdateResult(productResult);
+        return await GetUpdateResultAsync(productResult);
     }
 
-    private async Task<IResult> GetUpdateResult(IDataResult<Product> productResult)
+    private async Task<IResult> GetUpdateResultAsync(IDataResult<Product> productResult)
     {
         var updateResult = await _productRepository.UpdateAsync(productResult.Data);
         return updateResult > 0
@@ -104,7 +104,7 @@ public class ProductService : IProductService
     #endregion
 
     #region Delete
-    public async Task<IResult> DeleteProduct(Guid productId)
+    public async Task<IResult> DeleteProductAsync(Guid productId)
     {
         var deleteResult = await _productRepository.DeleteAsync(productId);
         return deleteResult > 0

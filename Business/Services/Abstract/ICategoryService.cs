@@ -9,7 +9,7 @@ public interface ICategoryService
 {
     Task<IDataResult<Category>> GetByIdAsync(Guid categoryId);
     Task<IDataResult<IEnumerable<Category>>> GetAllAsync(Expression<Func<Category, bool>> predicate);
-    Task<IResult> CreateCategory(CategoryViewModel model);
-    Task<IResult> UpdateCategory(CategoryViewModel model);
-    Task<IResult> DeleteCategory(Guid categoryId);
+    Task<IResult> CreateCategoryAsync(CategoryViewModel model);
+    Task<IResult> UpdateCategoryAsync(CategoryViewModel model);
+    Task<IResult> DeleteCategoryAsync(Guid categoryId);
 }

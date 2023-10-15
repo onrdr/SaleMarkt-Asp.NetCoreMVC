@@ -46,7 +46,7 @@ public class CategoryController : BaseController
     {
         HandleImageUpload(model, file);
 
-        var result = await _categoryService.CreateCategory(model);
+        var result = await _categoryService.CreateCategoryAsync(model);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -77,7 +77,7 @@ public class CategoryController : BaseController
     {
         HandleImageUpload(model, file);
 
-        var result = await _categoryService.UpdateCategory(model);
+        var result = await _categoryService.UpdateCategoryAsync(model);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -106,15 +106,13 @@ public class CategoryController : BaseController
             return Json(categoryResult);
         }
 
-        var deleteResult = await _categoryService.DeleteCategory(id);
+        var deleteResult = await _categoryService.DeleteCategoryAsync(id);
         if (!deleteResult.Success)
         {
-            TempData["ErrorMessage"] = deleteResult.Message;
             return Json(deleteResult);
         }
 
-        DeleteOldImage(categoryResult.Data.ImageUrl, WebHostEnvironment.WebRootPath);
-        TempData["SuccessMessage"] = deleteResult.Message;
+        DeleteOldImage(categoryResult.Data.ImageUrl, WebHostEnvironment.WebRootPath); 
         return Json(deleteResult);
     }
     #endregion

@@ -45,7 +45,7 @@ public class ShoppingCartService : IShoppingCartService
     #endregion
 
     #region Create
-    public async Task<IResult> CreateShoppingCart(ShoppingCart model)
+    public async Task<IResult> CreateShoppingCartAsync(ShoppingCart model)
     {
         var addResult = await _shoppingCartRepository.AddAsync(model);
         return addResult > 0
@@ -56,7 +56,7 @@ public class ShoppingCartService : IShoppingCartService
     #endregion
 
     #region Update
-    public async Task<IResult> UpdateShoppingCart(ShoppingCart model)
+    public async Task<IResult> UpdateShoppingCartAsync(ShoppingCart model)
     {
         var shoppingCartResult = await GetByIdAsync(model.Id);
         if (!shoppingCartResult.Success)
@@ -65,10 +65,10 @@ public class ShoppingCartService : IShoppingCartService
         }
 
         CompleteUpdate(model, shoppingCartResult.Data);
-        return await GetUpdateResult(shoppingCartResult);
+        return await GetUpdateResultAsync(shoppingCartResult);
     }
 
-    private async Task<IResult> GetUpdateResult(IDataResult<ShoppingCart> shoppingCartResult)
+    private async Task<IResult> GetUpdateResultAsync(IDataResult<ShoppingCart> shoppingCartResult)
     {
         var updateResult = await _shoppingCartRepository.UpdateAsync(shoppingCartResult.Data);
         return updateResult > 0
@@ -86,7 +86,7 @@ public class ShoppingCartService : IShoppingCartService
         model.Count = entity.Count; 
     }
 
-    public async Task<IResult> UpdateShoppingCartCount(UpdatedCartItem updatedCart)
+    public async Task<IResult> UpdateShoppingCartCountAsync(UpdatedCartItem updatedCart)
     {
         var shoppingCartResult = await GetByIdAsync(updatedCart.CartId);
         if (!shoppingCartResult.Success)
@@ -103,7 +103,7 @@ public class ShoppingCartService : IShoppingCartService
     #endregion 
 
     #region Delete
-    public async Task<IResult> DeleteShoppingCart(Guid shoppingCartId)
+    public async Task<IResult> DeleteShoppingCartAsync(Guid shoppingCartId)
     {
         var deleteResult = await _shoppingCartRepository.DeleteAsync(shoppingCartId);
         return deleteResult > 0
@@ -111,7 +111,7 @@ public class ShoppingCartService : IShoppingCartService
             : new ErrorResult(Messages.ShoppingCartDeleteError);
     }
 
-    public async Task<IResult> DeleteShoppingCartRange(IEnumerable<ShoppingCart> cartList)
+    public async Task<IResult> DeleteShoppingCartRangeAsync(IEnumerable<ShoppingCart> cartList)
     {
         var deleteResult = await _shoppingCartRepository.DeleteRangeAsync(cartList);
         return deleteResult > 0

@@ -48,7 +48,7 @@ public class OrderHeaderService : IOrderHeaderService
             : new ErrorResult(Messages.OrderHeaderAddError);
     }
 
-    public async Task<IResult> UpdateOrderStatus(Guid orderHeaderId, string orderStatus)
+    public async Task<IResult> UpdateOrderStatusAsync(Guid orderHeaderId, string orderStatus)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId); 
         if (!orderHeaderResult.Success)
@@ -62,7 +62,7 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
-    public async Task<IResult> UpdatePaymentStatus(Guid orderHeaderId, string paymentStatus)
+    public async Task<IResult> UpdatePaymentStatusAsync(Guid orderHeaderId, string paymentStatus)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
@@ -77,7 +77,7 @@ public class OrderHeaderService : IOrderHeaderService
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
 
-    public async Task<IResult> CompleteOrder(Guid orderHeaderId)
+    public async Task<IResult> CompleteOrderAsync(Guid orderHeaderId)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
@@ -94,7 +94,7 @@ public class OrderHeaderService : IOrderHeaderService
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
 
-    public async Task<IResult> DeleteOrder(Guid orderHeaderId)
+    public async Task<IResult> DeleteOrderAsync(Guid orderHeaderId)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
