@@ -26,6 +26,7 @@ Backend
 - Monolith Architecture / NTier
 - ASP.NET Core MVC
 - ASP.NET Core Identity / Authentication & Authorization
+- Cookie Based Authentication
 - Entity Framework Core
 - SQL Server
 - AutoMapper
@@ -45,6 +46,7 @@ Frontend
 - Bootstrap, BootsIcons
 - Ajax Requests
 - DataTables
+- Toastr
 
 # How to run the project in your local  
 First of all, please make sure that the docker is running on your device.
