@@ -16,9 +16,8 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=SaleMarkt1*
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/salemarkt.pfx
-    volumes:
-      - ~/.aspnet/https:/https:ro
-      - ./https/salemarkt.pfx:/https/salemarkt.pfx:ro 
+    volumes: 
+      - ./https/salemarkt.pfx:/https/salemarkt.pfx
     depends_on:
       mssql:
         condition: service_healthy
