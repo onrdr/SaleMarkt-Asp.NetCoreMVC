@@ -53,7 +53,7 @@ First of all, please make sure that the docker is running on your device.
 
 ### First Open a terminal or powershell and create a dev certificate to run the app with https
 ```
- dotnet dev-certs https --trust -ep $env:USERPROFILE\.aspnet\https\aspnetapp.pfx -p SaleMarkt1*
+ dotnet dev-certs https --trust -ep $env:USERPROFILE\.aspnet\https\salemarkt.pfx -p SaleMarkt1*
 ```
 
 ### 1- Clone the repository
