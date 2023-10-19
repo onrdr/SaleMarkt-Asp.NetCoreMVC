@@ -19,7 +19,7 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
+    public async Task<IEnumerable<Product>?> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
     {
         return await _dataContext.Products
             .Where(predicate)

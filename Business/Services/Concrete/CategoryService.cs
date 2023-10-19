@@ -32,7 +32,7 @@ public class CategoryService : ICategoryService
     public async Task<IDataResult<IEnumerable<Category>>> GetAllAsync(Expression<Func<Category, bool>> predicate)
     {
         var categoryList = await _categoryRepository.GetAllAsync(predicate);
-        return categoryList.Any()
+        return categoryList is not null
             ? new SuccessDataResult<IEnumerable<Category>>(categoryList)
             : new ErrorDataResult<IEnumerable<Category>>(Messages.EmptyCategoryList);
     }
@@ -77,7 +77,8 @@ public class CategoryService : ICategoryService
     private async Task<IResult> CheckIfCategoryNameAlreadyExistsAsync(CategoryViewModel model)
     {
         var categoryList = await _categoryRepository.GetAllAsync(c => true);
-        if (categoryList.Any(c => c.Name.ToLower() == model.Name.ToLower().Trim() && c.Id != model.Id))
+        if (categoryList is not null &&
+            categoryList.Any(c => c.Name.ToLower() == model.Name.ToLower().Trim() && c.Id != model.Id))
         {
             return new ErrorResult(Messages.CategoryAlreadyExists);
         } 

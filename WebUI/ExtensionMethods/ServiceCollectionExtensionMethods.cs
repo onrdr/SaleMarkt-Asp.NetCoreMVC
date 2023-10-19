@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Models.Smtp;
+using DataAccess.Repositories.Concrete.Cache;
 
 namespace WebUI.ExtensionMethods;
 
@@ -39,10 +40,13 @@ public static class ServiceCollectionExtensionMethods
 
     static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+        services.AddScoped<CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CachedCategoryRepository>();
         services.AddScoped<ICategoryService, CategoryService>();
 
-        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ProductRepository>();
+        services.AddScoped<IProductRepository, CachedProductRepository>();
         services.AddScoped<IProductService, ProductService>();
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();

@@ -98,7 +98,7 @@ public class HomeController : BaseController
     #endregion
 
     #region Login
-    public IActionResult Login(string email = null, string returnUrl = null)
+    public IActionResult Login(string email, string returnUrl)
     {
         if (!string.IsNullOrEmpty(returnUrl))
         {
@@ -197,7 +197,7 @@ public class HomeController : BaseController
     private async Task<IActionResult> ResetAccessFailCountAndLogin(AppUser user)
     {
         await UserManager.ResetAccessFailedCountAsync(user);
-        TempData["SuccessMessage"] = "Login "
+        TempData["SuccessMessage"] = "Login Successfull";
 
         return TempData["ReturnUrl"] as string is not null
             ? Redirect(TempData["ReturnUrl"] as string)
@@ -256,8 +256,8 @@ public class HomeController : BaseController
         ErrorList.Clear();
         TempData["ModelError"] = ErrorList;
 
-        AppUser user = await UserManager.FindByEmailAsync(model.Email);
-        if (user == null)
+        AppUser? user = await UserManager.FindByEmailAsync(model.Email);
+        if (user is null)
         {
             ErrorList.Add("This email address is not registered");
             return View(model);
@@ -276,9 +276,8 @@ public class HomeController : BaseController
         {
             TempData["ErrorMessage"] = "An error occured in email service. Please contact administration";
             return View(model);
-        }
-        
-        ViewBag.status = "success";
+        } 
+
         return View();
     }
 
@@ -298,7 +297,7 @@ public class HomeController : BaseController
         ErrorList.Clear();
         TempData["ModelError"] = ErrorList;
         AppUser? user = await UserManager.FindByIdAsync(model.UserId.ToString());
-        if (user == null)
+        if (user is null)
         {
             ErrorList.Add(Messages.UserNotFound);
             return View(model);
