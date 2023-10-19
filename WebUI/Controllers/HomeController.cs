@@ -13,6 +13,7 @@ namespace WebUI.Controllers;
 
 public class HomeController : BaseController
 {
+    private readonly ICompanyService _companyService;
     private readonly IProductService _productService;
     private readonly IShoppingCartService _shoppingCartService;
     private readonly IEmailService _emailService;
@@ -20,6 +21,7 @@ public class HomeController : BaseController
     private readonly List<string> ErrorList = new();
 
     public HomeController(
+        ICompanyService companyService,
         IProductService productService,
         IEmailService emailService,
         IMapper mapper,
@@ -29,6 +31,7 @@ public class HomeController : BaseController
         SignInManager<AppUser> signInManager)
             : base(userManager: userManager, signInManager: signInManager, mapper: mapper)
     {
+        _companyService = companyService;
         _productService = productService;
         _emailService = emailService;
         _viewRenderService = viewRenderService;
@@ -194,6 +197,7 @@ public class HomeController : BaseController
     private async Task<IActionResult> ResetAccessFailCountAndLogin(AppUser user)
     {
         await UserManager.ResetAccessFailedCountAsync(user);
+        TempData["SuccessMessage"] = "Login "
 
         return TempData["ReturnUrl"] as string is not null
             ? Redirect(TempData["ReturnUrl"] as string)
@@ -270,7 +274,7 @@ public class HomeController : BaseController
         var emailResult = await _emailService.SendResetEmailAsync(user.Email, emailMessage);
         if (!emailResult.IsSuccessStatusCode)
         {
-            TempData["ErrorMessage"] = "An error occured. Please try again later";
+            TempData["ErrorMessage"] = "An error occured in email service. Please contact administration";
             return View(model);
         }
         
@@ -291,10 +295,12 @@ public class HomeController : BaseController
     [HttpPost]
     public async Task<IActionResult> ResetPasswordConfirm(ResetPasswordConfirmViewModel model)
     {
+        ErrorList.Clear();
+        TempData["ModelError"] = ErrorList;
         AppUser? user = await UserManager.FindByIdAsync(model.UserId.ToString());
         if (user == null)
         {
-            ErrorList.Add("An error occured, please try again later");
+            ErrorList.Add(Messages.UserNotFound);
             return View(model);
         }
 
@@ -308,16 +314,18 @@ public class HomeController : BaseController
             return View(model);
         }
 
-        await UserManager.UpdateSecurityStampAsync(user);
-        ViewBag.status = "success";
+        await UserManager.UpdateSecurityStampAsync(user); 
         return View(model);
     }
     #endregion
 
     #region Contact
-    public IActionResult Contact()
+    public async Task<IActionResult> Contact()
     {
-        return View();
+        var companyResult = await _companyService.GetCompanyAsync();
+        var company = companyResult.Data;
+
+        return View(Mapper.Map<CompanyViewModel>(company));
     }
     #endregion
 

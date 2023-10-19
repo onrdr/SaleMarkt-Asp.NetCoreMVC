@@ -92,14 +92,11 @@
                                 </ul>
                             </li>
                         }
-                        @if (User.IsInRole(RoleNames.Customer))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Cart" asp-action="Index">
-                                    @await Component.InvokeAsync("ShoppingCartCount")
-                                </a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                                @await Component.InvokeAsync("ShoppingCartCount")
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

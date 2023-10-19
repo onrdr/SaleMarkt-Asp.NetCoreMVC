@@ -37,11 +37,12 @@
             <div class="col-2 offset-2 pt-5 pb-5">
                 <h3 id="footerHeader">Links</h3>
                 <ul class="pt-1 list-unstyled">
-                    <li><a class="text-decoration-none">Home</a></li>
-                    <li><a class="text-decoration-none">About Us</a></li>
-                    <li><a class="text-decoration-none">Shop Locations</a></li>
-                    <li><a class="text-decoration-none">FAQs</a></li>
-                    <li><a class="text-decoration-none">Contact</a></li>
+                    <li><a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a></li>
+                    <li><a asp-controller="Home" asp-action="ProductList" class="text-decoration-none">Shop</a></li> 
+                    <li><a asp-controller="Home" asp-action="Contact" class="text-decoration-none">Contact</a></li>
+                    <li><a asp-controller="Home" asp-action="About" class="text-decoration-none">About Us</a></li>
+                    <li><a asp-controller="Home" asp-action="Login" class="text-decoration-none">Login</a></li>
+                    <li><a asp-controller="Home" asp-action="Register" class="text-decoration-none">SignUp</a></li>
                 </ul>
             </div>
 

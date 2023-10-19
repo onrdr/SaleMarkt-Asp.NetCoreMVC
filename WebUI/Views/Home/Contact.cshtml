@@ -1,18 +1,59 @@
-﻿@{
+﻿@model CompanyViewModel
+
+@{
     ViewData["Title"] = "Contact Page";
 }
 
 <section class="renderCard">
-    <div class="card rounded">
+    <div class="card rounded offset-3 col-6">
         <div class="card-header bg-info bg-gradient text-light py-4 rounded">
             <div class="row">
                 <h2><span class="mt-4 text-light">Contact Us</span></h2>
             </div>
         </div>
         <div class="card-body">
-            <div class="py-3">
-                 
-            </div> 
+            <div class="row">
+                <div class="col-8"> 
+                    <dl class="row">
+                        <dt class="col-sm-4">Company Name:</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+
+                        <dt class="col-sm-4">Email Address:</dt>
+                        <dd class="col-sm-8">@Model.Email</dd>
+
+                        <dt class="col-sm-4">Phone Number:</dt>
+                        <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                        @if (!string.IsNullOrEmpty(Model.Address))
+                        {
+                            <dt class="col-sm-4">Address:</dt>
+                            <dd class="col-sm-8">@Model.Address</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.City))
+                        {
+                            <dt class="col-sm-4">City:</dt>
+                            <dd class="col-sm-8">@Model.City</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.Country))
+                        {
+                            <dt class="col-sm-4">Country:</dt>
+                            <dd class="col-sm-8">@Model.Country</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.PostalCode))
+                        {
+                            <dt class="col-sm-4">Postal Code:</dt>
+                            <dd class="col-sm-8">@Model.PostalCode</dd>
+                        }
+                    </dl>
+                </div>
+                <div class="col-4">
+                    <img src="~/@Model.ImageUrl" alt="Company Image" class="img-fluid" />
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
