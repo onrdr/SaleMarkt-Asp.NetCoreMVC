@@ -16,22 +16,25 @@ public class OrderDetailService : IOrderDetailService
         _orderDetailsRepository = orderDetailsRepository;
     }
 
+    #region Read
     public async Task<IDataResult<OrderDetail>> GetByIdAsync(Guid orderHeaderId)
     {
         var category = await _orderDetailsRepository.GetByIdAsync(orderHeaderId);
-        return category == null
-            ? new ErrorDataResult<OrderDetail>(Messages.OrderDetailNotFound)
-            : new SuccessDataResult<OrderDetail>(category);
+        return category is not null
+            ? new SuccessDataResult<OrderDetail>(category)
+            : new ErrorDataResult<OrderDetail>(Messages.OrderDetailNotFound);
     }
 
     public async Task<IDataResult<IEnumerable<OrderDetail>>> GetAllWithProductAsync(Expression<Func<OrderDetail, bool>> predicate)
     {
         var orderDetailList = await _orderDetailsRepository.GetAllWithProductAsync(predicate);
-        return !orderDetailList.Any()
-            ? new ErrorDataResult<IEnumerable<OrderDetail>>(Messages.EmptyOrderDetailList)
-            : new SuccessDataResult<IEnumerable<OrderDetail>>(orderDetailList);
-    } 
+        return orderDetailList is not null
+            ? new SuccessDataResult<IEnumerable<OrderDetail>>(orderDetailList)
+            : new ErrorDataResult<IEnumerable<OrderDetail>>(Messages.EmptyOrderDetailList);
+    }
+    #endregion
 
+    #region Create
     public async Task<IResult> CreateOrderDetailsAsync(OrderDetail model)
     {
         var addResult = await _orderDetailsRepository.AddAsync(model);
@@ -39,4 +42,5 @@ public class OrderDetailService : IOrderDetailService
             ? new SuccessResult(Messages.OrderDetailAddSuccessfull)
             : new ErrorResult(Messages.OrderDetailAddError);
     } 
+    #endregion
 }

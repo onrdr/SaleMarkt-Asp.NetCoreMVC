@@ -20,9 +20,9 @@ public class CompanyService : ICompanyService
     public async Task<IDataResult<Company>> GetCompanyAsync()
     {
         var companyList = await _companyRepository.GetAllAsync(c => true);
-        return companyList.First() == null
-            ? new ErrorDataResult<Company>(Messages.CompanyNotFound)
-            : new SuccessDataResult<Company>(companyList.First());
+        return companyList is not null && companyList.First() is not null
+            ? new SuccessDataResult<Company>(companyList.First())
+            : new ErrorDataResult<Company>(Messages.CompanyNotFound);
     } 
     #endregion
 

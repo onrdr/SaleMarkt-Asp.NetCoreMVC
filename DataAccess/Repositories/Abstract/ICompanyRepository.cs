@@ -4,4 +4,5 @@ namespace DataAccess.Repositories.Abstract;
 
 public interface ICompanyRepository : IBaseRepository<Company>
 {
+
 }

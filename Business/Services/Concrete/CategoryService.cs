@@ -24,9 +24,9 @@ public class CategoryService : ICategoryService
     public async Task<IDataResult<Category>> GetByIdAsync(Guid categoryId)
     {
         var category = await _categoryRepository.GetByIdAsync(categoryId);
-        return category == null
-            ? new ErrorDataResult<Category>(Messages.CategoryNotFound)
-            : new SuccessDataResult<Category>(category);
+        return category is not null
+            ? new SuccessDataResult<Category>(category)
+            : new ErrorDataResult<Category>(Messages.CategoryNotFound);
     }
 
     public async Task<IDataResult<IEnumerable<Category>>> GetAllAsync(Expression<Func<Category, bool>> predicate)

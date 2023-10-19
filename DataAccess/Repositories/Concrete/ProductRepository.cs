@@ -12,14 +12,14 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         
     }
 
-    public async Task<Product?> GetProductWithCategory(Guid id)
+    public async Task<Product?> GetProductWithCategoryAsync(Guid id)
     {
         return await _dataContext.Products
             .Include(p => p.Category)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<IEnumerable<Product>?> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
+    public async Task<IEnumerable<Product>?> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
         return await _dataContext.Products
             .Where(predicate)

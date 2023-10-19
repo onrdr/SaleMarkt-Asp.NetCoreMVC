@@ -49,6 +49,7 @@ public class CachedCategoryRepository : ICategoryRepository
         RemoveAllCachedItemRange(entities, result);
         return result;
     }
+
     public async Task<int> UpdateAsync(Category entity)
     {
         var result = await _decorated.UpdateAsync(entity);

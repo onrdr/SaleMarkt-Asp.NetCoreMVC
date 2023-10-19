@@ -26,13 +26,13 @@ public class CachedProductRepository : IProductRepository
         });
     }
 
-    public async Task<Product?> GetProductWithCategory(Guid id)
+    public async Task<Product?> GetProductWithCategoryAsync(Guid id)
     {
         string key = $"product-with-category-{id}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
-            return await _decorated.GetProductWithCategory(id);
+            return await _decorated.GetProductWithCategoryAsync(id);
         });
     }
 
@@ -46,13 +46,13 @@ public class CachedProductRepository : IProductRepository
         });
     }
 
-    public async Task<IEnumerable<Product>?> GetAllProductsWithCategory(Expression<Func<Product, bool>> predicate)
+    public async Task<IEnumerable<Product>?> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
         string key = $"all-products-with-category";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
-            return await _decorated.GetAllProductsWithCategory(predicate);
+            return await _decorated.GetAllProductsWithCategoryAsync(predicate);
         });
     }
 
@@ -69,6 +69,7 @@ public class CachedProductRepository : IProductRepository
         RemoveAllCachedItemRange(entities, result);
         return result;
     }
+
     public async Task<int> UpdateAsync(Product entity)
     {
         var result = await _decorated.UpdateAsync(entity);

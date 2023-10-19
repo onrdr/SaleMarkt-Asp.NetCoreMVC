@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection ConfigureDatabase(this IServiceCollection services, ConfigurationManager configurationManager)
+    private static IServiceCollection ConfigureDatabase(this IServiceCollection services, ConfigurationManager configurationManager)
     { 
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -38,7 +38,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
 
         services.AddScoped<CategoryRepository>();
@@ -68,7 +68,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection AddIdentity(this IServiceCollection services)
+    private static IServiceCollection AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<AppUser, AppRole>(options =>
         {
@@ -87,7 +87,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services)
+    private static IServiceCollection ConfigureApplicationCookie(this IServiceCollection services)
     {
         CookieBuilder cookieBuilder = new()
         {
@@ -110,7 +110,7 @@ public static class ServiceCollectionExtensionMethods
         return services;
     }
 
-    static IServiceCollection ConfigureSmtpService(this IServiceCollection services, WebApplicationBuilder builder)
+    private static IServiceCollection ConfigureSmtpService(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
         return services;

@@ -32,6 +32,12 @@ public class SuperAdminController : BaseController
     public async Task<IActionResult> RoleAssign(string userId)
     {
         var user = await UserManager.FindByIdAsync(userId);
+        if (user is null)
+        {
+            TempData["ErrorMessage"] = Messages.UserNotFound;
+            return RedirectToAction(nameof(ListUsers));
+        }
+
         TempData["userId"] = userId;
 
         var roles = await RoleManager.Roles.ToListAsync();
@@ -54,7 +60,13 @@ public class SuperAdminController : BaseController
     [HttpPost]
     public async Task<IActionResult> RoleAssign(List<RoleAssignViewModel> list)
     {
-        var user = await UserManager.FindByIdAsync(TempData["userId"].ToString());
+        var user = await UserManager.FindByIdAsync(TempData["userId"] as string);
+        if (user is null)
+        {
+            TempData["ErrorMessage"] = Messages.UserNotFound;
+            return RedirectToAction(nameof(ListUsers));
+        }
+
         foreach (var model in list)
         {
             if (model.Exist)

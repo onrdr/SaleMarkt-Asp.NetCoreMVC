@@ -215,8 +215,8 @@ public class CartController : BaseController
     }
     #endregion
 
-    #region Private Helper Methods
-    private static void SetOrderHeader(AppUser? appUser, ShoppingCartViewModel shoppingCartViewModel)
+    #region Helper Methods
+    private static void SetOrderHeader(AppUser appUser, ShoppingCartViewModel shoppingCartViewModel)
     {
         shoppingCartViewModel.OrderHeader.AppUser = appUser;
         shoppingCartViewModel.OrderHeader.Name = appUser.Name;

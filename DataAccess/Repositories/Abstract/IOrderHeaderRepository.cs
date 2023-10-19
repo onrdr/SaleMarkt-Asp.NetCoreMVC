@@ -7,5 +7,4 @@ public interface IOrderHeaderRepository : IBaseRepository<OrderHeader>
 {
     Task<IEnumerable<OrderHeader>> GetAllWithAppUserAsync(Expression<Func<OrderHeader, bool>> predicate);
     Task<OrderHeader?> GetByIdWithAppUserAsync(Guid orderHeaderId);
-
 }

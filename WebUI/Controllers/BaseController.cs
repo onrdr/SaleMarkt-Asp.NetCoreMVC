@@ -6,6 +6,7 @@ using Models.ViewModels.Abstract;
 using System.Security.Claims;
 
 namespace WebUI.Controllers;
+
 public class BaseController : Controller
 {
     protected UserManager<AppUser> UserManager { get; }

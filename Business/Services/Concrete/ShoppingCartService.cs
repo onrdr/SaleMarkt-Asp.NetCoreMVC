@@ -22,15 +22,15 @@ public class ShoppingCartService : IShoppingCartService
     public async Task<IDataResult<ShoppingCart>> GetByIdAsync(Guid shoppingCartId)
     {
         var category = await _shoppingCartRepository.GetByIdAsync(shoppingCartId);
-        return category == null
-            ? new ErrorDataResult<ShoppingCart>(Messages.ShoppingCartNotFound)
-            : new SuccessDataResult<ShoppingCart>(category);
+        return category is not null
+            ? new SuccessDataResult<ShoppingCart>(category)
+            : new ErrorDataResult<ShoppingCart>(Messages.ShoppingCartNotFound);
     }
 
     public async Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllAsync(Expression<Func<ShoppingCart, bool>> predicate)
     {
         var categoryList = await _shoppingCartRepository.GetAllAsync(predicate);
-        return categoryList.Any()
+        return categoryList is not null
             ? new SuccessDataResult<IEnumerable<ShoppingCart>>(categoryList)
             : new ErrorDataResult<IEnumerable<ShoppingCart>>(Messages.EmptyShoppingCartList);
     }
@@ -38,9 +38,15 @@ public class ShoppingCartService : IShoppingCartService
     public async Task<IDataResult<IEnumerable<ShoppingCart>>> GetAllWithProductAsync(Expression<Func<ShoppingCart, bool>> predicate)
     {
         var categoryList = await _shoppingCartRepository.GetAllWithProductAsync(predicate);
-        return categoryList.Any()
+        return categoryList is not null
             ? new SuccessDataResult<IEnumerable<ShoppingCart>>(categoryList)
             : new ErrorDataResult<IEnumerable<ShoppingCart>>(Messages.EmptyShoppingCartList);
+    }
+
+    public async Task<int> GetItemCountForUserAsync(Guid appUserId)
+    {
+        var shoppingCartList = await _shoppingCartRepository.GetAllAsync(sc => sc.AppUserId == appUserId);
+        return shoppingCartList is not null ? shoppingCartList.Count() : 0;
     }
     #endregion
 
@@ -119,11 +125,4 @@ public class ShoppingCartService : IShoppingCartService
             : new ErrorResult(Messages.ShoppingCartDeleteError);
     }
     #endregion
-
-    public async Task<int> GetItemCountForUserAsync(Guid appUserId)
-    {
-        var list = await _shoppingCartRepository.GetAllAsync(sc => sc.AppUserId == appUserId);
-        return list.Count();
-    }
-
 }

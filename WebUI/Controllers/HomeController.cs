@@ -38,10 +38,12 @@ public class HomeController : BaseController
         _shoppingCartService = shoppingCartService;
     }
 
+    #region Home Page
     public IActionResult Index()
     {
         return View();
     } 
+    #endregion
 
     #region HomePage Product List & Details
     public async Task<IActionResult> ProductList()

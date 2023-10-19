@@ -16,6 +16,7 @@ public class OrderHeaderService : IOrderHeaderService
         _orderHeaderRepository = orderHeaderRepository;
     }
 
+    #region Read
     public async Task<IDataResult<OrderHeader>> GetByIdAsync(Guid orderHeaderId)
     {
         var orderHeader = await _orderHeaderRepository.GetByIdAsync(orderHeaderId);
@@ -35,11 +36,13 @@ public class OrderHeaderService : IOrderHeaderService
     public async Task<IDataResult<IEnumerable<OrderHeader>>> GetAllWithAppUserAsync(Expression<Func<OrderHeader, bool>> predicate)
     {
         var orderHeaderList = await _orderHeaderRepository.GetAllWithAppUserAsync(predicate);
-        return orderHeaderList.Any()
+        return orderHeaderList is not null
             ? new SuccessDataResult<IEnumerable<OrderHeader>>(orderHeaderList)
             : new ErrorDataResult<IEnumerable<OrderHeader>>(Messages.EmptyOrderHeaderList);
     }
+    #endregion
 
+    #region Create
     public async Task<IResult> CreateOrderHeaderAsync(OrderHeader model)
     {
         var addResult = await _orderHeaderRepository.AddAsync(model);
@@ -47,7 +50,9 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderAddSuccessfull)
             : new ErrorResult(Messages.OrderHeaderAddError);
     }
+    #endregion
 
+    #region Update
     public async Task<IResult> UpdateOrderStatusAsync(Guid orderHeaderId, string orderStatus)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId); 
@@ -93,7 +98,9 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
+    #endregion
 
+    #region Delete
     public async Task<IResult> DeleteOrderAsync(Guid orderHeaderId)
     {
         var orderHeaderResult = await GetByIdAsync(orderHeaderId);
@@ -107,4 +114,5 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderDeleteSuccessfull)
             : new ErrorResult(Messages.OrderHeaderDeleteError);
     }
+    #endregion
 }

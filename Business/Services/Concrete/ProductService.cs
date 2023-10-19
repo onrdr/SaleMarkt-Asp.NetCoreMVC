@@ -24,17 +24,17 @@ public class ProductService : IProductService
     public async Task<IDataResult<Product>> GetByIdAsync(Guid productId)
     {
         var product = await _productRepository.GetByIdAsync(productId);
-        return product is null
-            ? new ErrorDataResult<Product>(Messages.ProductNotFound)
-            : new SuccessDataResult<Product>(product);
+        return product is not null
+            ? new SuccessDataResult<Product>(product)
+            : new ErrorDataResult<Product>(Messages.ProductNotFound);
     }
 
     public async Task<IDataResult<Product>> GetProductWithCategoryAsync(Guid id)
     {
-        var product = await _productRepository.GetProductWithCategory(id);
-        return product is null
-           ? new ErrorDataResult<Product>(Messages.ProductNotFound)
-           : new SuccessDataResult<Product>(product);
+        var product = await _productRepository.GetProductWithCategoryAsync(id);
+        return product is not null
+           ? new SuccessDataResult<Product>(product)
+           : new ErrorDataResult<Product>(Messages.ProductNotFound);
     }
 
     public async Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate)
@@ -47,7 +47,7 @@ public class ProductService : IProductService
 
     public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
-        var productList = await _productRepository.GetAllProductsWithCategory(predicate);
+        var productList = await _productRepository.GetAllProductsWithCategoryAsync(predicate);
         return productList is not null
             ? new SuccessDataResult<IEnumerable<Product>>(productList)
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
