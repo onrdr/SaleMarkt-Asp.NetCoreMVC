@@ -51,7 +51,12 @@ Frontend
 # How to run the project in your local  
 First of all, please make sure that the docker is running on your device.
 
-### 1- Open a terminal or powershell and clone the repository
+### First Open a terminal or powershell and create a dev certificate to run the app with https
+```
+ dotnet dev-certs https --trust -ep $env:USERPROFILE\.aspnet\https\aspnetapp.pfx -p SaleMarkt1*
+```
+
+### 1- Clone the repository
 ```
  git clone https://github.com/onrdr/SaleMarkt-Asp.NetCoreMVC
 ```
