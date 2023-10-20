@@ -26,7 +26,7 @@ public class HomeController : BaseController
     private readonly IViewRenderService _viewRenderService;
     private readonly List<string> ErrorList = new();
     private const int PAGE_NUMBER = 1;
-    private const int PAGE_SIZE = 4;
+    private const int PAGE_SIZE = 8;
 
     public HomeController(
         ICompanyService companyService,
@@ -79,6 +79,12 @@ public class HomeController : BaseController
     [HttpPost]
     public async Task<IActionResult> ProductList(string color, string size, double? minPrice, double? maxPrice, string productName, string category)
     {
+        var filterExists =  CheckIfAnyFilterExists(color, size, minPrice, maxPrice, productName, category);
+        if (!filterExists)
+        {
+            return RedirectToAction(nameof(ProductList));
+        }
+
         if (minPrice > maxPrice)
         {
             TempData["ErrorMessage"] = "Max Price cannot be lower than Min Price";
@@ -92,12 +98,24 @@ public class HomeController : BaseController
         combinedPredicate = AddNameFilterIfNotNull(productName, combinedPredicate);
         combinedPredicate = AddCategoryFilterIfNotNull(category, combinedPredicate);
 
-        var productResult = await _productService.GetAllProductsWithCategoryAsync(combinedPredicate); 
+        var productResult = await _productService.GetAllProductsWithCategoryAsync(combinedPredicate);
         var model = new PaginatedList<Product>(productResult.Data, productResult.Data.Count(), page: PAGE_NUMBER, pageSize: PAGE_SIZE);
         var serializedModel = JsonConvert.SerializeObject(model);
         TempData["FilteredProducts"] = serializedModel;
 
         return RedirectToAction(nameof(ProductList));
+    }
+
+    private static bool CheckIfAnyFilterExists(string color, string size, double? minPrice, double? maxPrice, string productName, string category)
+    {
+        if (color is null && size is null &&
+            minPrice is null && maxPrice is null &&
+            productName is null && category is null)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private static Expression<Func<Product, bool>> AddNameFilterIfNotNull(string productName, Expression<Func<Product, bool>> combinedPredicate)
@@ -216,12 +234,16 @@ public class HomeController : BaseController
     #region Login
     public IActionResult Login(string email, string returnUrl)
     {
+        ModelState.Clear();
+
         if (!string.IsNullOrEmpty(returnUrl))
         {
             TempData["ReturnUrl"] = returnUrl;
         }
 
-        return email is null ? View() : View(new LoginViewModel { Email = email });
+        return email is null 
+            ? View() 
+            : View(new LoginViewModel { Email = email });
     }
 
     [HttpPost]
@@ -314,10 +336,11 @@ public class HomeController : BaseController
     {
         await UserManager.ResetAccessFailedCountAsync(user);
         TempData["SuccessMessage"] = "Login Successfull";
+        var redirectUrl = TempData["ReturnUrl"] as string; 
 
-        return TempData["ReturnUrl"] as string is not null
-            ? Redirect(TempData["ReturnUrl"] as string)
-            : RedirectToAction(nameof(Index), "Home");
+        return redirectUrl is not null
+            ? Redirect(redirectUrl)
+            : RedirectToAction(nameof(Index));
     }
     #endregion
 
