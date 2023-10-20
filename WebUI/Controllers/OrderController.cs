@@ -28,14 +28,14 @@ public class OrderController : BaseController
     #region Order Details 
     public async Task<IActionResult> Details(Guid orderHeaderId)
     {
-        var orderHeaderResult = await _orderHeaderService.GetByIdWithAppUserAsync(orderHeaderId);
+        var orderHeaderResult = await _orderHeaderService.GetOrderHeaderByIdWithAppUserAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
         {
             TempData["ErrorMessage"] = orderHeaderResult.Message;
             return RedirectToAction(nameof(Index));
         }
 
-        var orderDetailResult = await _orderDetailsService.GetAllWithProductAsync(o => o.OrderHeaderId == orderHeaderId);
+        var orderDetailResult = await _orderDetailsService.GetAllOrderDetailsWithProductAsync(o => o.OrderHeaderId == orderHeaderId);
         if (!orderDetailResult.Success)
         {
             TempData["ErrorMessage"] = Messages.EmptyOrderList;
@@ -127,7 +127,7 @@ public class OrderController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     { 
-        var orderHeaderResult = await _orderHeaderService.GetAllWithAppUserAsync(o => true);
+        var orderHeaderResult = await _orderHeaderService.GetAllOrderHeadersWithAppUserAsync(o => true);
         if (!orderHeaderResult.Success)
         {
             return Json(data: null);

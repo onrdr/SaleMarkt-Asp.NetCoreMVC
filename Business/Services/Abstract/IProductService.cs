@@ -7,11 +7,11 @@ namespace Business.Services.Abstract;
 
 public interface IProductService
 {
-    Task<IDataResult<Product>> GetByIdAsync(Guid productId);
+    Task<IDataResult<Product>> GetProductByIdAsync(Guid productId);
 
-    Task<IDataResult<Product>> GetProductWithCategoryAsync(Guid id);
+    Task<IDataResult<Product>> GetProductByIdWithCategoryAsync(Guid productId);
 
-    Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate);
+    Task<IDataResult<IEnumerable<Product>>> GetAllProductsAsync(Expression<Func<Product, bool>> predicate);
 
     Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate);
 
@@ -19,5 +19,5 @@ public interface IProductService
 
     Task<IResult> UpdateProductAsync(ProductViewModel model);
 
-    Task<IResult> DeleteProductAsync(Guid categoryId);
+    Task<IResult> DeleteProductAsync(Guid productId);
 }

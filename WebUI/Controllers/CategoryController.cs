@@ -24,7 +24,7 @@ public class CategoryController : BaseController
     #region Read
     public async Task<IActionResult> Index()
     {
-        var result = await _categoryService.GetAllAsync(c => true);
+        var result = await _categoryService.GetAllCategoriesAsync(c => true);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -61,7 +61,7 @@ public class CategoryController : BaseController
     #region Update
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await _categoryService.GetByIdAsync(id);
+        var result = await _categoryService.GetCategoryByIdAsync(id);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -93,14 +93,14 @@ public class CategoryController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var categories = await _categoryService.GetAllAsync(c => true);
+        var categories = await _categoryService.GetAllCategoriesAsync(c => true);
         return Json(new { data = categories.Data });
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var categoryResult = await _categoryService.GetByIdAsync(id);
+        var categoryResult = await _categoryService.GetCategoryByIdAsync(id);
         if (!categoryResult.Success)
         {
             return Json(categoryResult);

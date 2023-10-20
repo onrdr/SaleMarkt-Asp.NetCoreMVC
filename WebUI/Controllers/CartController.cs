@@ -32,7 +32,7 @@ public class CartController : BaseController
     public async Task<IActionResult> Index()
     {
         var userId = GetUserId();
-        var shoppingCartListResult = await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId);
+        var shoppingCartListResult = await _shoppingCartService.GetAllShoppingCartsWithProductAsync(s => s.AppUserId == userId);
         if (!shoppingCartListResult.Success)
         {
             TempData["ErrorMessage"] = shoppingCartListResult.Message;
@@ -83,7 +83,7 @@ public class CartController : BaseController
     #region Delete Product From Shopping Cart 
     public async Task<IActionResult> Delete(Guid cartId)
     {
-        var cartFromDbResult = await _shoppingCartService.GetByIdAsync(cartId);
+        var cartFromDbResult = await _shoppingCartService.GetShoppingCartByIdAsync(cartId);
         if (!cartFromDbResult.Success)
         {
             TempData["ErrorMessage"] = cartFromDbResult.Message;
@@ -106,7 +106,7 @@ public class CartController : BaseController
         Guid userId = GetUserId();
         var shoppingCartVM = new ShoppingCartViewModel()
         {
-            ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data.ToList(),
+            ShoppingCartList = (await _shoppingCartService.GetAllShoppingCartsWithProductAsync(s => s.AppUserId == userId)).Data.ToList(),
             OrderHeader = new()
         };
 
@@ -132,7 +132,7 @@ public class CartController : BaseController
     public async Task<IActionResult> SummaryPOST(ShoppingCartViewModel shoppingCartViewModel)
     {
         var userId = GetUserId();
-        shoppingCartViewModel.ShoppingCartList = (await _shoppingCartService.GetAllWithProductAsync(s => s.AppUserId == userId)).Data;
+        shoppingCartViewModel.ShoppingCartList = (await _shoppingCartService.GetAllShoppingCartsWithProductAsync(s => s.AppUserId == userId)).Data;
         shoppingCartViewModel.OrderHeader.OrderDate = DateTime.UtcNow;
         shoppingCartViewModel.OrderHeader.ShippingDate = DateTime.UtcNow.AddDays(2);
         shoppingCartViewModel.OrderHeader.AppUserId = userId;
@@ -172,7 +172,7 @@ public class CartController : BaseController
                 Count = cart.Count
             };
 
-            var detailsAddResult = await _orderDetailsService.CreateOrderDetailsAsync(orderDetails);
+            var detailsAddResult = await _orderDetailsService.CreateOrderDetailAsync(orderDetails);
             if (!detailsAddResult.Success)
             {
                 TempData["ErrorMessage"] = detailsAddResult.Message;
@@ -188,7 +188,7 @@ public class CartController : BaseController
     #region Order Confirmation 
     public async Task<IActionResult> OrderConfirmation(Guid id)
     {
-        var orderHeaderList = await _orderHeaderService.GetAllWithAppUserAsync(o => o.Id == id);
+        var orderHeaderList = await _orderHeaderService.GetAllOrderHeadersWithAppUserAsync(o => o.Id == id);
         if (orderHeaderList.Data == null)
         {
             TempData["ErrorMessage"] = orderHeaderList.Message;
@@ -198,7 +198,7 @@ public class CartController : BaseController
         var orderHeader = orderHeaderList.Data.First();
         // TODO:Send Email about Order Confirmed
 
-        var shoppingCartlist = (await _shoppingCartService.GetAllAsync(u => u.AppUserId == orderHeader.AppUserId)).Data;
+        var shoppingCartlist = (await _shoppingCartService.GetAllShoppingCartsAsync(u => u.AppUserId == orderHeader.AppUserId)).Data;
         if (shoppingCartlist == null)
         {
             return RedirectToAction(nameof(Index), "Home");

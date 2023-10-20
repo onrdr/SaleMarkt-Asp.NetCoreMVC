@@ -23,7 +23,7 @@ public class ShoppingCartCountViewComponent : ViewComponent
             return View(0);
         }
 
-        int count = await _shoppingCartService.GetItemCountForUserAsync(Guid.Parse(claim.Value));
+        int count = await _shoppingCartService.GetShoppingCartItemCountByAppUserIdAsync(Guid.Parse(claim.Value));
 
         return View(count);
     }

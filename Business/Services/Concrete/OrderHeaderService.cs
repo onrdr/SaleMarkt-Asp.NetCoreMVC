@@ -17,7 +17,7 @@ public class OrderHeaderService : IOrderHeaderService
     }
 
     #region Read
-    public async Task<IDataResult<OrderHeader>> GetByIdAsync(Guid orderHeaderId)
+    public async Task<IDataResult<OrderHeader>> GetOrderHeaderByIdAsync(Guid orderHeaderId)
     {
         var orderHeader = await _orderHeaderRepository.GetByIdAsync(orderHeaderId);
         return orderHeader is null
@@ -25,7 +25,7 @@ public class OrderHeaderService : IOrderHeaderService
             : new SuccessDataResult<OrderHeader>(orderHeader);
     }
 
-    public async Task<IDataResult<OrderHeader>> GetByIdWithAppUserAsync(Guid orderHeaderId)
+    public async Task<IDataResult<OrderHeader>> GetOrderHeaderByIdWithAppUserAsync(Guid orderHeaderId)
     {
         var orderHeader = await _orderHeaderRepository.GetByIdWithAppUserAsync(orderHeaderId);
         return orderHeader is null
@@ -33,10 +33,10 @@ public class OrderHeaderService : IOrderHeaderService
             : new SuccessDataResult<OrderHeader>(orderHeader);
     }
 
-    public async Task<IDataResult<IEnumerable<OrderHeader>>> GetAllWithAppUserAsync(Expression<Func<OrderHeader, bool>> predicate)
+    public async Task<IDataResult<IEnumerable<OrderHeader>>> GetAllOrderHeadersWithAppUserAsync(Expression<Func<OrderHeader, bool>> predicate)
     {
         var orderHeaderList = await _orderHeaderRepository.GetAllWithAppUserAsync(predicate);
-        return orderHeaderList is not null
+        return orderHeaderList is not null && orderHeaderList.Any()
             ? new SuccessDataResult<IEnumerable<OrderHeader>>(orderHeaderList)
             : new ErrorDataResult<IEnumerable<OrderHeader>>(Messages.EmptyOrderHeaderList);
     }
@@ -55,7 +55,7 @@ public class OrderHeaderService : IOrderHeaderService
     #region Update
     public async Task<IResult> UpdateOrderStatusAsync(Guid orderHeaderId, string orderStatus)
     {
-        var orderHeaderResult = await GetByIdAsync(orderHeaderId); 
+        var orderHeaderResult = await GetOrderHeaderByIdAsync(orderHeaderId); 
         if (!orderHeaderResult.Success)
         {
             return orderHeaderResult;
@@ -67,9 +67,10 @@ public class OrderHeaderService : IOrderHeaderService
             ? new SuccessResult(Messages.OrderHeaderUpdateSuccessfull)
             : new ErrorResult(Messages.OrderHeaderUpdateError);
     }
+
     public async Task<IResult> UpdatePaymentStatusAsync(Guid orderHeaderId, string paymentStatus)
     {
-        var orderHeaderResult = await GetByIdAsync(orderHeaderId);
+        var orderHeaderResult = await GetOrderHeaderByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
         {
             return orderHeaderResult;
@@ -84,7 +85,7 @@ public class OrderHeaderService : IOrderHeaderService
 
     public async Task<IResult> CompleteOrderAsync(Guid orderHeaderId)
     {
-        var orderHeaderResult = await GetByIdAsync(orderHeaderId);
+        var orderHeaderResult = await GetOrderHeaderByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
         {
             return orderHeaderResult;
@@ -103,7 +104,7 @@ public class OrderHeaderService : IOrderHeaderService
     #region Delete
     public async Task<IResult> DeleteOrderAsync(Guid orderHeaderId)
     {
-        var orderHeaderResult = await GetByIdAsync(orderHeaderId);
+        var orderHeaderResult = await GetOrderHeaderByIdAsync(orderHeaderId);
         if (!orderHeaderResult.Success)
         {
             return orderHeaderResult;

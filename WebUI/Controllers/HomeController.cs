@@ -187,7 +187,7 @@ public class HomeController : BaseController
     #region HomePage Product Details
     public async Task<IActionResult> Details(Guid productId)
     {
-        var productResult = await _productService.GetProductWithCategoryAsync(productId);
+        var productResult = await _productService.GetProductByIdWithCategoryAsync(productId);
         var shoppingCart = new ShoppingCart
         {
             Product = productResult.Data,
@@ -204,7 +204,7 @@ public class HomeController : BaseController
     {
         model.AppUserId = GetUserId();
         var shoppingCartResult = await _shoppingCartService
-            .GetAllWithProductAsync(s => s.AppUserId == model.AppUserId && s.ProductId == model.ProductId);
+            .GetAllShoppingCartsWithProductAsync(s => s.AppUserId == model.AppUserId && s.ProductId == model.ProductId);
 
         if (shoppingCartResult.Data is null)
         {

@@ -21,7 +21,7 @@ public class ProductService : IProductService
     }
 
     #region Read
-    public async Task<IDataResult<Product>> GetByIdAsync(Guid productId)
+    public async Task<IDataResult<Product>> GetProductByIdAsync(Guid productId)
     {
         var product = await _productRepository.GetByIdAsync(productId);
         return product is not null
@@ -29,18 +29,18 @@ public class ProductService : IProductService
             : new ErrorDataResult<Product>(Messages.ProductNotFound);
     }
 
-    public async Task<IDataResult<Product>> GetProductWithCategoryAsync(Guid id)
+    public async Task<IDataResult<Product>> GetProductByIdWithCategoryAsync(Guid productId)
     {
-        var product = await _productRepository.GetProductWithCategoryAsync(id);
+        var product = await _productRepository.GetProductWithCategoryAsync(productId);
         return product is not null
            ? new SuccessDataResult<Product>(product)
            : new ErrorDataResult<Product>(Messages.ProductNotFound);
     }
 
-    public async Task<IDataResult<IEnumerable<Product>>> GetAllAsync(Expression<Func<Product, bool>> predicate)
+    public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsAsync(Expression<Func<Product, bool>> predicate)
     {
         var productList = await _productRepository.GetAllAsync(predicate);
-        return productList is not null
+        return productList is not null && productList.Any()
             ? new SuccessDataResult<IEnumerable<Product>>(productList)
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
     }
@@ -48,7 +48,7 @@ public class ProductService : IProductService
     public async Task<IDataResult<IEnumerable<Product>>> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
         var productList = await _productRepository.GetAllProductsWithCategoryAsync(predicate);
-        return productList is not null
+        return productList is not null && productList.Any()
             ? new SuccessDataResult<IEnumerable<Product>>(productList)
             : new ErrorDataResult<IEnumerable<Product>>(Messages.EmptyProductList);
     }
@@ -69,7 +69,7 @@ public class ProductService : IProductService
     #region Update
     public async Task<IResult> UpdateProductAsync(ProductViewModel model)
     {
-        var productResult = await GetByIdAsync(model.Id);
+        var productResult = await GetProductByIdAsync(model.Id);
         if (!productResult.Success)
         {
             return productResult;

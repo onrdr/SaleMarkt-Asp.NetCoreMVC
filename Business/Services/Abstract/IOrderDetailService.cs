@@ -6,7 +6,7 @@ namespace Business.Services.Abstract;
 
 public interface IOrderDetailService
 {
-    Task<IDataResult<OrderDetail>> GetByIdAsync(Guid orderDetailId);
-    Task<IDataResult<IEnumerable<OrderDetail>>> GetAllWithProductAsync(Expression<Func<OrderDetail, bool>> predicate);
-    Task<IResult> CreateOrderDetailsAsync(OrderDetail model); 
+    Task<IDataResult<OrderDetail>> GetOrderDetailByIdAsync(Guid orderDetailId);
+    Task<IDataResult<IEnumerable<OrderDetail>>> GetAllOrderDetailsWithProductAsync(Expression<Func<OrderDetail, bool>> predicate);
+    Task<IResult> CreateOrderDetailAsync(OrderDetail model); 
 }

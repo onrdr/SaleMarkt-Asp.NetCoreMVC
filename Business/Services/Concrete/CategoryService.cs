@@ -21,7 +21,7 @@ public class CategoryService : ICategoryService
     }
 
     #region Read
-    public async Task<IDataResult<Category>> GetByIdAsync(Guid categoryId)
+    public async Task<IDataResult<Category>> GetCategoryByIdAsync(Guid categoryId)
     {
         var category = await _categoryRepository.GetByIdAsync(categoryId);
         return category is not null
@@ -29,10 +29,10 @@ public class CategoryService : ICategoryService
             : new ErrorDataResult<Category>(Messages.CategoryNotFound);
     }
 
-    public async Task<IDataResult<IEnumerable<Category>>> GetAllAsync(Expression<Func<Category, bool>> predicate)
+    public async Task<IDataResult<IEnumerable<Category>>> GetAllCategoriesAsync(Expression<Func<Category, bool>> predicate)
     {
         var categoryList = await _categoryRepository.GetAllAsync(predicate);
-        return categoryList is not null
+        return categoryList is not null && categoryList.Any()
             ? new SuccessDataResult<IEnumerable<Category>>(categoryList)
             : new ErrorDataResult<IEnumerable<Category>>(Messages.EmptyCategoryList);
     }
@@ -57,7 +57,7 @@ public class CategoryService : ICategoryService
     #region Update
     public async Task<IResult> UpdateCategoryAsync(CategoryViewModel model)
     {
-        var categoryResult = await GetByIdAsync(model.Id);
+        var categoryResult = await GetCategoryByIdAsync(model.Id);
         if (!categoryResult.Success)
         {
             return categoryResult;

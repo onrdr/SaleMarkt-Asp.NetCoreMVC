@@ -25,7 +25,7 @@ public class ProductController : BaseController
     #region Read
     public async Task<IActionResult> Index()
     {
-        var result = await _productService.GetAllAsync(c => true);
+        var result = await _productService.GetAllProductsAsync(c => true);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -62,7 +62,7 @@ public class ProductController : BaseController
     #region Update
     public async Task<IActionResult> Edit(Guid id)
     {
-        var result = await _productService.GetByIdAsync(id);
+        var result = await _productService.GetProductByIdAsync(id);
         if (!result.Success)
         {
             TempData["ErrorMessage"] = result.Message;
@@ -101,7 +101,7 @@ public class ProductController : BaseController
     [HttpDelete]
     public async Task<IActionResult> Delete(Guid id)
     {  
-        var productResult = await _productService.GetByIdAsync(id);
+        var productResult = await _productService.GetProductByIdAsync(id);
         if (!productResult.Success)
         {
             return Json(productResult);
