@@ -1,50 +1,147 @@
-﻿@model IEnumerable<Product>
+﻿@model PaginatedList<Product>
+
+@inject ICategoryRepository _categoryRepository
 
 @{
     ViewData["Title"] = "Home Page";
-} 
+    var allCategories = await _categoryRepository.GetAllAsync(c => true);
+}
 
-<div class="row renderCard p-5">
-    @foreach (var product in Model)
-    {
-        <div class="col-lg-2 col-sm-6">
-            <div class="row p-2">
-                <div class="col-12 p-1">
-                    <div class="card border border-1 border-top rounded">
-                        <img src="~/@product.ImageUrl" class="card-img-top rounded" />
-                        <div class="card-body pb-0">
-                            <div class="pl-1">
-                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center"><strong>@product.Title</strong></p>
-                                <p class="card-title text-warning text-center">Color: <strong>@product.Color</strong></p>
+<div class="col-12">
+    <div class="row">
+        <!-- Column for color, size and price selection -->
+        <div class="col-lg-3 col-sm-12 renderCard p-5">
+            <form method="post" asp-controller="Home" asp-action="ProductList" class="form">
+                <h4 class="pt-0 text-left small">Color</h4>
+                <select name="color" class="form-select">
+                    <option value="">All Colors</option>
+                    <option value="Black">Black</option>
+                    <option value="White">White</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Blue">Blue</option>
+                    <option value="Red">Red</option>
+                    <option value="Green">Green</option>
+                </select>
+
+                <h4 class="pt-4 text-left small">Size</h4>
+                <select name="size" class="form-select">
+                    <option value="">All Sizes</option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                </select>
+
+                <h4 class="pt-4 text-left small">Category</h4>
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    @if (allCategories is not null)
+                    {
+                        @foreach (var category in allCategories)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
+                    }
+                </select>
+
+                <h4 class="pt-4 text-left small">Min Price</h4>
+                <input type="number" name="minPrice" class="form-control" placeholder="Min Price" min="0">
+
+                <h4 class="pt-4 text-left small">Max Price</h4>
+                <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" min="0">
+
+                <h4 class="pt-4 text-left small text-dark">Product Name</h4>
+                <input type="text" name="productName" class="form-control" placeholder="Product Name">
+
+                <div class="pt-4">
+                    <button type="submit" class="btn btn-success rounded shadow">Search</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Column for product cards -->
+        <div class="col-lg-9 col-sm-12">
+            <div class="row renderCard p-3">
+                @foreach (var product in Model.Items)
+                {
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="row p-2">
+                            <div class="col-12 p-1">
+                                <div class="card border border-1 border-top rounded">
+                                    <img src="~/@product.ImageUrl" class="card-img-top rounded" />
+                                    <div class="card-body pb-0">
+                                        <div class="pl-1">
+                                            <p class="card-title h5 text-dark opacity-75 text-uppercase text-center"><strong>@product.Title</strong></p>
+                                            <p class="card-title text-warning text-center"><strong>@product.Color</strong></p>
+                                            <p class="card-title text-warning text-center"><strong>@product.Category.Name</strong></p>
+                                        </div>
+                                        <div class="pl-1">
+                                            <p class="text-dark text-opacity-75 text-center mb-0">
+                                                List Price:
+                                                <span class="text-decoration-line-through">
+                                                    @product.ListPrice.ToString("c")
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="pl-1">
+                                            <p class="text-dark text-opacity-75 text-center">
+                                                As low as:
+                                                <span>
+                                                    @product.Price100.ToString("c")
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a asp-controller="Home" asp-action="Details" asp-route-productId="@product.Id"
+                                           class="btn btn-outline-info border border-2 bg-gradient form-control shadow rounded">
+                                            <b>Details</b>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="pl-1">
-                                <p class="text-dark text-opacity-75 text-center mb-0">
-                                    List Price:
-                                    <span class="text-decoration-line-through">
-                                        @product.ListPrice.ToString("c")
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="pl-1">
-                                <p class="text-dark text-opacity-75 text-center">
-                                    As low as:
-                                    <span>
-                                        @product.Price100.ToString("c")
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <a asp-controller="Home" asp-action="Details" asp-route-productId="@product.Id"
-                               class="btn btn-outline-info border border-2 bg-gradient form-control shadow rounded">
-                                <b>Details</b>
-                            </a>
                         </div>
                     </div>
-                </div>
+                }
             </div>
+            <nav class="px-3 pt-3">
+                <ul class="pagination">
+                    @if (Model.TotalPages > 1)
+                    {
+                        @if (Model.Page > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="ProductList" asp-route-page="1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-action="ProductList" asp-route-page="@(Model.Page - 1)">Previous</a>
+                            </li>
+                        }
+
+                        for (var i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.Page ? "active" : "")">
+                                <a class="page-link" asp-action="ProductList" asp-route-page=@i>@i</a>
+                            </li>
+                        }
+
+                        if (Model.Page < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="ProductList" asp-route-page="@(Model.Page + 1)">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" asp-action="ProductList" asp-route-page=@Model.TotalPages>Last</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </nav>
         </div>
-    }
+    </div>
 </div>
 
 

@@ -6,8 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Identity;
 using Models.Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.CodeAnalysis; 
+using Microsoft.CodeAnalysis;
 using Core.Constants;
+using Core.Utilities.Pagination;
+using System.Drawing.Printing;
+using System.Linq.Expressions;
+using WebUI.ExtensionMethods;
+using Newtonsoft.Json;
+using System;
 
 namespace WebUI.Controllers;
 
@@ -19,6 +25,8 @@ public class HomeController : BaseController
     private readonly IEmailService _emailService;
     private readonly IViewRenderService _viewRenderService;
     private readonly List<string> ErrorList = new();
+    private const int PAGE_NUMBER = 1;
+    private const int PAGE_SIZE = 4;
 
     public HomeController(
         ICompanyService companyService,
@@ -42,17 +50,123 @@ public class HomeController : BaseController
     public IActionResult Index()
     {
         return View();
-    } 
+    }
     #endregion
 
-    #region HomePage Product List & Details
-    public async Task<IActionResult> ProductList()
+    #region HomePage Product List
+    public async Task<IActionResult> ProductList(int page = PAGE_NUMBER, int pageSize = PAGE_SIZE)
     {
-        var productResult = await _productService.GetAllProductsWithCategoryAsync(c => true);
+        if (TempData.ContainsKey("FilteredProducts"))
+        {
+            var serializedModel = TempData["FilteredProducts"] as string;
 
-        return View(productResult.Data);
+            if (!string.IsNullOrEmpty(serializedModel))
+            {
+                var tempDataModel = JsonConvert.DeserializeObject<PaginatedList<Product>>(serializedModel);
+                TempData.Remove("FilteredProducts");
+
+                return View(tempDataModel);
+            }
+        }
+
+        var productResult = await _productService.GetAllProductsWithCategoryAsync(c => true); 
+        var products = productResult.Data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        var model = new PaginatedList<Product>(products, productResult.Data.Count(), page, pageSize);
+
+        return View(model);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> ProductList(string color, string size, double? minPrice, double? maxPrice, string productName, string category)
+    {
+        if (minPrice > maxPrice)
+        {
+            TempData["ErrorMessage"] = "Max Price cannot be lower than Min Price";
+            return RedirectToAction(nameof(ProductList));
+        }
+
+        Expression<Func<Product, bool>> combinedPredicate = p => true;
+        combinedPredicate = AddColorFilterIfNotNull(color, combinedPredicate);
+        combinedPredicate = AddSizeFilterIfNotNull(size, combinedPredicate);
+        combinedPredicate = AddPriceFilterIfNotNull(minPrice, maxPrice, combinedPredicate);
+        combinedPredicate = AddNameFilterIfNotNull(productName, combinedPredicate);
+        combinedPredicate = AddCategoryFilterIfNotNull(category, combinedPredicate);
+
+        var productResult = await _productService.GetAllProductsWithCategoryAsync(combinedPredicate); 
+        var model = new PaginatedList<Product>(productResult.Data, productResult.Data.Count(), page: PAGE_NUMBER, pageSize: PAGE_SIZE);
+        var serializedModel = JsonConvert.SerializeObject(model);
+        TempData["FilteredProducts"] = serializedModel;
+
+        return RedirectToAction(nameof(ProductList));
+    }
+
+    private static Expression<Func<Product, bool>> AddNameFilterIfNotNull(string productName, Expression<Func<Product, bool>> combinedPredicate)
+    {
+        if (!string.IsNullOrWhiteSpace(productName))
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Title.ToLower().Contains(productName.ToLower()));
+        }
+
+        return combinedPredicate;
+    }
+
+    private static Expression<Func<Product, bool>> AddCategoryFilterIfNotNull(string category, Expression<Func<Product, bool>> combinedPredicate)
+    {
+        if (!string.IsNullOrWhiteSpace(category))
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Category.Name.ToLower().Contains(category.ToLower()));
+        }
+
+        return combinedPredicate;
+    }
+
+    private static Expression<Func<Product, bool>> AddPriceFilterIfNotNull(double? minPrice, double? maxPrice, Expression<Func<Product, bool>> combinedPredicate)
+    {
+        if (minPrice.HasValue)
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Price >= minPrice);
+        }
+
+        if (maxPrice.HasValue)
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Price <= maxPrice);
+        }
+
+        return combinedPredicate;
+    }
+
+    private static Expression<Func<Product, bool>> AddSizeFilterIfNotNull(string size, Expression<Func<Product, bool>> combinedPredicate)
+    {
+        if (!string.IsNullOrWhiteSpace(size) && size != "All Sizes")
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Size == size);
+        }
+
+        return combinedPredicate;
+    }
+
+    private static Expression<Func<Product, bool>> AddColorFilterIfNotNull(string color, Expression<Func<Product, bool>> combinedPredicate)
+    {
+        if (!string.IsNullOrWhiteSpace(color) && color != "All Colors")
+        {
+            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Color == color);
+        }
+
+        return combinedPredicate;
+    }
+
+    private static Expression<Func<T, bool>> CombinePredicates<T>(Expression<Func<T, bool>> predicate1, Expression<Func<T, bool>> predicate2)
+    {
+        var parameter = Expression.Parameter(typeof(T));
+        var combined = Expression.AndAlso(
+            Expression.Invoke(predicate1, parameter),
+            Expression.Invoke(predicate2, parameter)
+        );
+        return Expression.Lambda<Func<T, bool>>(combined, parameter);
+    }
+    #endregion
+
+    #region HomePage Product Details
     public async Task<IActionResult> Details(Guid productId)
     {
         var productResult = await _productService.GetProductWithCategoryAsync(productId);
@@ -96,7 +210,7 @@ public class HomeController : BaseController
 
         TempData["SuccessMessage"] = "Cart successfully updated";
         return RedirectToAction(nameof(ProductList));
-    } 
+    }
     #endregion
 
     #region Login
@@ -127,7 +241,7 @@ public class HomeController : BaseController
         if (!userAccountResult)
         {
             return View(model);
-        } 
+        }
 
         var result = await GetLoginResult(model, user);
         if (!result.Succeeded)
@@ -223,7 +337,7 @@ public class HomeController : BaseController
             return AddModelErrorsAndSendToClient(registerModel: model);
         }
 
-        AppUser user = Mapper.Map<AppUser>(model); 
+        AppUser user = Mapper.Map<AppUser>(model);
         var result = await UserManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)
@@ -278,7 +392,7 @@ public class HomeController : BaseController
         {
             TempData["ErrorMessage"] = "An error occured in email service. Please contact administration";
             return View(model);
-        } 
+        }
 
         return View();
     }
@@ -315,7 +429,7 @@ public class HomeController : BaseController
             return View(model);
         }
 
-        await UserManager.UpdateSecurityStampAsync(user); 
+        await UserManager.UpdateSecurityStampAsync(user);
         return View(model);
     }
     #endregion

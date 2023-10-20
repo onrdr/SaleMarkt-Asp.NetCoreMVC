@@ -9,6 +9,7 @@ public class CachedProductRepository : IProductRepository
 {
     private readonly IMemoryCache _cache;
     private readonly ProductRepository _decorated;
+    private readonly List<string> CachedKeys = new();
 
     public CachedProductRepository(ProductRepository decorated, IMemoryCache cache)
     {
@@ -21,6 +22,7 @@ public class CachedProductRepository : IProductRepository
         string key = $"product-{id}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
+            CachedKeys.Add(key);
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
             return await _decorated.GetByIdAsync(id);
         });
@@ -31,6 +33,7 @@ public class CachedProductRepository : IProductRepository
         string key = $"product-with-category-{id}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
+            CachedKeys.Add(key);
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
             return await _decorated.GetProductWithCategoryAsync(id);
         });
@@ -38,9 +41,10 @@ public class CachedProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>?> GetAllAsync(Expression<Func<Product, bool>> predicate)
     {
-        string key = $"all-products";
+        string key = $"all-products-{predicate.GetHashCode()}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
+            CachedKeys.Add(key);
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
             return await _decorated.GetAllAsync(predicate);
         });
@@ -48,9 +52,10 @@ public class CachedProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>?> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
-        string key = $"all-products-with-category";
+        string key = $"all-products-with-category-{predicate.GetHashCode()}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
+            CachedKeys.Add(key);
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
             return await _decorated.GetAllProductsWithCategoryAsync(predicate);
         });
@@ -59,62 +64,50 @@ public class CachedProductRepository : IProductRepository
     public async Task<int> AddAsync(Product entity)
     {
         int result = await _decorated.AddAsync(entity);
-        RemoveAllCachedItems(entity.Id, result);
+        RemoveAllCachedItems(result);
         return result;
     }
 
     public async Task<int> AddRangeAsync(IEnumerable<Product> entities)
     {
         var result = await _decorated.AddRangeAsync(entities);
-        RemoveAllCachedItemRange(entities, result);
+        RemoveAllCachedItems(result);
         return result;
     }
 
     public async Task<int> UpdateAsync(Product entity)
     {
         var result = await _decorated.UpdateAsync(entity);
-        RemoveAllCachedItems(entity.Id, result);
+        RemoveAllCachedItems(result);
         return result;
     }
 
     public async Task<int> DeleteAsync(Guid id)
     {
         var result = await _decorated.DeleteAsync(id);
-        RemoveAllCachedItems(id, result);
+        RemoveAllCachedItems(result);
         return result;
     }
 
     public async Task<int> DeleteRangeAsync(IEnumerable<Product> entities)
     {
         var result = await _decorated.DeleteRangeAsync(entities);
-        RemoveAllCachedItemRange(entities, result);
+        RemoveAllCachedItems(result);
         return result;
     }
 
     #region Helper Methods
-    private void RemoveAllCachedItems(Guid id, int result)
+    private void RemoveAllCachedItems(int result)
     {
         if (result > 0)
         {
-            _cache.Remove($"product-{id}");
-            _cache.Remove($"product-with-category-{id}");
-            _cache.Remove($"all-products");
-            _cache.Remove($"all-products-with-category");
-        }
-    }
-
-    private void RemoveAllCachedItemRange(IEnumerable<Product> entities, int result)
-    {
-        if (result > 0)
-        {
-            foreach (var entity in entities)
+            foreach (var key in CachedKeys)
             {
-                _cache.Remove($"product-{entity.Id}");
-                _cache.Remove($"product-with-category-{entity.Id}");
-                _cache.Remove($"all-products");
-                _cache.Remove($"all-products-with-category");
+                _cache.Remove(key);
             }
         }
-    }
+
+        CachedKeys.Clear();
+    } 
     #endregion
 }
