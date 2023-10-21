@@ -9,11 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
 using Core.Constants;
 using Core.Utilities.Pagination;
-using System.Drawing.Printing;
 using System.Linq.Expressions;
-using WebUI.ExtensionMethods;
 using Newtonsoft.Json;
-using System;
 
 namespace WebUI.Controllers;
 
@@ -69,7 +66,13 @@ public class HomeController : BaseController
             }
         }
 
-        var productResult = await _productService.GetAllProductsWithCategoryAsync(c => true); 
+        var productResult = await _productService.GetAllProductsWithCategoryAsync(c => true);
+        if (!productResult.Success)
+        {
+            TempData["ErrorMessage"] = "There is no product to show";
+            return RedirectToAction(nameof(Index));
+        }
+
         var products = productResult.Data.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         var model = new PaginatedList<Product>(products, productResult.Data.Count(), page, pageSize);
 
@@ -77,9 +80,9 @@ public class HomeController : BaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> ProductList(string color, string size, double? minPrice, double? maxPrice, string productName, string category)
+    public async Task<IActionResult> ProductList(string color, double? minPrice, double? maxPrice, string productName, string category)
     {
-        var filterExists =  CheckIfAnyFilterExists(color, size, minPrice, maxPrice, productName, category);
+        var filterExists = CheckIfAnyFilterExists(color, minPrice, maxPrice, productName, category);
         if (!filterExists)
         {
             return RedirectToAction(nameof(ProductList));
@@ -91,14 +94,15 @@ public class HomeController : BaseController
             return RedirectToAction(nameof(ProductList));
         }
 
-        Expression<Func<Product, bool>> combinedPredicate = p => true;
-        combinedPredicate = AddColorFilterIfNotNull(color, combinedPredicate);
-        combinedPredicate = AddSizeFilterIfNotNull(size, combinedPredicate);
-        combinedPredicate = AddPriceFilterIfNotNull(minPrice, maxPrice, combinedPredicate);
-        combinedPredicate = AddNameFilterIfNotNull(productName, combinedPredicate);
-        combinedPredicate = AddCategoryFilterIfNotNull(category, combinedPredicate);
+        var combinedPredicate = CombineFiltersAndGetFinalPredicate(color, minPrice, maxPrice, productName, category);
 
         var productResult = await _productService.GetAllProductsWithCategoryAsync(combinedPredicate);
+        if (!productResult.Success)
+        {
+            TempData["ErrorMessage"] = productResult.Message;
+            return RedirectToAction(nameof(ProductList));
+        }
+
         var model = new PaginatedList<Product>(productResult.Data, productResult.Data.Count(), page: PAGE_NUMBER, pageSize: PAGE_SIZE);
         var serializedModel = JsonConvert.SerializeObject(model);
         TempData["FilteredProducts"] = serializedModel;
@@ -106,11 +110,22 @@ public class HomeController : BaseController
         return RedirectToAction(nameof(ProductList));
     }
 
-    private static bool CheckIfAnyFilterExists(string color, string size, double? minPrice, double? maxPrice, string productName, string category)
+    private static Expression<Func<Product, bool>> CombineFiltersAndGetFinalPredicate(
+        string color, double? minPrice, double? maxPrice, string productName, string category)
     {
-        if (color is null && size is null &&
-            minPrice is null && maxPrice is null &&
-            productName is null && category is null)
+        Expression<Func<Product, bool>> combinedPredicate = p => true;
+        combinedPredicate = AddColorFilterIfNotNull(color, combinedPredicate);
+        combinedPredicate = AddPriceFilterIfNotNull(minPrice, maxPrice, combinedPredicate);
+        combinedPredicate = AddNameFilterIfNotNull(productName, combinedPredicate);
+        combinedPredicate = AddCategoryFilterIfNotNull(category, combinedPredicate);
+        return combinedPredicate;
+    }
+
+    private static bool CheckIfAnyFilterExists(
+        string color, double? minPrice, double? maxPrice, string productName, string category)
+    {
+        if (color is null && productName is null && category is null &&
+            minPrice is null && maxPrice is null)
         {
             return false;
         }
@@ -118,27 +133,30 @@ public class HomeController : BaseController
         return true;
     }
 
-    private static Expression<Func<Product, bool>> AddNameFilterIfNotNull(string productName, Expression<Func<Product, bool>> combinedPredicate)
+    private static Expression<Func<Product, bool>> AddNameFilterIfNotNull(
+        string productName, Expression<Func<Product, bool>> combinedPredicate)
     {
         if (!string.IsNullOrWhiteSpace(productName))
         {
-            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Title.ToLower().Contains(productName.ToLower()));
+            combinedPredicate = CombinePredicates(combinedPredicate, p => 
+                p.Title.ToLower().Contains(productName.ToLower()));
         }
-
         return combinedPredicate;
     }
 
-    private static Expression<Func<Product, bool>> AddCategoryFilterIfNotNull(string category, Expression<Func<Product, bool>> combinedPredicate)
+    private static Expression<Func<Product, bool>> AddCategoryFilterIfNotNull(
+        string category, Expression<Func<Product, bool>> combinedPredicate)
     {
         if (!string.IsNullOrWhiteSpace(category))
         {
-            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Category.Name.ToLower().Contains(category.ToLower()));
+            combinedPredicate = CombinePredicates(combinedPredicate, p => 
+                p.Category.Name.ToLower().Contains(category.ToLower()));
         }
-
         return combinedPredicate;
     }
 
-    private static Expression<Func<Product, bool>> AddPriceFilterIfNotNull(double? minPrice, double? maxPrice, Expression<Func<Product, bool>> combinedPredicate)
+    private static Expression<Func<Product, bool>> AddPriceFilterIfNotNull(
+        double? minPrice, double? maxPrice, Expression<Func<Product, bool>> combinedPredicate)
     {
         if (minPrice.HasValue)
         {
@@ -153,17 +171,8 @@ public class HomeController : BaseController
         return combinedPredicate;
     }
 
-    private static Expression<Func<Product, bool>> AddSizeFilterIfNotNull(string size, Expression<Func<Product, bool>> combinedPredicate)
-    {
-        if (!string.IsNullOrWhiteSpace(size) && size != "All Sizes")
-        {
-            combinedPredicate = CombinePredicates(combinedPredicate, p => p.Size == size);
-        }
-
-        return combinedPredicate;
-    }
-
-    private static Expression<Func<Product, bool>> AddColorFilterIfNotNull(string color, Expression<Func<Product, bool>> combinedPredicate)
+    private static Expression<Func<Product, bool>> AddColorFilterIfNotNull(
+        string color, Expression<Func<Product, bool>> combinedPredicate)
     {
         if (!string.IsNullOrWhiteSpace(color) && color != "All Colors")
         {
@@ -173,7 +182,8 @@ public class HomeController : BaseController
         return combinedPredicate;
     }
 
-    private static Expression<Func<T, bool>> CombinePredicates<T>(Expression<Func<T, bool>> predicate1, Expression<Func<T, bool>> predicate2)
+    private static Expression<Func<T, bool>> CombinePredicates<T>(
+        Expression<Func<T, bool>> predicate1, Expression<Func<T, bool>> predicate2)
     {
         var parameter = Expression.Parameter(typeof(T));
         var combined = Expression.AndAlso(
@@ -203,8 +213,10 @@ public class HomeController : BaseController
     public async Task<IActionResult> Details(ShoppingCart model)
     {
         model.AppUserId = GetUserId();
-        var shoppingCartResult = await _shoppingCartService
-            .GetAllShoppingCartsWithProductAsync(s => s.AppUserId == model.AppUserId && s.ProductId == model.ProductId);
+        var shoppingCartResult = await _shoppingCartService.GetAllShoppingCartsWithProductAsync(
+            s => s.AppUserId == model.AppUserId && 
+            s.ProductId == model.ProductId &&
+            s.ProductSize == model.ProductSize);
 
         if (shoppingCartResult.Data is null)
         {

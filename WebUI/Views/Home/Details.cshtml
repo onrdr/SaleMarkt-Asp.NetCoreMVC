@@ -5,8 +5,8 @@
 }
 
 <form method="post" class="renderCard">
-    <input asp-for="ProductId" hidden/>
-    <input asp-for="Product" hidden/>
+    <input asp-for="ProductId" hidden />
+    <input asp-for="Product" hidden />
     <div class="card shadow border-0 rounded offset-1 col-10">
         <div class="card-header bg-info bg-gradient text-light rounded">
             <div class="row p-1">
@@ -26,7 +26,7 @@
                             <span class="badge text-bg-danger">Category: @Model.Product.Category.Name</span>
                         </div>
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">Size : @Model.Product.Size</h6>
+                            <h6 class="text-dark text-opacity-50 ">Available Sizes : XS, S, M, L, XL, XXL</h6>
                         </div>
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50 ">Color : @Model.Product.Color</h6>
@@ -81,6 +81,23 @@
                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-light border-1 fw-semibold" id="inputGroup-sizing-default">
+                                        Size
+                                    </span>
+                                    <span class="input-group-text bg-light border-1 fw-semibold" id="inputGroup-sizing-default">
+                                        <select asp-for="ProductSize" id="sizeSelect" class="border-0">
+                                            <option value="M">M</option>
+                                            <option value="XS">XS</option>
+                                            <option value="S">S</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                            <option value="XXL">XXL</option>
+                                        </select>
+                                    </span> 
+                                </div> 
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6 pb-1">
@@ -99,4 +116,4 @@
             </div>
         </div>
     </div>
-</form>
+</form> 

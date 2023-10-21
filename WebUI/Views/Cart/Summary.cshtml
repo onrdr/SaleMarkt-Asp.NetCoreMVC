@@ -83,18 +83,19 @@
                                 <span class="text-dark">Order Summary:</span>
                             </h4>
                             <ul class="list-group mb-3">
-                                @foreach (var details in Model.ShoppingCartList)
+                                @foreach (var cart in Model.ShoppingCartList)
                                 {
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div>
-                                            <h6 class="my-0">@details.Product.Title</h6>
-                                            <small class="text-muted">Quantity: @details.Count</small>
+                                            <h6 class="my-2">@cart.Product.Title</h6>
+                                            <span class="badge bg-danger rounded">Size: @cart.ProductSize</span>
+                                            <span class="badge bg-danger rounded">Quantity: @cart.Count</span>
                                         </div>
-                                        <span class="text-muted">@((details.Price*details.Count).ToString("c")) </span>
+                                        <span class="text-muted">@((cart.Price*cart.Count).ToString("c")) </span>
                                     </li>
                                 }
-                                <li class="list-group-item d-flex justify-content-between bg-light">
-                                    <small class="text-info">Total (USD)</small>
+                                <li class="list-group-item d-flex justify-content-between bg-light pt-3">
+                                    <h5 class="text-info">Total (USD)</h5>
                                     <strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
                                 </li>
                             </ul>

@@ -169,7 +169,8 @@ public class CartController : BaseController
                 ProductId = cart.ProductId,
                 OrderHeaderId = shoppingCartViewModel.OrderHeader.Id,
                 Price = cart.Price,
-                Count = cart.Count
+                Count = cart.Count,
+                ProductSize = cart.ProductSize,
             };
 
             var detailsAddResult = await _orderDetailsService.CreateOrderDetailAsync(orderDetails);

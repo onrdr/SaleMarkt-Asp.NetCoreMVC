@@ -23,8 +23,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 1",
-                Color = "Red",
-                Size = "M",
+                Color = "Red", 
                 Description = "Product 1 Description",
                 ListPrice = 99,
                 Price = 90,
@@ -37,8 +36,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 2",
-                Color = "Blue",
-                Size = "S",
+                Color = "Blue", 
                 Description = "Product 2 Description",
                 ListPrice = 40,
                 Price = 30,
@@ -51,8 +49,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 3",
-                Color = "Green",
-                Size = "L",
+                Color = "Green", 
                 Description = "Product 3 Description",
                 ListPrice = 55,
                 Price = 50,
@@ -65,8 +62,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 4",
-                Color = "Black",
-                Size = "XL",
+                Color = "Black", 
                 Description = "Product 4 Description",
                 ListPrice = 70,
                 Price = 65,
@@ -79,8 +75,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 5",
-                Color = "White",
-                Size = "M",
+                Color = "White", 
                 Description = "Product 5 Description",
                 ListPrice = 30,
                 Price = 27,
@@ -93,8 +88,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 6",
-                Color = "Yellow",
-                Size = "L",
+                Color = "Yellow", 
                 Description = "Product 6 Description",
                 ListPrice = 25,
                 Price = 23,
@@ -107,8 +101,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 7",
-                Color = "Red",
-                Size = "S",
+                Color = "Red", 
                 Description = "Product 7 Description",
                 ListPrice = 60,
                 Price = 55,
@@ -121,8 +114,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 8",
-                Color = "Blue",
-                Size = "M",
+                Color = "Blue", 
                 Description = "Product 8 Description",
                 ListPrice = 45,
                 Price = 40,
@@ -135,8 +127,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 9",
-                Color = "Green",
-                Size = "L",
+                Color = "Green", 
                 Description = "Product 9 Description",
                 ListPrice = 70,
                 Price = 65,
@@ -149,8 +140,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 10",
-                Color = "Black",
-                Size = "XL",
+                Color = "Black", 
                 Description = "Product 10 Description",
                 ListPrice = 35,
                 Price = 32,
@@ -163,8 +153,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 11",
-                Color = "White",
-                Size = "S",
+                Color = "White", 
                 Description = "Product 11 Description",
                 ListPrice = 25,
                 Price = 23,
@@ -177,8 +166,7 @@ public static class ProductSeeder
             {
                 Id = Guid.NewGuid(),
                 Title = "Product 12",
-                Color = "Yellow",
-                Size = "M",
+                Color = "Yellow", 
                 Description = "Product 12 Description",
                 ListPrice = 50,
                 Price = 45,

@@ -16,10 +16,7 @@ public class Product : IBaseEntity
     public Guid Id { get; set; }
 
     [Required]
-    public string Title { get; set; }
-
-    [Required]
-    public string Size { get; set; }
+    public string Title { get; set; } 
 
     [Required]
     public string Color { get; set; }

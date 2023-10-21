@@ -90,7 +90,6 @@ public class ProductService : IProductService
     private static void CompleteUpdate(ProductViewModel model, IDataResult<Product> productResult)
     {
         productResult.Data.Title = model.Title;
-        productResult.Data.Size = model.Size;
         productResult.Data.Description = model.Description;
         productResult.Data.Color = model.Color;
         productResult.Data.ListPrice = model.ListPrice;

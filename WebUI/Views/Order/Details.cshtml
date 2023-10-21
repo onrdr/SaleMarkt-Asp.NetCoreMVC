@@ -141,20 +141,21 @@
 
                                 @foreach (var detail in Model.OrderDetailList)
                                 {
-                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                    <li class="list-group-item d-flex justify-content-between p-2 mt-2 border-1 shadow">
                                         <div class="row container">
                                             <div class="col-8">
-                                                <h6 class="my-0 text-primary">@detail.Product.Title</h6>
-                                                <small class="text-muted">Price : @detail.Price.ToString("c")</small><br />
-                                                <small class="text-muted">Quantity : @detail.Count</small>
+                                                <h6 class="my-0 text-primary pb-2">@detail.Product.Title</h6>
+                                                <span class="badge bg-danger rounded">Price : @detail.Price.ToString("c")</span>
+                                                <span class="badge bg-danger rounded">Quantity: @detail.Count</span>
+                                                <span class="badge bg-danger rounded">Size: @detail.ProductSize</span>
                                             </div>
                                             <div class="col-4 text-end">
                                                 <p class="text-success">@((detail.Count * detail.Price).ToString("c"))</p>
                                             </div>
                                         </div>
                                     </li>
-                                }
-                                <li class="list-group-item bg-white">
+                                } 
+                                <li class="list-group-item bg-white mt-2 border-1 shadow">
                                     <div class="row container">
                                         <div class="col-6">
                                             <h5>TOTAL </h5>

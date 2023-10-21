@@ -18,6 +18,8 @@ public class OrderDetail : IBaseEntity
 
     public double Price { get; set; }
 
+    public string ProductSize { get; set; }
+
     [Required]
     public Guid OrderHeaderId { get; set; }
 

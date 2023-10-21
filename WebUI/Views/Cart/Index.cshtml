@@ -19,13 +19,13 @@
                 </div>
                 <div class="row mb-3 pb-3">
                     <div class="col-md-10 offset-md-1">
-                        @foreach (var item in Model.ShoppingCartList)
+                        @foreach (var cart in Model.ShoppingCartList)
                         {
-                            <div class="row border-bottom pb-3">
+                            <div class="row border-bottom">
                                 <div class="d-none d-lg-block col-lg-1 text-center py-2">
-                                    @if (item.Product.ProductImages != null && item.Product.ProductImages.Count() > 0)
+                                    @if (cart.Product.ImageUrl != null)
                                     {
-                                        <img src="~/@item.Product.ProductImages.FirstOrDefault()?.ImageUrl" class="card-img-top rounded w-100" />
+                                        <img src="~/@cart.Product.ImageUrl" class="card-img-top rounded w-100" />
                                     }
                                     else
                                     {
@@ -33,41 +33,40 @@
                                     }
                                 </div>
                                 <div class="col-12 col-lg-6 pt-md-3">
-                                    <h5 class="text-uppercase text-secondary"><strong>@item.Product.Title</strong></h5>
-                                    @if (item.Product.Description.Length > 40)
+                                    <h5 class="text-uppercase text-secondary"><strong>@cart.Product.Title</strong></h5>
+                                    <h5><small>Size: @cart.ProductSize</small></h5>
+                                    @if (cart.Product.Description.Length > 40)
                                     {
-                                        <p><small>@Html.Raw(item.Product.Description.Substring(0, 40)) ...</small></p>
+                                        <p><small>@Html.Raw(cart.Product.Description.Substring(0, 40)) ...</small></p>
                                     }
                                     else
                                     {
-                                        <p><small>@Html.Raw(item.Product.Description) ...</small></p>
+                                        <p><small>@Html.Raw(cart.Product.Description) ...</small></p>
                                     }
                                 </div>
-                                <div class="col-12  col-lg-5 text-center row">
+                                <div class="col-lg-5 text-center row">
                                     <div class="col-4 text-md-right pt-2 pt-md-4">
                                         <h6 class="fw-semibold">
-                                            <span class="count" data-itemid="@item.Id">@item.Count</span>
+                                            <span class="count" data-itemid="@cart.Id">@cart.Count</span>
                                             <span class="text-muted">&nbsp;x&nbsp;</span>
-                                            <span class="price" data-itemid="@item.Id">@item.Price</span>
+                                            <span class="price" data-itemid="@cart.Id">@cart.Price</span>
                                         </h6>
                                     </div>
                                     <div class="col-5 col-sm-4 col-lg-6 pt-2">
                                         <div class="w-75 btn-group" role="group">
-                                            <a class="btn btn-sm btn-outline-primary rounded shadow bg-gradient py-2 btn-plus"
-                                               data-itemid="@item.Id"
-                                               data-count="@item.Count">
+                                            <a class="btn btn-outline-primary rounded bg-gradient py-2 btn-plus"
+                                               data-itemid="@cart.Id" data-count="@cart.Count">
                                                 <i class="bi bi-plus-square"></i>
                                             </a>
                                             &nbsp;
-                                            <a class="btn btn-minus btn-sm btn-outline-primary rounded shadow bg-gradient py-2"
-                                               data-itemid="@item.Id"
-                                               data-count="@item.Count">
+                                            <a class="btn btn-outline-primary rounded bg-gradient py-2 btn-minus"
+                                               data-itemid="@cart.Id" data-count="@cart.Count">
                                                 <i class="bi bi-dash-square"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="col-3 col-sm-4 col-lg-2 text-right pt-2">
-                                        <a asp-action="Delete" asp-route-cartId="@item.Id" class="btn btn-danger rounded shadow bg-gradient py-2">
+                                        <a asp-action="Delete" asp-route-cartId="@cart.Id" class="btn btn-danger rounded bg-gradient py-2">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     </div>
