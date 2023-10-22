@@ -3,7 +3,7 @@
 });
 
 function loadDataTable() {
-    console.log('loadDataTable function called');
+    console.log('loadDataTable function called');    
     dataTable = $('#tblProduct').DataTable({
         "ajax": { url: '/product/getall' },
         "columns": [
@@ -28,7 +28,6 @@ function loadDataTable() {
                     }
                 }
             }, 
-            { data: 'size', "width": "5%" },
             { data: 'color', "width": "10%" },
             { data: 'price', "width": "5%" },
             { data: 'price50', "width": "5%" },
@@ -44,6 +43,7 @@ function loadDataTable() {
                     </div>`
                 }
             },
+             
         ]
     });
 }

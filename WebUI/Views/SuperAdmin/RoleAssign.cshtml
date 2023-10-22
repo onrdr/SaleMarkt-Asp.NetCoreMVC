@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "RoleAssign";
+    var userId = TempData["UserId"] as string;
 }
 
 <div class="renderCard">
@@ -29,7 +30,7 @@
                     </div>
                     <div class="row mt-4">
                         <div class="text-center">
-                            <button id="submitButton" type="submit" class="form-control btn btn-info shadow rounded">Assign</button>
+                            <button type="submit" asp-route-userId="@userId" class="form-control btn btn-info shadow rounded">Assign</button>
                         </div>                        
                     </div>
                 </div>
