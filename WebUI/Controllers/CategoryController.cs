@@ -93,7 +93,7 @@ public class CategoryController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var categories = await _categoryService.GetAllCategoriesAsync(c => true);
+        var categories = await _categoryService.GetAllCategoriesWithProductsAsync(c => true);
         return Json(new { data = categories.Data });
     }
 

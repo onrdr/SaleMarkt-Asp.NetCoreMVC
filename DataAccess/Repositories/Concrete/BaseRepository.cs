@@ -16,10 +16,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity
         _dbSet = _dataContext.Set<T>();
     }
 
-    public async Task<T?> GetByIdAsync(Guid id) => await _dbSet.FirstOrDefaultAsync(a => a.Id == id);
+    public async Task<T?> GetByIdAsync(Guid id) 
+        => await _dbSet.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
     public async Task<IEnumerable<T>?> GetAllAsync(Expression<Func<T, bool>> predicate)
-        => await _dbSet.Where(predicate).ToListAsync();
+        => await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
 
     public async Task<int> AddAsync(T entity)
     {

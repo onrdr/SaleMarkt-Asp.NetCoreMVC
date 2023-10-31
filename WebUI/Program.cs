@@ -1,12 +1,15 @@
+using System.Text.Json.Serialization;
 using WebUI.ExtensionMethods;
 using WebUI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options => 
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-builder.Services.AddInfrastructure(builder); 
+builder.Services.AddInfrastructure(builder);
 
 var app = builder.Build();
 

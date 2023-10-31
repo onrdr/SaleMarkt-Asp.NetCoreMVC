@@ -14,10 +14,7 @@ public class ProductViewModel : IImageViewModel
 
     [Required]
     [MinLength(6)]
-    public string Description { get; set; }
-
-    [Required] 
-    public string Size { get; set; }
+    public string Description { get; set; } 
 
     [Required]
     public string Color { get; set; }

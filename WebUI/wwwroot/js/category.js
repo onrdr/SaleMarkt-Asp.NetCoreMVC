@@ -8,7 +8,7 @@ function loadDataTable() {
         "columns": [   
             {
                 data: 'imageUrl',
-                "width": "10%",
+                "width": "15%",
                 "render": function (data) {
                     return `<div>
                      <img src="${data}" style="width:100%; border-radius:5px; border:1px solid #ffffff" />
@@ -18,7 +18,13 @@ function loadDataTable() {
             { data: 'id', "width": "30%"},
             { data: 'name', "width": "15%" },
             { data: 'description', "width": "20%" },
-            { data: 'displayOrder', "width": "5%" },
+            {
+                data: 'products',
+                "width": "5%",
+                "render": function (data) {
+                    return data.length;
+                }
+            },
             {
                 data: 'id',
                 "width": "15%",

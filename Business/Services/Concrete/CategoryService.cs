@@ -36,6 +36,14 @@ public class CategoryService : ICategoryService
             ? new SuccessDataResult<IEnumerable<Category>>(categoryList)
             : new ErrorDataResult<IEnumerable<Category>>(Messages.EmptyCategoryList);
     }
+
+    public async Task<IDataResult<IEnumerable<Category>>> GetAllCategoriesWithProductsAsync(Expression<Func<Category, bool>> predicate)
+    {
+        var categoryList = await _categoryRepository.GetAllCategoriesWithProductsAsync(predicate);
+        return categoryList is not null && categoryList.Any()
+            ? new SuccessDataResult<IEnumerable<Category>>(categoryList)
+            : new ErrorDataResult<IEnumerable<Category>>(Messages.EmptyCategoryList);
+    }
     #endregion
 
     #region Create

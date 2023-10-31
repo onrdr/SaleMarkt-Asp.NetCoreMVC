@@ -37,7 +37,18 @@ public class CachedCategoryRepository : ICategoryRepository
             entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
             return await _decorated.GetAllAsync(predicate);
         });
-    } 
+    }
+
+    public async Task<IEnumerable<Category>?> GetAllCategoriesWithProductsAsync(Expression<Func<Category, bool>> predicate)
+    {
+        string key = $"all-categories-with-product-{predicate.GetHashCode()}";
+        return await _cache.GetOrCreateAsync(key, async entry =>
+        {
+            CachedKeys.Add(key);
+            entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(3));
+            return await _decorated.GetAllCategoriesWithProductsAsync(predicate);
+        });
+    }
 
     public async Task<int> AddAsync(Category entity)
     {
@@ -86,6 +97,6 @@ public class CachedCategoryRepository : ICategoryRepository
         }
 
         CachedKeys.Clear();
-    }
+    } 
     #endregion
 }
