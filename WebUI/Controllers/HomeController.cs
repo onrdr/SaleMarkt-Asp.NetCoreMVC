@@ -102,9 +102,13 @@ public class HomeController : BaseController
             TempData["ErrorMessage"] = productResult.Message;
             return RedirectToAction(nameof(ProductList));
         }
+        var serializerSettings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
 
         var model = new PaginatedList<Product>(productResult.Data, productResult.Data.Count(), page: PAGE_NUMBER, pageSize: PAGE_SIZE);
-        var serializedModel = JsonConvert.SerializeObject(model);
+        var serializedModel = JsonConvert.SerializeObject(model, serializerSettings);
         TempData["FilteredProducts"] = serializedModel;
 
         return RedirectToAction(nameof(ProductList));
