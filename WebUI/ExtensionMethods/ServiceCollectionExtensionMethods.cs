@@ -41,12 +41,14 @@ public static class ServiceCollectionExtensionMethods
     private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
 
-        services.AddScoped<CategoryRepository>();
-        services.AddScoped<ICategoryRepository, CachedCategoryRepository>();
+        /*services.AddScoped<CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CachedCategoryRepository>();*/
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICategoryService, CategoryService>();
 
-        services.AddScoped<ProductRepository>();
-        services.AddScoped<IProductRepository, CachedProductRepository>();
+        /* services.AddScoped<ProductRepository>();
+         services.AddScoped<IProductRepository, CachedProductRepository>();*/
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();
