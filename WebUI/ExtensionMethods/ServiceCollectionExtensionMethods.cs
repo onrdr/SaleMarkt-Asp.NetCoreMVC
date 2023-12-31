@@ -40,15 +40,18 @@ public static class ServiceCollectionExtensionMethods
 
     private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        #region Activate / Deactivate Cached Repos
+        services.AddScoped<CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CachedCategoryRepository>();
 
-        /*services.AddScoped<CategoryRepository>();
-        services.AddScoped<ICategoryRepository, CachedCategoryRepository>();*/
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ProductRepository>();
+        services.AddScoped<IProductRepository, CachedProductRepository>();
+
+        // services.AddScoped<ICategoryRepository, CategoryRepository>();
+        // services.AddScoped<IProductRepository, ProductRepository>();
+        #endregion
+
         services.AddScoped<ICategoryService, CategoryService>();
-
-        /* services.AddScoped<ProductRepository>();
-         services.AddScoped<IProductRepository, CachedProductRepository>();*/
-        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
 
         services.AddScoped<ICompanyRepository, CompanyRepository>();

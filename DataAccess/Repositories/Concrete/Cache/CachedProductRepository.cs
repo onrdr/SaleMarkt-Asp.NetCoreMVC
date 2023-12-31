@@ -41,7 +41,7 @@ public class CachedProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>?> GetAllAsync(Expression<Func<Product, bool>> predicate)
     {
-        string key = $"all-products-{predicate}";
+        string key = $"all-products";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             CachedKeys.Add(key);
@@ -52,7 +52,7 @@ public class CachedProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>?> GetAllProductsWithCategoryAsync(Expression<Func<Product, bool>> predicate)
     {
-        string key = $"all-products-with-category-{predicate}";
+        string key = $"all-products-with-category";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             CachedKeys.Add(key);
