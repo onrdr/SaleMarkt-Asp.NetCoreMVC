@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensionMethods
     {
         services
             .AddApplicationServices()
+            .AddMemoryCache()
             .ConfigureDatabase(builder.Configuration)
             .AddAuthorization()
             .AddIdentity()

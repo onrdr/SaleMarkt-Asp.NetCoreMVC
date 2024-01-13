@@ -9,7 +9,7 @@ public class CachedCategoryRepository : ICategoryRepository
 {
     private readonly IMemoryCache _cache;
     private readonly CategoryRepository _decorated;
-    private readonly List<string> CachedKeys = new();
+    private static readonly List<string> CachedKeys = new();
 
     public CachedCategoryRepository(CategoryRepository decorated, IMemoryCache cache)
     {
