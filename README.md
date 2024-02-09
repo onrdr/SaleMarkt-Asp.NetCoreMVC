@@ -51,9 +51,27 @@ Frontend
 # How to run the project in your local  
 First of all, please make sure that the docker is running on your device.
 
-### First Open a terminal or powershell and create a dev certificate to run the app with https
+### First Create a dev certificate to run the app with https
+* Windows CMD:
 ```
- dotnet dev-certs https --trust -ep $env:USERPROFILE\.aspnet\https\salemarkt.pfx -p SaleMarkt1*
+dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\salemarkt.pfx -p SaleMarkt1*
+```
+```
+dotnet dev-certs https --trust
+```
+* Windows PowerShell:
+```
+dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\salemarkt.pfx -p SaleMarkt1*
+```
+```
+dotnet dev-certs https --trust
+```
+* macOS veya Linux
+```
+dotnet dev-certs https -ep ${HOME}/.aspnet/https/salemarkt.pfx -p SaleMarkt1*
+```
+```
+dotnet dev-certs https --trust
 ```
 
 ### 1- Clone the repository
