@@ -1,4 +1,5 @@
-﻿using DataAccess.Repositories.Abstract;
+﻿using Core.Utilities.Helpers;
+using DataAccess.Repositories.Abstract;
 using Microsoft.Extensions.Caching.Memory;
 using Models.Entities.Concrete;
 using System.Linq.Expressions;
@@ -10,11 +11,16 @@ public class CachedCategoryRepository : ICategoryRepository
     private readonly IMemoryCache _cache;
     private readonly CategoryRepository _decorated;
     private static readonly List<string> CachedKeys = new();
+    private readonly CustomExpressionVisitor _customExpressionVisitor;
 
-    public CachedCategoryRepository(CategoryRepository decorated, IMemoryCache cache)
+    public CachedCategoryRepository(
+        CategoryRepository decorated, 
+        IMemoryCache cache,
+        CustomExpressionVisitor customExpressionVisitor)
     {
         _decorated = decorated;
         _cache = cache;
+        _customExpressionVisitor = customExpressionVisitor;
     }
 
     public async Task<Category?> GetByIdAsync(Guid id)
@@ -30,7 +36,7 @@ public class CachedCategoryRepository : ICategoryRepository
 
     public async Task<IEnumerable<Category>?> GetAllAsync(Expression<Func<Category, bool>> predicate)
     {
-        string key = $"all-categories";
+        string key = $"all-categories-{GetPredicateKey(predicate)}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             CachedKeys.Add(key);
@@ -41,7 +47,7 @@ public class CachedCategoryRepository : ICategoryRepository
 
     public async Task<IEnumerable<Category>?> GetAllCategoriesWithProductsAsync(Expression<Func<Category, bool>> predicate)
     {
-        string key = $"all-categories-with-product";
+        string key = $"all-categories-with-product-{GetPredicateKey(predicate)}";
         return await _cache.GetOrCreateAsync(key, async entry =>
         {
             CachedKeys.Add(key);
@@ -97,6 +103,13 @@ public class CachedCategoryRepository : ICategoryRepository
         }
 
         CachedKeys.Clear();
-    } 
+    }
+
+    private string GetPredicateKey(Expression<Func<Category, bool>> predicate)
+    {
+        _customExpressionVisitor.Visit(predicate);
+        var key = $"{predicate}_{string.Join("_", _customExpressionVisitor.Values)}";
+        return key;
+    }
     #endregion
 }

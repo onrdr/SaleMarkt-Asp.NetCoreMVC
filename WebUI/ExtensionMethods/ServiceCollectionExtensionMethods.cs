@@ -9,6 +9,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Models.Smtp;
 using DataAccess.Repositories.Concrete.Cache;
+using Core.Utilities.Helpers;
 
 namespace WebUI.ExtensionMethods;
 
@@ -48,8 +49,8 @@ public static class ServiceCollectionExtensionMethods
         services.AddScoped<ProductRepository>();
         services.AddScoped<IProductRepository, CachedProductRepository>();
 
-        // services.AddScoped<ICategoryRepository, CategoryRepository>();
-        // services.AddScoped<IProductRepository, ProductRepository>();
+       /* services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();*/
         #endregion
 
         services.AddScoped<ICategoryService, CategoryService>();
@@ -69,7 +70,9 @@ public static class ServiceCollectionExtensionMethods
 
         services.AddScoped<IEmailService, EmailService>();
 
-        services.AddScoped<IViewRenderService, ViewRenderService>(); 
+        services.AddScoped<IViewRenderService, ViewRenderService>();
+
+        services.AddScoped<CustomExpressionVisitor>();
 
         return services;
     }

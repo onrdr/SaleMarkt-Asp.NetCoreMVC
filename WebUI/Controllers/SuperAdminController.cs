@@ -46,14 +46,19 @@ public class SuperAdminController : BaseController
 
         foreach (var role in roles)
         {
-            var roleVm = new RoleAssignViewModel
+            if (role.Name is not null && role.Name is not RoleNames.SuperAdmin)
             {
-                RoleId = role.Id,
-                RoleName = role.Name,
-                Exist = userRoles.Contains(role.Name)
-            };
-            roleAssignViewModels.Add(roleVm);
+                var roleVm = new RoleAssignViewModel
+                {
+                    RoleId = role.Id,
+                    RoleName = role.Name,
+                    Exist = userRoles.Contains(role.Name)
+                };
+
+                roleAssignViewModels.Add(roleVm);
+            }
         }
+
         return View(roleAssignViewModels);
     }
 
@@ -99,7 +104,7 @@ public class SuperAdminController : BaseController
             user.Name,
             user.Email,
             Address = $"{user.Address} / {user.City} / {user.Country}",
-            user.Id,  
+            user.Id,
             Roles = UserManager.GetRolesAsync(user).Result,
             user.IsSuspended
         }).ToList();
@@ -113,7 +118,7 @@ public class SuperAdminController : BaseController
         var user = await UserManager.FindByIdAsync(userId.ToString());
         if (user == null)
         {
-            return Json (new { result = false, message =  Messages.UserNotFound });
+            return Json(new { result = false, message = Messages.UserNotFound });
         }
 
         user.IsSuspended = isSuspended;
